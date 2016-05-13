@@ -3,7 +3,6 @@ package org.ivis.layout;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.framework.TestCase;
-import org.ivis.layout.LGraphManager;
 import org.ivis.layout.cose.CoSELayout;
 import org.junit.Ignore;
 
