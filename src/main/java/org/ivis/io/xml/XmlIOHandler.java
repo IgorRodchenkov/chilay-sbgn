@@ -1,23 +1,14 @@
 package org.ivis.io.xml;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.naming.OperationNotSupportedException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.ivis.io.xml.model.EdgeComplexType;
-import org.ivis.io.xml.model.EdgeComplexType.BendPointList;
 import org.ivis.io.xml.model.EdgeComplexType.BendPointList.BendPoint;
 import org.ivis.io.xml.model.GraphObjectComplexType;
 import org.ivis.io.xml.model.NodeComplexType;
@@ -30,16 +21,12 @@ import org.ivis.layout.LGraphManager;
 import org.ivis.layout.LGraphObject;
 import org.ivis.layout.LNode;
 import org.ivis.layout.Layout;
-import org.ivis.layout.sbgn.SbgnPDConstants;
-import org.ivis.layout.sbgn.SbgnPDEdge;
-import org.ivis.layout.sbgn.SbgnPDLayout;
-import org.ivis.layout.sbgn.SbgnPDNode;
-import org.ivis.layout.sbgn.SbgnProcessNode;
 import org.ivis.util.PointD;
-import org.ivis.util.RectangleD;
 
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
-
+/**
+ * TODO: remove this (not used) class
+ * @deprecated
+ */
 public class XmlIOHandler
 {
 	/*
@@ -113,59 +100,6 @@ public class XmlIOHandler
 		{
 			parseEdge(edgeType);
 		}
-	}
-
-	/**
-	 * This method synchronizes loaded xml model with the l-level graph
-	 * structure and writes resulting xml model to the given output stream.
-	 * 
-	 * @param outputStream
-	 * @throws JAXBException
-	 * @throws OperationNotSupportedException
-	 * @throws IOException
-	 */
-	public void toXML(OutputStream outputStream) throws JAXBException,
-			OperationNotSupportedException, IOException
-	{
-		if (this.loadedModel == null)
-		{
-			throw new OperationNotSupportedException("There is no previously"
-					+ "loaded xml file. Please first laod an xml file first.");
-		}
-
-		for (GraphObjectComplexType xmlObject : this.xmlObjectToLayoutObject
-				.keySet())
-		{
-			LGraphObject lGraphObject = this.xmlObjectToLayoutObject
-					.get(xmlObject);
-
-			if (lGraphObject instanceof LNode)
-			{
-				this.writeNodeBack((LNode) lGraphObject,
-						(NodeComplexType) xmlObject);
-			}
-			else if (lGraphObject instanceof LEdge)
-			{
-				this.writeEdgeBack((LEdge) lGraphObject,
-						(EdgeComplexType) xmlObject);
-			}
-		}
-
-		Marshaller marshaller = this.jaxbContext.createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-		// Set prefix mapper for proper name space prefixes in the created document.
-		NamespacePrefixMapper emptyNamespacePrefixMapper = new NamespacePrefixMapper() {
-			public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix)
-			{
-				return (namespaceUri.equals("")) ? null : "xsi";
-			}
-		};
-		marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", emptyNamespacePrefixMapper);
-
-		writePortAndProcessNodes();
-//		writeRigidEdges();
-		marshaller.marshal(this.loadedModel, outputStream);
 	}
 
 	/**
@@ -279,57 +213,6 @@ public class XmlIOHandler
 		}
 	}
 
-	/**
-	 * This method writes the geometry information stored in LNode back to xml
-	 * node.
-	 * 
-	 * @param lNode
-	 * @param xmlNode
-	 */
-	private void writeNodeBack(LNode lNode, NodeComplexType xmlNode)
-	{
-		RectangleD nodeBounds = lNode.getRect();
-
-		xmlNode.getBounds().setHeight((int) nodeBounds.height);
-		xmlNode.getBounds().setWidth((int) nodeBounds.width);
-		xmlNode.getBounds().setX((int) nodeBounds.x);
-		xmlNode.getBounds().setY((int) nodeBounds.y);
-	}
-
-	/**
-	 * This method writes the geometry information stored in LEdge back to xml
-	 * edge.
-	 * 
-	 * @param lEdge
-	 * @param xmlEdge
-	 */
-	private void writeEdgeBack(LEdge lEdge, EdgeComplexType xmlEdge)
-	{
-		List<PointD> bendPoints = lEdge.getBendpoints();
-
-		BendPointList xmlBendPoints = xmlEdge.getBendPointList();
-
-		if (xmlBendPoints == null)
-		{
-			xmlEdge.setBendPointList(objectFactory
-					.createEdgeComplexTypeBendPointList());
-		}
-		else
-		{
-			xmlBendPoints.getBendPoint().clear();
-		}
-
-		for (PointD pointD : bendPoints)
-		{
-			BendPoint xmlBendPoint = objectFactory
-					.createEdgeComplexTypeBendPointListBendPoint();
-
-			xmlBendPoint.setX(pointD.x);
-			xmlBendPoint.setY(pointD.y);
-
-			xmlBendPoints.getBendPoint().add(xmlBendPoint);
-		}
-	}
 
 	/**
 	 * This method build the index to xml object mapping by ensuring that the
@@ -355,144 +238,4 @@ public class XmlIOHandler
 		}
 	}
 
-	public static void main(String[] args) throws Exception
-	{
-		Layout layout = new SbgnPDLayout();
-		XmlIOHandler handler = new XmlIOHandler(layout);
-
-		handler.fromXML(new FileInputStream(
-				"src/main/java/org/ivis/io/xml/layout.xml"));
-
-		layout.runLayout();
-
-		handler.toXML(new FileOutputStream(
-				"src/main/java/org/ivis/io/xml/layout_done.xml"));
-
-		// XmlIOHandler.generateClasses();
-	}
-
-	private void writePortAndProcessNodes()
-	{
-		for (Object o : this.gm.getAllNodes())
-		{
-			if ( o instanceof SbgnProcessNode || (o instanceof SbgnPDNode && ((SbgnPDNode)o).type != null && 
-					(((SbgnPDNode)o).type.equals(SbgnPDConstants.INPUT_PORT) 
-							|| ((SbgnPDNode)o).type.equals(SbgnPDConstants.OUTPUT_PORT))))
-			{
-				SbgnPDNode s = (SbgnPDNode) o;
-
-				NodeComplexType.Bounds b = new NodeComplexType.Bounds();
-				b.setHeight((int) s.getHeight());
-				b.setWidth((int) s.getWidth());
-				b.setX((int) s.getLeft());
-				b.setY((int) s.getTop());
-
-				NodeComplexType.Type t = new NodeComplexType.Type();
-
-				t.setValue(s.type);
-
-				NodeComplexType n = objectFactory.createNodeComplexType();
-				n.setBounds(b);
-				n.setType(t);
-
-				n.setChildren(null);
-				n.setId(s.label);
-
-				this.loadedModel.addNode(n);
-
-				xmlObjectToLayoutObject.put(n, null);
-
-			}
-		}
-
-	}
-
-	private void writeRigidEdges()
-	{
-		for (Object o : this.gm.getAllEdges())
-		{
-			if (o instanceof SbgnPDEdge)
-			{
-				SbgnPDEdge r = (SbgnPDEdge) o;
-
-				if (r.type.equals(SbgnPDConstants.RIGID_EDGE))
-				{
-					EdgeComplexType e = objectFactory.createEdgeComplexType();
-
-					// prepare source and target nodes
-					EdgeComplexType.SourceNode s = new EdgeComplexType.SourceNode();
-					s.setId(r.getSource().label);
-					EdgeComplexType.TargetNode t = new EdgeComplexType.TargetNode();
-					t.setId(r.getTarget().label);
-
-					// prepare type information
-					EdgeComplexType.Type et = new EdgeComplexType.Type();
-					et.setValue(r.type);
-
-					// set the values
-					e.setType(et);
-					e.setSourceNode(s);
-					e.setTargetNode(t);
-					e.setBendPointList(new EdgeComplexType.BendPointList());
-					e.setId(r.label);
-
-					this.loadedModel.addEdge(e);
-				}
-			}
-		}
-	}
-
-	// DUPLICATE class - used for the test applet
-	public Layout test(String fileName) throws Exception
-	{
-		XmlIOHandler handler = new XmlIOHandler(layout);
-
-		handler.fromXML(new FileInputStream(fileName));
-
-		layout.runLayout();
-
-//		handler.toXML(new FileOutputStream("org/ivis/io/xml/layout_done.xml"));
-
-//		System.out.println("result: " + ((SbgnPDLayout)layout).properlyOrientedEdgeCount/((SbgnPDLayout)layout).totalEdgeCount + "\n");
-
-		// handler.writePortNodes("org/ivis/io/xml/layout_done.xml");
-
-		return layout;
-	}
-
-	/**
-	 * This method calls jaxb compiler for generating class files using the xml
-	 * schemas. This method needs to be called only when the schema is changed
-	 * 
-	 * @throws Exception
-	 */
-	private static void generateClasses() throws Exception
-	{
-		String s = null;
-
-		String execName = "C:\\Program Files\\Java\\jdk1.7.0_40\\bin\\xjc.exe";
-
-		String deneme = execName + " -p org.ivis.io.xml.model "
-				+ "src/main/java/org/ivis/io/xml/layout.xsd -d src";
-
-		Process p = Runtime.getRuntime().exec(deneme);
-
-		BufferedReader stdInput = new BufferedReader(new InputStreamReader(
-				p.getInputStream()));
-
-		// read the normal output
-		while ((s = stdInput.readLine()) != null)
-		{
-			System.out.println(s);
-		}
-
-		BufferedReader errInput = new BufferedReader(new InputStreamReader(
-				p.getErrorStream()));
-
-		// read the error output
-		while ((s = errInput.readLine()) != null)
-		{
-			System.out.println(s);
-		}
-	}
 }

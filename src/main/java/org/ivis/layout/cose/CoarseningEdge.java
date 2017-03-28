@@ -1,5 +1,7 @@
 package org.ivis.layout.cose;
 
+import org.ivis.layout.LGraphObject;
+
 /**
  * This class implements Coarsening Graph specific data and functionality for edges.
  *
@@ -15,7 +17,7 @@ public class CoarseningEdge extends CoSEEdge
 	/**
 	 * Constructor
 	 */
-	public CoarseningEdge(CoSENode source, CoSENode target, Object vEdge)
+	public CoarseningEdge(CoSENode source, CoSENode target, LGraphObject vEdge)
 	{
 		super(source, target, vEdge);
 	}

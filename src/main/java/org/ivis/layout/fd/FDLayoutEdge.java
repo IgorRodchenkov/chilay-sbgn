@@ -1,6 +1,7 @@
 package org.ivis.layout.fd;
 
 import org.ivis.layout.LEdge;
+import org.ivis.layout.LGraphObject;
 import org.ivis.layout.LNode;
 
 /**
@@ -27,7 +28,7 @@ public abstract class FDLayoutEdge extends LEdge
 	/*
 	 * Constructor
 	 */
-	public FDLayoutEdge(LNode source, LNode target, Object vEdge)
+	public FDLayoutEdge(LNode source, LNode target, LGraphObject vEdge)
 	{
 		super(source, target, vEdge);
 	}

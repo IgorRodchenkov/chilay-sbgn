@@ -4,11 +4,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import org.ivis.layout.LEdge;
-import org.ivis.layout.LGraph;
-import org.ivis.layout.LGraphManager;
-import org.ivis.layout.LNode;
-import org.ivis.layout.LayoutConstants;
+import org.ivis.layout.*;
 import org.ivis.layout.cose.CoSENode;
 import org.ivis.util.PointD;
 
@@ -34,7 +30,7 @@ public class SbgnPDNode extends CoSENode
 	/**
 	 * Constructor
 	 */
-	public SbgnPDNode(LGraphManager gm, Object vNode)
+	public SbgnPDNode(LGraphManager gm, LGraphObject vNode)
 	{
 		super(gm, vNode);
 		this.visited = false;
@@ -160,7 +156,7 @@ public class SbgnPDNode extends CoSENode
 		return averagePnt;
 	}
 
-	public void printForces()
+	void printForces()
 	{
 		System.out.println("springForceX: " + this.springForceX
 				+ " springForceY: " + this.springForceY + "\nrepulsionForceX: "

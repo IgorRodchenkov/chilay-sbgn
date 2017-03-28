@@ -73,7 +73,7 @@ public class LNode extends LGraphObject implements Clustered
 	/*
 	 * Constructor
 	 */
-	protected LNode(LGraphManager gm, Object vNode)
+	protected LNode(LGraphManager gm, LGraphObject vNode)
 	{
 		super(vNode);
 		this.initialize();
@@ -84,7 +84,7 @@ public class LNode extends LGraphObject implements Clustered
 	/*
 	 * Alternative constructor
 	 */
-	protected LNode(LGraphManager gm, Point loc, Dimension size, Object vNode)
+	protected LNode(LGraphManager gm, Point loc, Dimension size, LGraphObject vNode)
 	{
 		super(vNode);
 		this.initialize();
@@ -95,7 +95,7 @@ public class LNode extends LGraphObject implements Clustered
 	/*
 	 * Alternative constructor
 	 */
-	protected LNode(Layout layout, Object vNode)
+	protected LNode(Layout layout, LGraphObject vNode)
 	{
 		super(vNode);
 		this.initialize();
@@ -792,7 +792,7 @@ public class LNode extends LGraphObject implements Clustered
 	/**
 	 * This method prints the topology of this node.
 	 */
-	public void printTopology()
+	void printTopology()
 	{
 		System.out.print(this.label == null ? "?" : this.label + "{");
 		LEdge edge;

@@ -8,10 +8,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Vector;
 
-import org.ivis.layout.LEdge;
-import org.ivis.layout.LGraph;
-import org.ivis.layout.LNode;
-import org.ivis.layout.LayoutConstants;
+import org.ivis.layout.*;
 import org.ivis.layout.cose.CoSELayout;
 import org.ivis.layout.cose.CoSENode;
 import org.ivis.layout.fd.FDLayoutConstants;
@@ -23,6 +20,8 @@ import org.ivis.layout.util.RectProc;
 import org.ivis.util.IGeometry;
 import org.ivis.util.PointD;
 import org.ivis.util.RectangleD;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class implements the layout process of SBGN notation.
@@ -33,7 +32,7 @@ import org.ivis.util.RectangleD;
  */
 public class SbgnPDLayout extends CoSELayout
 {
-	// ************************* SECTION : VARIABLES *************************
+	private static final Logger log = LoggerFactory.getLogger(SbgnPDLayout.class);
 
 	/**
 	 * For remembering contents of a complex.
@@ -101,23 +100,12 @@ public class SbgnPDLayout extends CoSELayout
 	
 	public int totalEffCount;
 
-	/**
-	 * The constructor creates and associates with this layout a new graph
-	 * manager as well. No tiling performs CoSE Layout.
-	 * 
-	 * @param testApplet
-	 * 
-	 * @param compactionMethod
-	 *            - SbgnPDConstants.TILING, SbgnPDConstants.POLYOMINO_PACKING
-	 */
 	public SbgnPDLayout()
 	{
-		rotationRandomizationMethod = 1;
-
+		this.rotationRandomizationMethod = 1;
 		this.enhancedRatio = 0;
 		this.totalEffCount = 0;
 		this.compactionMethod = DefaultCompactionAlgorithm.TILING;
-
 		this.childGraphMap = new HashMap<SbgnPDNode, LGraph>();
 		this.complexOrder = new LinkedList<SbgnPDNode>();
 		this.dummyComplexList = new LinkedList<SbgnPDNode>();
@@ -128,13 +116,14 @@ public class SbgnPDLayout extends CoSELayout
 	}
 
 	/**
-	 * @Override This method performs the actual layout on the l-level compound
-	 *           graph. An update() needs to be called for changes to be
-	 *           propagated to the v-level compound graph.
+	 * This method performs the actual layout on the l-level compound
+	 * graph. An update() needs to be called for changes to be
+	 * propagated to the v-level compound graph.
 	 */
+	@Override
 	public void runSpringEmbedder()
 	{
-		System.out.println("SBGN-PD Layout is running...");
+		log.info("SBGN-PD Layout is running...");
 		this.phaseNumber = 1;
 		doPhase1();
 
@@ -144,11 +133,11 @@ public class SbgnPDLayout extends CoSELayout
 		// used to calculate - to make sure
 		recalcProperlyOrientedEdges(true);
 		
-		System.out.println("success ratio: " + this.successRatio);
+		log.info("success ratio: " + this.successRatio);
 
 		finalEnhancement();
 		
-		System.out.println("enhanced ratio: " + this.enhancedRatio);
+		log.info("enhanced ratio: " + this.enhancedRatio);
 
 		removeDummyCompounds();
 	}
@@ -945,7 +934,7 @@ public class SbgnPDLayout extends CoSELayout
 
 		if (childGr == null)
 		{
-			System.out.println("Child graph is empty (Polyomino)");
+			log.info("Child graph is empty (Polyomino)");
 		}
 		else
 		{
@@ -1197,11 +1186,11 @@ public class SbgnPDLayout extends CoSELayout
 		totalArea = largestComplex.getWidth() * largestComplex.getHeight();
 
 		if (compactionMethod == DefaultCompactionAlgorithm.TILING)
-			System.out.println("Tiling results");
+			log.info("Tiling results");
 		else if (compactionMethod == DefaultCompactionAlgorithm.POLYOMINO_PACKING)
-			System.out.println("Polyomino Packing results");
+			log.info("Polyomino Packing results");
 
-		System.out.println(" = " + usedArea / totalArea);
+		log.info(" = " + usedArea / totalArea);
 	}
 
 	/**
@@ -1239,7 +1228,7 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * This method creates a new node associated with the input view node.
 	 */
-	public LNode newNode(Object vNode)
+	public LNode newNode(LGraphObject vNode)
 	{
 		return new SbgnPDNode(this.graphManager, vNode);
 	}
@@ -1247,7 +1236,7 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * This method creates a new edge associated with the input view edge.
 	 */
-	public LEdge newEdge(Object vEdge)
+	public LEdge newEdge(LGraphObject vEdge)
 	{
 		return new SbgnPDEdge(null, null, vEdge);
 	}
@@ -1503,7 +1492,7 @@ public class SbgnPDLayout extends CoSELayout
 	 * This method creates a port node with the associated type (input/output
 	 * port)
 	 */
-	public LNode newPortNode(Object vNode, String type)
+	public LNode newPortNode(LGraphObject vNode, String type)
 	{
 		SbgnPDNode n = new SbgnPDNode(this.graphManager, vNode);
 		n.type = type;
@@ -1516,7 +1505,7 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * This method creates an SBGNProcessNode object
 	 */
-	public LNode newProcessNode(Object vNode)
+	public LNode newProcessNode(LGraphObject vNode)
 	{
 		return new SbgnProcessNode(this.graphManager, vNode);
 	}
@@ -1524,7 +1513,7 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * This method creates a rigid edge.
 	 */
-	public LEdge newRigidEdge(Object vEdge)
+	public LEdge newRigidEdge(LGraphObject vEdge)
 	{
 		SbgnPDEdge e = new SbgnPDEdge(null, null, vEdge);
 		e.type = SbgnPDConstants.RIGID_EDGE;

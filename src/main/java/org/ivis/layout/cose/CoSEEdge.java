@@ -1,5 +1,6 @@
 package org.ivis.layout.cose;
 
+import org.ivis.layout.LGraphObject;
 import org.ivis.layout.fd.FDLayoutEdge;
 
 /**
@@ -23,7 +24,7 @@ public class CoSEEdge extends FDLayoutEdge
 	/*
 	 * Constructor
 	 */
-	public CoSEEdge(CoSENode source, CoSENode target, Object vEdge)
+	public CoSEEdge(CoSENode source, CoSENode target, LGraphObject vEdge)
 	{
 		super(source, target, vEdge);
 	}

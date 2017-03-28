@@ -77,7 +77,7 @@ public class CoSELayout extends FDLayout
 	/**
 	 * This method creates a new graph associated with the input view graph.
 	 */
-	public LGraph newGraph(Object vGraph)
+	public LGraph newGraph(LGraphObject vGraph)
 	{
 		return new CoSEGraph(null, this.graphManager, vGraph);
 	}
@@ -85,7 +85,7 @@ public class CoSELayout extends FDLayout
 	/**
 	 * This method creates a new node associated with the input view node.
 	 */
-	public LNode newNode(Object vNode)
+	public LNode newNode(LGraphObject vNode)
 	{
 		return new CoSENode(this.graphManager, vNode);
 	}
@@ -93,7 +93,7 @@ public class CoSELayout extends FDLayout
 	/**
 	 * This method creates a new edge associated with the input view edge.
 	 */
-	public LEdge newEdge(Object vEdge)
+	public LEdge newEdge(LGraphObject vEdge)
 	{
 		return new CoSEEdge(null, null, vEdge);
 	}

@@ -13,6 +13,8 @@ import java.awt.Point;
 
 import org.ivis.util.Transform;
 import org.ivis.util.PointD;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class lays out the associated graph model (LGraphManager, LGraph, LNode,
@@ -29,13 +31,10 @@ import org.ivis.util.PointD;
  *
  * Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
-public abstract class Layout
-{
-// -----------------------------------------------------------------------------
-// Section: Instance variables
-// -----------------------------------------------------------------------------
-//	public boolean allowRotations = true;
-//
+public abstract class Layout {
+
+	private static final Logger log = LoggerFactory.getLogger(Layout.class);
+
 	/**
 	 * Layout Quality: 0:proof, 1:default, 2:draft
 	 */
@@ -103,13 +102,7 @@ public abstract class Layout
 	 * Indicates whether the layout is called remotely or not.
 	 */
 	protected boolean isRemoteUse;
-	
-	/**
-	 * This method added for comparison of sbgnpd and cose layouts
-	 * TODO you may remove
-	 */
-	public long executionTime = 0;
-	
+
 // -----------------------------------------------------------------------------
 // Section: Constructors and initializations
 // -----------------------------------------------------------------------------
@@ -126,18 +119,6 @@ public abstract class Layout
 		assert (this.graphManager != null);
 	}
 
-	/**
-	 * In addition to default constructor, this constructor also sets the
-	 * remote flag.
-	 * 
-	 * @param isRemote	indicates whether this layout is called remotely
-	 */
-	public Layout(boolean isRemoteUse)
-	{
-		this();
-		this.isRemoteUse = isRemoteUse;
-	}
-	
 // -----------------------------------------------------------------------------
 // Section: Accessor methods
 // -----------------------------------------------------------------------------
@@ -190,7 +171,7 @@ public abstract class Layout
 	/**
 	 * This method creates a new graph associated with the input view graph.
 	 */
-	public LGraph newGraph(Object vGraph)
+	public LGraph newGraph(LGraphObject vGraph)
 	{
 		return new LGraph(null, this.graphManager, vGraph);
 	}
@@ -198,7 +179,7 @@ public abstract class Layout
 	/**
 	 * This method creates a new node associated with the input view node.
 	 */
-	public LNode newNode(Object vNode)
+	public LNode newNode(LGraphObject vNode)
 	{
 		return new LNode(this.graphManager, vNode);
 	}
@@ -206,7 +187,7 @@ public abstract class Layout
 	/**
 	 * This method creates a new edge associated with the input view edge.
 	 */
-	public LEdge newEdge(Object vEdge)
+	public LEdge newEdge(LGraphObject vEdge)
 	{
 		return new LEdge(null, null, vEdge);
 	}
@@ -252,9 +233,7 @@ public abstract class Layout
 			{
 				long endTime = System.currentTimeMillis();
 				long excTime = endTime - startTime;
-				
-				this.executionTime = excTime;
-				System.out.println("Total execution time: " + excTime + " miliseconds.");
+				log.info("Total execution time: " + excTime + " miliseconds.");
 			}
 		}
 		
@@ -310,103 +289,8 @@ public abstract class Layout
 			// reset all edges, since the topology has changed
 			this.graphManager.resetAllEdges();
 		}
-		
-		// perform edge, node and root updates if layout is not called
-		// remotely
-		
-		if (!this.isRemoteUse)
-		{
-			// update all edges
-			
-			LEdge edge;
-			for (Object obj : this.graphManager.getAllEdges())
-			{
-				edge = (LEdge) obj;
-				this.update(edge);
-			}
-			
-			// recursively update nodes 
-			
-			LNode node;
-			for (Object obj : this.graphManager.getRoot().getNodes())
-			{
-				node = (LNode) obj;
-				this.update(node);
-			}
-			
-			// update root graph
-			this.update(this.graphManager.getRoot());
-		}
 	}
 	
-	/**
-	 * This method is called for updating the geometry of the view node
-	 * associated with the input node when layout finishes.
-	 */
-	public void update(LNode node)
-	{	
-		if (node.getChild() != null)
-		{
-			// since node is compound, recursively update child nodes
-			for (Object obj : node.getChild().getNodes())
-			{
-				update((LNode) obj);
-			}
-		}
-		
-		// if the l-level node is associated with a v-level graph object,
-		// then it is assumed that the v-level node implements the
-		// interface Updatable.
-
-		if (node.vGraphObject != null)
-		{
-			// cast to Updatable without any type check
-			Updatable vNode = (Updatable) node.vGraphObject;
-			
-			// call the update method of the interface 
-			vNode.update(node);
-		}
-	}
-
-	/**
-	 * This method is called for updating the geometry of the view edge
-	 * associated with the input edge when layout finishes.
-	 */
-	public void update(LEdge edge)
-	{
-		// if the l-level edge is associated with a v-level graph object,
-		// then it is assumed that the v-level edge implements the
-		// interface Updatable.
-
-		if (edge.vGraphObject != null)
-		{
-			// cast to Updatable without any type check
-			Updatable vEdge = (Updatable) edge.vGraphObject;
-			
-			// call the update method of the interface 
-			vEdge.update(edge);
-		}
-	}
-	
-	/**
-	 * This method is called for updating the geometry of the view graph
-	 * associated with the input graph when layout finishes.
-	 */
-	public void update(LGraph graph)
-	{
-		// if the l-level graph is associated with a v-level graph object,
-		// then it is assumed that the v-level object implements the
-		// interface Updatable.
-		
-		if (graph.vGraphObject != null)
-		{
-			// cast to Updatable without any type check
-			Updatable vGraph = (Updatable) graph.vGraphObject;
-			
-			// call the update method of the interface 
-			vGraph.update(graph);
-		}
-	}
 
 	/**
 	 * This method is used to set all layout parameters to default values

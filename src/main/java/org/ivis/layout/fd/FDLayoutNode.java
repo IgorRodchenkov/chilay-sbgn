@@ -3,6 +3,7 @@ package org.ivis.layout.fd;
 import java.awt.Point;
 import java.awt.Dimension;
 
+import org.ivis.layout.LGraphObject;
 import org.ivis.layout.LNode;
 import org.ivis.layout.LGraphManager;
 
@@ -54,7 +55,7 @@ public abstract class FDLayoutNode extends LNode
 	/*
 	 * Constructor
 	 */
-	public FDLayoutNode(LGraphManager gm, Object vNode)
+	public FDLayoutNode(LGraphManager gm, LGraphObject vNode)
 	{
 		super(gm, vNode);
 	}
@@ -62,7 +63,7 @@ public abstract class FDLayoutNode extends LNode
 	/**
 	 * Alternative constructor
 	 */
-	public FDLayoutNode(LGraphManager gm, Point loc, Dimension size, Object vNode)
+	public FDLayoutNode(LGraphManager gm, Point loc, Dimension size, LGraphObject vNode)
 	{
 		super(gm, loc, size, vNode);
 	}

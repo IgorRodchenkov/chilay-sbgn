@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.ivis.layout.LGraphManager;
+import org.ivis.layout.LGraphObject;
 import org.ivis.layout.LNode;
 import org.ivis.util.IGeometry;
 import org.ivis.util.PointD;
@@ -46,7 +47,7 @@ public class SbgnProcessNode extends SbgnPDNode
 	 */
 	public double properEdgeCount;
 
-	public SbgnProcessNode(LGraphManager gm, Object vNode)
+	public SbgnProcessNode(LGraphManager gm, LGraphObject vNode)
 	{
 		super(gm, vNode);
 		this.netRotationalForce = 0;

@@ -427,7 +427,7 @@ public class LGraphManager
 		// root graph must have a root node associated with it for convenience
 		if (graph.parent == null)
 		{
-			graph.parent = this.layout.newNode("Root node");
+			graph.parent = this.layout.newNode(new LGraphObject("Root node"));
 		}
 	}
 
@@ -686,7 +686,7 @@ public class LGraphManager
 	/**
 	 * This method prints the topology of this graph manager.
 	 */
-	public void printTopology()
+	void printTopology()
 	{
 		this.rootGraph.printTopology();
 

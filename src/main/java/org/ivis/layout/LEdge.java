@@ -60,7 +60,7 @@ public class LEdge extends LGraphObject
 	/*
 	 * Constructor
 	 */
-	protected LEdge(LNode source, LNode target, Object vEdge)
+	protected LEdge(LNode source, LNode target, LGraphObject vEdge)
 	{
 		super(vEdge);
 
@@ -308,7 +308,7 @@ public class LEdge extends LGraphObject
 	/**
 	 * This method prints the topology of this edge.
 	 */
-	public void printTopology()
+	void printTopology()
 	{
 		System.out.print( (this.label == null ? "?" : this.label) + "[" +
 			(this.source.label == null ? "?" : this.source.label) + "-" +

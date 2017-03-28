@@ -224,8 +224,7 @@ public class Compaction
 	/**
 	 * This method prints the edges of the visibility graph.
 	 */
-	@SuppressWarnings("unused")
-	private void printEdges()
+	void printEdges()
 	{
 		System.out.println("# of edges: " + visGraph.getEdges().size());
 
@@ -240,8 +239,7 @@ public class Compaction
 	/**
 	 * This method prints the nodes of the visibility graph.
 	 */
-	@SuppressWarnings("unused")
-	private void printGraphVertices()
+	void printGraphVertices()
 	{
 		for (int i = 0; i < visGraph.getNodes().size(); i++)
 		{

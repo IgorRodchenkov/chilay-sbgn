@@ -1,6 +1,7 @@
 package org.ivis.layout.cose;
 
 import org.ivis.layout.LGraphManager;
+import org.ivis.layout.LGraphObject;
 import org.ivis.layout.LNode;
 
 /**
@@ -44,7 +45,7 @@ public class CoarseningNode extends LNode
 	/*
 	 * Constructor
 	 */
-	protected CoarseningNode(LGraphManager gm, Object vNode)
+	protected CoarseningNode(LGraphManager gm, LGraphObject vNode)
 	{
 		super(gm, vNode);
 		this.weight = 1;

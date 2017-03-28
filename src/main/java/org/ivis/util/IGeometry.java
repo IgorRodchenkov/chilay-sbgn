@@ -14,9 +14,12 @@ import java.awt.Point;
  */
 abstract public class IGeometry
 {
-// -----------------------------------------------------------------------------
-// Section: Class methods
-// -----------------------------------------------------------------------------
+
+	public static final double HALF_PI = 0.5 * Math.PI;
+	public static final double ONE_AND_HALF_PI = 1.5 * Math.PI;
+	public static final double TWO_PI = 2.0 * Math.PI;
+	public static final double THREE_PI = 3.0 * Math.PI;
+
 
 	/**
 	 * This method calculates *half* the amount in x and y directions of the two
@@ -585,152 +588,6 @@ abstract public class IGeometry
 		return result;
 	}
 
-	// TODO may not produce correct test results, since parameter order of
-	// RectangleD constructor is changed
-	private static void testClippingPoints()
-	{
-		RectangleD rectA = new RectangleD(5, 6, 2, 4);
-		RectangleD rectB;
-		
-		rectB = new RectangleD(0, 4, 1, 4);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(1, 4, 1, 2);
-		findAndPrintClipPoints(rectA, rectB);
-	
-		rectB = new RectangleD(1, 3, 3, 2);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------		
-		rectB = new RectangleD(2, 3, 2, 4);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(3, 3, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(3, 2, 4, 2);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------		
-		rectB = new RectangleD(6, 3, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------		
-		rectB = new RectangleD(9, 2, 4, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(9, 3, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(8, 3, 2, 4);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------
-		rectB = new RectangleD(11, 3, 3, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(11, 4, 1, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(10, 4, 1, 4);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------
-		rectB = new RectangleD(10, 5, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(9, 4.5, 2, 4);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(10, 5.8, 0.4, 2);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------		
-		rectB = new RectangleD(11, 6, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------
-		rectB = new RectangleD(10, 7.8, 0.4, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(9, 7.5, 1, 4);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(10, 7, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------
-		rectB = new RectangleD(10, 9, 2, 6);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(11, 9, 2, 4);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(12, 8, 4, 2);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------
-		rectB = new RectangleD(7, 9, 2, 4);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(8, 9, 4, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(10, 9, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------
-		rectB = new RectangleD(6, 10, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------
-		rectB = new RectangleD(3, 8, 4, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(3, 9, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-
-		rectB = new RectangleD(2, 8, 4, 4);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------
-		rectB = new RectangleD(2, 8, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(1, 8, 2, 4);
-		findAndPrintClipPoints(rectA, rectB);
-	
-		rectB = new RectangleD(1, 8.5, 1, 4);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------
-		rectB = new RectangleD(3, 7, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(1, 7.5, 1, 4);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(3, 7.8, 0.4, 2);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------
-		rectB = new RectangleD(1, 6, 2, 2);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------		
-		rectB = new RectangleD(3, 5.8, 0.4, 2);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(1, 5, 1, 3);
-		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(1, 4, 3, 3);
-		findAndPrintClipPoints(rectA, rectB);
-//----------------------------------------------
-		rectB = new RectangleD(4, 4, 3, 3);
-//		findAndPrintClipPoints(rectA, rectB);
-		
-		rectB = new RectangleD(5, 6, 2, 4);
-//		findAndPrintClipPoints(rectA, rectB);
-	}
-	
-	private static void findAndPrintClipPoints(RectangleD rectA, RectangleD rectB)
-	{
-		System.out.println("---------------------");
-		double[] clipPoints = new double[4];
-		
-		System.out.println("RectangleA  X: " + rectA.x + "  Y: " + rectA.y + "  Width: " + rectA.width + "  Height: " + rectA.height);
-		System.out.println("RectangleB  X: " + rectB.x + "  Y: " + rectB.y + "  Width: " + rectB.width + "  Height: " + rectB.height);
-		IGeometry.getIntersection(rectA, rectB, clipPoints);
-
-		System.out.println("Clip Point of RectA X:" + clipPoints[0] + " Y: " + clipPoints[1]);
-		System.out.println("Clip Point of RectB X:" + clipPoints[2] + " Y: " + clipPoints[3]);	
-	}
 
 	// ****** Following method is used in SBGN-PD Layout *******
 	/**
@@ -756,23 +613,5 @@ abstract public class IGeometry
 
 		return Math.abs(Math.toDegrees(Math.acos(angleValue)));
 	}
-	
-	/*
-	 * Main method for testing purposes.
-	 */
-	public static void main(String [] args)
-	{
-		testClippingPoints();	
-	}
 
-// -----------------------------------------------------------------------------
-// Section: Class Constants
-// -----------------------------------------------------------------------------
-	/**
-	 * Some useful pre-calculated constants
-	 */
-	public static final double HALF_PI = 0.5 * Math.PI;
-	public static final double ONE_AND_HALF_PI = 1.5 * Math.PI;
-	public static final double TWO_PI = 2.0 * Math.PI;
-	public static final double THREE_PI = 3.0 * Math.PI;
 }

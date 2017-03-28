@@ -76,7 +76,7 @@ public class LGraph extends LGraphObject
 	/*
 	 * Constructor
 	 */
-	protected LGraph(LNode parent, LGraphManager graphMgr, Object vGraph)
+	protected LGraph(LNode parent, LGraphManager graphMgr, LGraphObject vGraph)
 	{
 		super(vGraph);
 		this.initialize();
@@ -87,7 +87,7 @@ public class LGraph extends LGraphObject
 	/*
 	 * Alternative constructor
 	 */
-	protected LGraph(LNode parent, Layout layout, Object vGraph)
+	protected LGraph(LNode parent, Layout layout, LGraphObject vGraph)
 	{
 		super(vGraph);
 		this.initialize();
@@ -659,7 +659,7 @@ public class LGraph extends LGraphObject
 	/**
 	 * This method prints the topology of this graph.
 	 */
-	public void printTopology()
+	void printTopology()
 	{
 		System.out.print((this.label == null ? "?" : this.label) + ": ");
 

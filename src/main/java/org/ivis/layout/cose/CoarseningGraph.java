@@ -1,6 +1,7 @@
 package org.ivis.layout.cose;
 
 import org.ivis.layout.LGraph;
+import org.ivis.layout.LGraphObject;
 import org.ivis.layout.LNode;
 import org.ivis.layout.Layout;
 
@@ -28,7 +29,7 @@ public class CoarseningGraph extends LGraph
 	/**
 	 * Constructor
 	 */
-	protected CoarseningGraph(LNode parent, Layout layout, Object vGraph)
+	protected CoarseningGraph(LNode parent, Layout layout, LGraphObject vGraph)
 	{
 		super(parent, layout, vGraph);
 	}
