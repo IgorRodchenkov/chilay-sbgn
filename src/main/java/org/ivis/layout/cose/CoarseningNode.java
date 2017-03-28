@@ -45,7 +45,7 @@ public class CoarseningNode extends LNode
 	/*
 	 * Constructor
 	 */
-	protected CoarseningNode(LGraphManager gm, LGraphObject vNode)
+	protected CoarseningNode(LGraphManager gm, Object vNode)
 	{
 		super(gm, vNode);
 		this.weight = 1;

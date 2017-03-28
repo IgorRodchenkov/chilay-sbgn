@@ -76,7 +76,7 @@ public class LGraph extends LGraphObject
 	/*
 	 * Constructor
 	 */
-	protected LGraph(LNode parent, LGraphManager graphMgr, LGraphObject vGraph)
+	protected LGraph(LNode parent, LGraphManager graphMgr, Object vGraph)
 	{
 		super(vGraph);
 		this.initialize();
@@ -87,7 +87,7 @@ public class LGraph extends LGraphObject
 	/*
 	 * Alternative constructor
 	 */
-	protected LGraph(LNode parent, Layout layout, LGraphObject vGraph)
+	protected LGraph(LNode parent, Layout layout, Object vGraph)
 	{
 		super(vGraph);
 		this.initialize();
@@ -546,7 +546,7 @@ public class LGraph extends LGraphObject
 	/*
 	 * This method calculates and returns the estimated size of this graph as
 	 * well as the estimated sizes of the nodes in this graph recursively. The
-	 * estimated size of a graph is based on the estimated sizes of its nodes.
+	 * estimated size of a graph is based on the estimated sizes of its nLGraphObjectodes.
 	 * In fact, this value is the exact average dimension for non-compound nodes
 	 * and it is a rather rough estimation on the dimension for compound nodes.
 	 */

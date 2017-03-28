@@ -60,7 +60,7 @@ public class CoSENode extends FDLayoutNode
 	/*
 	 * Constructor
 	 */
-	public CoSENode(LGraphManager gm, LGraphObject vNode)
+	public CoSENode(LGraphManager gm, Object vNode)
 	{
 		super(gm, vNode);
 	}
@@ -68,7 +68,7 @@ public class CoSENode extends FDLayoutNode
 	/**
 	 * Alternative constructor
 	 */
-	public CoSENode(LGraphManager gm, Point loc, Dimension size, LGraphObject vNode)
+	public CoSENode(LGraphManager gm, Point loc, Dimension size, Object vNode)
 	{
 		super(gm, loc, size, vNode);
 	}

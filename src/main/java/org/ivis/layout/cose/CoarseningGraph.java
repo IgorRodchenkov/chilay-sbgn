@@ -29,7 +29,7 @@ public class CoarseningGraph extends LGraph
 	/**
 	 * Constructor
 	 */
-	protected CoarseningGraph(LNode parent, Layout layout, LGraphObject vGraph)
+	protected CoarseningGraph(LNode parent, Layout layout, Object vGraph)
 	{
 		super(parent, layout, vGraph);
 	}

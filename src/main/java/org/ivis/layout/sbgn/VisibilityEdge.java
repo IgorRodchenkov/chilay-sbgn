@@ -1,6 +1,5 @@
 package org.ivis.layout.sbgn;
 
-import org.ivis.layout.LGraphObject;
 import org.ivis.layout.cose.CoSEEdge;
 
 /**
@@ -17,7 +16,7 @@ public class VisibilityEdge extends CoSEEdge
 	/**
 	 * Constructor
 	 */
-	public VisibilityEdge(SbgnPDNode source, SbgnPDNode target, LGraphObject vEdge)
+	public VisibilityEdge(SbgnPDNode source, SbgnPDNode target, Object vEdge)
 	{
 		super(source, target, vEdge);
 	}

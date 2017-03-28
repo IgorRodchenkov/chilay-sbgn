@@ -1228,7 +1228,7 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * This method creates a new node associated with the input view node.
 	 */
-	public LNode newNode(LGraphObject vNode)
+	public LNode newNode(Object vNode)
 	{
 		return new SbgnPDNode(this.graphManager, vNode);
 	}
@@ -1236,7 +1236,7 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * This method creates a new edge associated with the input view edge.
 	 */
-	public LEdge newEdge(LGraphObject vEdge)
+	public LEdge newEdge(Object vEdge)
 	{
 		return new SbgnPDEdge(null, null, vEdge);
 	}
@@ -1492,7 +1492,7 @@ public class SbgnPDLayout extends CoSELayout
 	 * This method creates a port node with the associated type (input/output
 	 * port)
 	 */
-	public LNode newPortNode(LGraphObject vNode, String type)
+	public LNode newPortNode(Object vNode, String type)
 	{
 		SbgnPDNode n = new SbgnPDNode(this.graphManager, vNode);
 		n.type = type;
@@ -1505,7 +1505,7 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * This method creates an SBGNProcessNode object
 	 */
-	public LNode newProcessNode(LGraphObject vNode)
+	public LNode newProcessNode(Object vNode)
 	{
 		return new SbgnProcessNode(this.graphManager, vNode);
 	}
@@ -1513,7 +1513,7 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * This method creates a rigid edge.
 	 */
-	public LEdge newRigidEdge(LGraphObject vEdge)
+	public LEdge newRigidEdge(Object vEdge)
 	{
 		SbgnPDEdge e = new SbgnPDEdge(null, null, vEdge);
 		e.type = SbgnPDConstants.RIGID_EDGE;

@@ -73,7 +73,7 @@ public class LNode extends LGraphObject implements Clustered
 	/*
 	 * Constructor
 	 */
-	protected LNode(LGraphManager gm, LGraphObject vNode)
+	protected LNode(LGraphManager gm, Object vNode)
 	{
 		super(vNode);
 		this.initialize();
@@ -84,7 +84,7 @@ public class LNode extends LGraphObject implements Clustered
 	/*
 	 * Alternative constructor
 	 */
-	protected LNode(LGraphManager gm, Point loc, Dimension size, LGraphObject vNode)
+	protected LNode(LGraphManager gm, Point loc, Dimension size, Object vNode)
 	{
 		super(vNode);
 		this.initialize();
@@ -95,7 +95,7 @@ public class LNode extends LGraphObject implements Clustered
 	/*
 	 * Alternative constructor
 	 */
-	protected LNode(Layout layout, LGraphObject vNode)
+	protected LNode(Layout layout, Object vNode)
 	{
 		super(vNode);
 		this.initialize();

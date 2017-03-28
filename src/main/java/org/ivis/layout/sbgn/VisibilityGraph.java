@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.ivis.layout.LGraph;
 import org.ivis.layout.LGraphManager;
-import org.ivis.layout.LGraphObject;
 import org.ivis.layout.sbgn.SbgnPDNode;
 import org.ivis.layout.sbgn.Compaction.CompactionDirection;
 import org.ivis.util.RectangleD;
@@ -26,7 +25,7 @@ public class VisibilityGraph extends LGraph
 	 * Constructor
 	 */
 	public VisibilityGraph(SbgnPDNode parent, LGraphManager graphMgr,
-						   LGraphObject vGraph)
+			Object vGraph)
 	{
 		super(parent, graphMgr, vGraph);
 	}

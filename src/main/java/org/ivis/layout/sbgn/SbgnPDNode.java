@@ -30,7 +30,7 @@ public class SbgnPDNode extends CoSENode
 	/**
 	 * Constructor
 	 */
-	public SbgnPDNode(LGraphManager gm, LGraphObject vNode)
+	public SbgnPDNode(LGraphManager gm, Object vNode)
 	{
 		super(gm, vNode);
 		this.visited = false;

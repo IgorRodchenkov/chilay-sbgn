@@ -60,7 +60,7 @@ public class LEdge extends LGraphObject
 	/*
 	 * Constructor
 	 */
-	protected LEdge(LNode source, LNode target, LGraphObject vEdge)
+	protected LEdge(LNode source, LNode target, Object vEdge)
 	{
 		super(vEdge);
 

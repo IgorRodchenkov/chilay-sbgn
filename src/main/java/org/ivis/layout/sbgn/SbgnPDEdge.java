@@ -19,14 +19,14 @@ public class SbgnPDEdge extends CoSEEdge
 	/**
 	 * Constructor
 	 */
-	public SbgnPDEdge(SbgnPDNode source, SbgnPDNode target, LGraphObject vEdge)
+	public SbgnPDEdge(SbgnPDNode source, SbgnPDNode target, Object vEdge)
 	{
 		super(source, target, vEdge);
 		correspondingAngle = 0;
 		isProperlyOriented = false;
 	}
 
-	public SbgnPDEdge(SbgnPDNode source, SbgnPDNode target, LGraphObject vEdge, String type)
+	public SbgnPDEdge(SbgnPDNode source, SbgnPDNode target, Object vEdge, String type)
 	{
 		super(source, target, vEdge);
 		this.type = type;

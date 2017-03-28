@@ -2,7 +2,6 @@ package org.ivis.layout.cose;
 
 import org.ivis.layout.LGraph;
 import org.ivis.layout.LGraphManager;
-import org.ivis.layout.LGraphObject;
 
 /**
  * This class implements CoSE specific data and functionality for graphs.
@@ -21,7 +20,7 @@ public class CoSEGraph extends LGraph
 	/*
 	 * Constructor
 	 */
-	protected CoSEGraph(CoSENode parent, LGraphManager graphMgr, LGraphObject vGraph)
+	protected CoSEGraph(CoSENode parent, LGraphManager graphMgr, Object vGraph)
 	{
 		super(parent, graphMgr, vGraph);
 	}

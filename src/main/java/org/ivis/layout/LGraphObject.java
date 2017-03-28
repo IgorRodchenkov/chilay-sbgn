@@ -16,7 +16,7 @@ public class LGraphObject
 	/**
 	 * Associated view object
 	 */
-	public LGraphObject vGraphObject;
+	public Object vGraphObject;
 
 	/**
 	 * Label
@@ -29,16 +29,8 @@ public class LGraphObject
 	public String type;
 	
 
-	public LGraphObject(LGraphObject vGraphObject)
+	public LGraphObject(Object vGraphObject)
 	{
 		this.vGraphObject = vGraphObject;
-	}
-	public LGraphObject(String label)
-	{
-		this.label = label;
-	} //for tests...
-
-	public String toString() {
-		return label;
 	}
 }

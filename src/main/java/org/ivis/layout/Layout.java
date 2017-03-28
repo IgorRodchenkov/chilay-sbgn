@@ -171,7 +171,7 @@ public abstract class Layout {
 	/**
 	 * This method creates a new graph associated with the input view graph.
 	 */
-	public LGraph newGraph(LGraphObject vGraph)
+	public LGraph newGraph(Object vGraph)
 	{
 		return new LGraph(null, this.graphManager, vGraph);
 	}
@@ -179,7 +179,7 @@ public abstract class Layout {
 	/**
 	 * This method creates a new node associated with the input view node.
 	 */
-	public LNode newNode(LGraphObject vNode)
+	public LNode newNode(Object vNode)
 	{
 		return new LNode(this.graphManager, vNode);
 	}
@@ -187,7 +187,7 @@ public abstract class Layout {
 	/**
 	 * This method creates a new edge associated with the input view edge.
 	 */
-	public LEdge newEdge(LGraphObject vEdge)
+	public LEdge newEdge(Object vEdge)
 	{
 		return new LEdge(null, null, vEdge);
 	}
@@ -322,7 +322,7 @@ public abstract class Layout {
 			}
 		}
 
-		LGraphObject gObj = node.vGraphObject;
+		Object gObj = node.vGraphObject;
 		if (gObj instanceof Updatable)
 		{
 			((Updatable) gObj).update(node);
@@ -335,7 +335,7 @@ public abstract class Layout {
 	 */
 	public void update(LEdge edge)
 	{
-		LGraphObject gObj = edge.vGraphObject;
+		Object gObj = edge.vGraphObject;
 		if (gObj instanceof Updatable)
 		{
 			((Updatable) gObj).update(edge);
@@ -348,7 +348,7 @@ public abstract class Layout {
 	 */
 	public void update(LGraph graph)
 	{
-		LGraphObject gObj = graph.vGraphObject;
+		Object gObj = graph.vGraphObject;
 		if (gObj instanceof Updatable)
 		{
 			((Updatable) gObj).update(graph);

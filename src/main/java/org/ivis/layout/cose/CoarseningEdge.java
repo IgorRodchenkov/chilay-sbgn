@@ -17,7 +17,7 @@ public class CoarseningEdge extends CoSEEdge
 	/**
 	 * Constructor
 	 */
-	public CoarseningEdge(CoSENode source, CoSENode target, LGraphObject vEdge)
+	public CoarseningEdge(CoSENode source, CoSENode target, Object vEdge)
 	{
 		super(source, target, vEdge);
 	}
