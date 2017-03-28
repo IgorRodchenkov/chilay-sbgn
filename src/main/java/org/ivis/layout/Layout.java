@@ -279,18 +279,81 @@ public abstract class Layout {
 	 * This method updates the geometry of the target graph according to
 	 * calculated layout.
 	 */
-	public void update()
-	{
+	public void update() {
 		// update bend points
 		if(this.createBendsAsNeeded)
 		{
 			this.createBendpointsFromDummyNodes();
-			
+
 			// reset all edges, since the topology has changed
 			this.graphManager.resetAllEdges();
 		}
+
+		// perform edge, node and root updates
+		LEdge edge;
+		for (Object obj : this.graphManager.getAllEdges())
+		{
+			edge = (LEdge) obj;
+			this.update(edge);
+		}
+
+		LNode node;
+		for (Object obj : this.graphManager.getRoot().getNodes())
+		{
+			node = (LNode) obj;
+			this.update(node);
+		}
+
+		this.update(this.graphManager.getRoot());
 	}
 	
+	/**
+	 * This method is called for updating the geometry of the view node
+	 * associated with the input node when layout finishes.
+	 */
+	public void update(LNode node)
+	{
+		if (node.getChild() != null)
+		{
+			// since node is compound, recursively update child nodes
+			for (Object obj : node.getChild().getNodes())
+			{
+				update((LNode) obj);
+			}
+		}
+
+		LGraphObject gObj = node.vGraphObject;
+		if (gObj instanceof Updatable)
+		{
+			((Updatable) gObj).update(node);
+		}
+	}
+
+	/**
+	 * This method is called for updating the geometry of the view edge
+	 * associated with the input edge when layout finishes.
+	 */
+	public void update(LEdge edge)
+	{
+		LGraphObject gObj = edge.vGraphObject;
+		if (gObj instanceof Updatable)
+		{
+			((Updatable) gObj).update(edge);
+		}
+	}
+
+	/**
+	 * This method is called for updating the geometry of the view graph
+	 * associated with the input graph when layout finishes.
+	 */
+	public void update(LGraph graph)
+	{
+		LGraphObject gObj = graph.vGraphObject;
+		if (gObj instanceof Updatable)
+		{
+			((Updatable) gObj).update(graph);
+		}
+	}
 
 	/**
 	 * This method is used to set all layout parameters to default values
