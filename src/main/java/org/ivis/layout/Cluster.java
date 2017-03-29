@@ -127,7 +127,7 @@ public class Cluster implements Comparable
 	 */
 	public Set<Clustered> getNodes()
 	{
-		return this.nodes;
+		return nodes;
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class Cluster implements Comparable
 	 */
 	public int getClusterID()
 	{
-		return this.clusterID;
+		return clusterID;
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class Cluster implements Comparable
 	 */
 	public String getClusterName()
 	{
-		return this.clusterName;
+		return clusterName;
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class Cluster implements Comparable
 	 */
 	public ArrayList<PointD> getPolygon()
 	{
-		return this.polygon;
+		return polygon;
 	}
 	
 	/**
@@ -204,7 +204,7 @@ public class Cluster implements Comparable
 	{	
 		// get copy of nodes in order to prevent pointer problems
 		ArrayList<Clustered> copy = new ArrayList<Clustered>();
-		copy.addAll(this.nodes);
+		copy.addAll(nodes);
 		
 		for (Clustered node : copy)
 		{
@@ -212,7 +212,7 @@ public class Cluster implements Comparable
 		}
 
 		// delete this cluster form cluster managers cluster list
-		this.clusterManager.getClusters().remove(this);
+		clusterManager.getClusters().remove(this);
 	}
 	
 	/**
@@ -221,7 +221,7 @@ public class Cluster implements Comparable
 	 */
 	public void calculatePolygon()
 	{
-		if (this.clusterID == 0)
+		if (clusterID == 0)
 		{
 			return;
 		}
@@ -233,14 +233,14 @@ public class Cluster implements Comparable
 	 */
 	private void findPoints()
 	{
-		this.polygon.clear();
+		polygon.clear();
 
-		if (this.nodes.isEmpty())
+		if (nodes.isEmpty())
 		{
 			return;
 		}
 		
-		Iterator<Clustered> nodeItr = this.nodes.iterator();
+		Iterator<Clustered> nodeItr = nodes.iterator();
 		Clustered node;
 		
 		while (nodeItr.hasNext())
@@ -266,10 +266,10 @@ public class Cluster implements Comparable
 				parent = parent.getParent();
 			}
 
-			this.polygon.add(new PointD(left, top));
-			this.polygon.add(new PointD(right, top));
-			this.polygon.add(new PointD(right, bottom));
-			this.polygon.add(new PointD(left, bottom));
+			polygon.add(new PointD(left, top));
+			polygon.add(new PointD(right, top));
+			polygon.add(new PointD(right, bottom));
+			polygon.add(new PointD(left, bottom));
 		}
 	}
 	/**
@@ -281,32 +281,32 @@ public class Cluster implements Comparable
 		// find points
 		findPoints();
 		
-		if (this.polygon.isEmpty())
+		if (polygon.isEmpty())
 		{
 			return;
 		}
 		
 		// sort points in increasing order of x coordinates, in case of tie
 		// point with higher y coordinate comes first
-		Collections.sort(this.polygon, new PointComparator());
+		Collections.sort(polygon, new PointComparator());
 
 		Stack<PointD> upperHull = new Stack<PointD>();
 		Stack<PointD> lowerHull = new Stack<PointD>();
 		
-		int n = this.polygon.size();
+		int n = polygon.size();
 		if ( n < 3 )
 		{
 			// no polygon
 			return;
 		}
 		// push first 2 points
-		upperHull.push(this.polygon.get(0));
-		upperHull.push(this.polygon.get(1));
+		upperHull.push(polygon.get(0));
+		upperHull.push(polygon.get(1));
 		
 		// calculate upper hull
-		for (int i = 2; i < this.polygon.size(); i++)
+		for (int i = 2; i < polygon.size(); i++)
 		{
-			PointD pt3 = this.polygon.get(i);
+			PointD pt3 = polygon.get(i);
 			
 			while (true) 
 			{
@@ -330,13 +330,13 @@ public class Cluster implements Comparable
 			}
 		}
 
-		lowerHull.push(this.polygon.get(n-1));
-		lowerHull.push(this.polygon.get(n-2));
+		lowerHull.push(polygon.get(n-1));
+		lowerHull.push(polygon.get(n-2));
 		
 		// calculate lower hull
 		for (int i = n-3; i >= 0; i--)
 		{
-			PointD pt3 = this.polygon.get(i);
+			PointD pt3 = polygon.get(i);
 			
 			while (true) 
 			{
@@ -361,17 +361,17 @@ public class Cluster implements Comparable
 		}
 		
 		// construct convex hull
-		this.polygon.clear();
+		polygon.clear();
 		n = lowerHull.size();
 		for (int i=0; i < n; i++)
 		{
-			this.polygon.add(lowerHull.pop());
+			polygon.add(lowerHull.pop());
 		}	
 
 		n = upperHull.size();
 		for (int i=0; i < n; i++)
 		{
-			this.polygon.add(upperHull.pop());
+			polygon.add(upperHull.pop());
 		}
 	}
 
@@ -408,7 +408,7 @@ public class Cluster implements Comparable
 			Cluster cluster = (Cluster) obj;
 			
 			// compare ID's of two clusters
-			return ((Integer)this.clusterID).compareTo(cluster.getClusterID());
+			return ((Integer)clusterID).compareTo(cluster.getClusterID());
 		}
 		return 0;
 	}

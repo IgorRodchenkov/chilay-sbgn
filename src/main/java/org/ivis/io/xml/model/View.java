@@ -76,7 +76,7 @@ public class View {
         if (node == null) {
             node = new ArrayList<NodeComplexType>();
         }
-        return this.node;
+        return node;
     }
 
     /**
@@ -105,7 +105,7 @@ public class View {
         if (edge == null) {
             edge = new ArrayList<EdgeComplexType>();
         }
-        return this.edge;
+        return edge;
     }
 
     /**

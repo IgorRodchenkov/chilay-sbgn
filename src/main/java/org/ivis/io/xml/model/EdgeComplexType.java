@@ -259,7 +259,7 @@ public class EdgeComplexType
             if (bendPoint == null) {
                 bendPoint = new ArrayList<EdgeComplexType.BendPointList.BendPoint>();
             }
-            return this.bendPoint;
+            return bendPoint;
         }
 
 

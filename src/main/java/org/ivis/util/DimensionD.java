@@ -26,8 +26,8 @@ public class DimensionD
 	 */
 	public DimensionD()
 	{
-		this.height = 0;
-		this.width = 0;
+		height = 0;
+		width = 0;
 	}
 
 	/**

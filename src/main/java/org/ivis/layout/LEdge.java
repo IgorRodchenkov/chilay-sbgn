@@ -78,7 +78,7 @@ public class LEdge extends LGraphObject
 	 */
 	public LNode getSource()
 	{
-		return this.source;
+		return source;
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class LEdge extends LGraphObject
 	 */
 	public LNode getTarget()
 	{
-		return this.target;
+		return target;
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class LEdge extends LGraphObject
 	 */
 	public boolean isInterGraph()
 	{
-		return this.isInterGraph;
+		return isInterGraph;
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class LEdge extends LGraphObject
 	 */
 	public double getLength()
 	{
-		return this.length;
+		return length;
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class LEdge extends LGraphObject
 	 */
 	public double getLengthX()
 	{
-		return this.lengthX;
+		return lengthX;
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class LEdge extends LGraphObject
 	 */
 	public double getLengthY()
 	{
-		return this.lengthY;
+		return lengthY;
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class LEdge extends LGraphObject
 	 */
 	public boolean isOverlapingSourceAndTarget()
 	{
-		return this.isOverlapingSourceAndTarget;
+		return isOverlapingSourceAndTarget;
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class LEdge extends LGraphObject
 	 */
 	public void resetOverlapingSourceAndTarget()
 	{
-		this.isOverlapingSourceAndTarget = false;
+		isOverlapingSourceAndTarget = false;
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class LEdge extends LGraphObject
 	 */
 	public List<PointD> getBendpoints()
 	{
-		return this.bendpoints;
+		return bendpoints;
 	}
 
 	/**
@@ -178,17 +178,17 @@ public class LEdge extends LGraphObject
 
 	public LGraph getLca()
 	{
-		return this.lca;
+		return lca;
 	}
 
 	public LNode getSourceInLca()
 	{
-		return this.sourceInLca;
+		return sourceInLca;
 	}
 
 	public LNode getTargetInLca()
 	{
-		return this.targetInLca;
+		return targetInLca;
 	}
 
 // -----------------------------------------------------------------------------
@@ -199,13 +199,13 @@ public class LEdge extends LGraphObject
 	 */
 	public LNode getOtherEnd(LNode node)
 	{
-		if (this.source.equals(node))
+		if (source.equals(node))
 		{
-			return this.target;
+			return target;
 		}
-		else if (this.target.equals(node))
+		else if (target.equals(node))
 		{
-			return this.source;
+			return source;
 		}
 		else
 		{
@@ -221,7 +221,7 @@ public class LEdge extends LGraphObject
 	 */
 	public LNode getOtherEndInGraph(LNode node, LGraph graph)
 	{
-		LNode otherEnd = this.getOtherEnd(node);
+		LNode otherEnd = getOtherEnd(node);
 		LGraph root = graph.getGraphManager().getRoot();
 
 		while (true)
@@ -250,30 +250,30 @@ public class LEdge extends LGraphObject
 	{
 		double[] clipPointCoordinates = new double[4];
 
-		this.isOverlapingSourceAndTarget =
-			IGeometry.getIntersection(this.target.getRect(),
-				this.source.getRect(),
+		isOverlapingSourceAndTarget =
+			IGeometry.getIntersection(target.getRect(),
+				source.getRect(),
 				clipPointCoordinates);
 
-		if (!this.isOverlapingSourceAndTarget)
+		if (!isOverlapingSourceAndTarget)
 		{
 			// target clip point minus source clip point gives us length
 
-			this.lengthX = clipPointCoordinates[0] - clipPointCoordinates[2];
-			this.lengthY = clipPointCoordinates[1] - clipPointCoordinates[3];
+			lengthX = clipPointCoordinates[0] - clipPointCoordinates[2];
+			lengthY = clipPointCoordinates[1] - clipPointCoordinates[3];
 
-			if (Math.abs(this.lengthX) < 1.0)
+			if (Math.abs(lengthX) < 1.0)
 			{
-				this.lengthX = IMath.sign(this.lengthX);
+				lengthX = IMath.sign(lengthX);
 			}
 
-			if (Math.abs(this.lengthY) < 1.0)
+			if (Math.abs(lengthY) < 1.0)
 			{
-				this.lengthY = IMath.sign(this.lengthY);
+				lengthY = IMath.sign(lengthY);
 			}
 
-			this.length = Math.sqrt(
-				this.lengthX * this.lengthX + this.lengthY * this.lengthY);
+			length = Math.sqrt(
+				lengthX * lengthX + lengthY * lengthY);
 		}
 	}
 
@@ -285,21 +285,21 @@ public class LEdge extends LGraphObject
 	{
 		// target center minus source center gives us length
 
-		this.lengthX = this.target.getCenterX() - this.source.getCenterX();
-		this.lengthY = this.target.getCenterY() - this.source.getCenterY();
+		lengthX = target.getCenterX() - source.getCenterX();
+		lengthY = target.getCenterY() - source.getCenterY();
 
-		if (Math.abs(this.lengthX) < 1.0)
+		if (Math.abs(lengthX) < 1.0)
 		{
-			this.lengthX = IMath.sign(this.lengthX);
+			lengthX = IMath.sign(lengthX);
 		}
 
-		if (Math.abs(this.lengthY) < 1.0)
+		if (Math.abs(lengthY) < 1.0)
 		{
-			this.lengthY = IMath.sign(this.lengthY);
+			lengthY = IMath.sign(lengthY);
 		}
 
-		this.length = Math.sqrt(
-			this.lengthX * this.lengthX + this.lengthY * this.lengthY);
+		length = Math.sqrt(
+			lengthX * lengthX + lengthY * lengthY);
 	}
 
 // -----------------------------------------------------------------------------
@@ -310,8 +310,8 @@ public class LEdge extends LGraphObject
 	 */
 	void printTopology()
 	{
-		System.out.print( (this.label == null ? "?" : this.label) + "[" +
-			(this.source.label == null ? "?" : this.source.label) + "-" +
-			(this.target.label == null ? "?" : this.target.label) + "] ");
+		System.out.print( (label == null ? "?" : label) + "[" +
+			(source.label == null ? "?" : source.label) + "-" +
+			(target.label == null ? "?" : target.label) + "] ");
 	}
 }

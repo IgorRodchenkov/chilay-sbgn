@@ -78,45 +78,43 @@ public class LayoutOptionsPack implements Serializable
 
 	private LayoutOptionsPack()
 	{
-		this.general = new General();
-		this.coSE = new CoSE();
-		this.cluster = new Cluster();
+		general = new General();
+		coSE = new CoSE();
+		cluster = new Cluster();
 		setDefaultLayoutProperties();
 	}
 
 	public void setDefaultLayoutProperties()
 	{
-		this.general.layoutQuality = this.general.defaultLayoutQuality ;
-		this.general.animationDuringLayout = this.general.defaultAnimationDuringLayout ;
-		this.general.animationOnLayout = this.general.defaultAnimationOnLayout ;
-		this.general.animationPeriod = this.general.defaultAnimationPeriod;
-		this.general.incremental = this.general.defaultIncremental ;
-		this.general.createBendsAsNeeded = this.general.defaultCreateBendsAsNeeded ;
-		this.general.uniformLeafNodeSizes = this.general.defaultUniformLeafNodeSizes ;
+		general.layoutQuality = general.defaultLayoutQuality ;
+		general.animationDuringLayout = general.defaultAnimationDuringLayout ;
+		general.animationOnLayout = general.defaultAnimationOnLayout ;
+		general.animationPeriod = general.defaultAnimationPeriod;
+		general.incremental = general.defaultIncremental ;
+		general.createBendsAsNeeded = general.defaultCreateBendsAsNeeded ;
+		general.uniformLeafNodeSizes = general.defaultUniformLeafNodeSizes ;
 
-		this.coSE.idealEdgeLength = this.coSE.defaultIdealEdgeLength;
-		this.coSE.springStrength = this.coSE.defaultSpringStrength ;
-		this.coSE.repulsionStrength = this.coSE.defaultRepulsionStrength ;
-		this.coSE.smartRepulsionRangeCalc = this.coSE.defaultSmartRepulsionRangeCalc ;
-		this.coSE.gravityStrength = this.coSE.defaultGravityStrength ;
-		this.coSE.gravityRange = this.coSE.defaultGravityRange ;
-		this.coSE.compoundGravityStrength = this.coSE.defaultCompoundGravityStrength ;
-		this.coSE.compoundGravityRange = this.coSE.defaultCompoundGravityRange ;
-		this.coSE.smartEdgeLengthCalc = this.coSE.defaultSmartEdgeLengthCalc ;
-		this.coSE.multiLevelScaling = this.coSE.defaultMultiLevelScaling ;
+		coSE.idealEdgeLength = coSE.defaultIdealEdgeLength;
+		coSE.springStrength = coSE.defaultSpringStrength ;
+		coSE.repulsionStrength = coSE.defaultRepulsionStrength ;
+		coSE.smartRepulsionRangeCalc = coSE.defaultSmartRepulsionRangeCalc ;
+		coSE.gravityStrength = coSE.defaultGravityStrength ;
+		coSE.gravityRange = coSE.defaultGravityRange ;
+		coSE.compoundGravityStrength = coSE.defaultCompoundGravityStrength ;
+		coSE.compoundGravityRange = coSE.defaultCompoundGravityRange ;
+		coSE.smartEdgeLengthCalc = coSE.defaultSmartEdgeLengthCalc ;
+		coSE.multiLevelScaling = coSE.defaultMultiLevelScaling ;
 
-		this.cluster.idealEdgeLength = this.cluster.defaultIdealEdgeLength;
-		this.cluster.clusterSeperation = this.cluster.defaultClusterSeperation;
-		this.cluster.clusterGravityStrength = this.cluster.defaultClusterGravityStrength;
+		cluster.idealEdgeLength = cluster.defaultIdealEdgeLength;
+		cluster.clusterSeperation = cluster.defaultClusterSeperation;
+		cluster.clusterGravityStrength = cluster.defaultClusterGravityStrength;
 	}
 
 	public static LayoutOptionsPack getInstance()
 	{
-		if (instance == null)
-		{
+		if (instance == null) {
 			instance = new LayoutOptionsPack();
 		}
-
 		return instance;
 	}
 

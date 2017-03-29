@@ -19,8 +19,6 @@ import org.ivis.layout.LNode;
  */
 public class GraphMLWriter
 {
-	private String filePath;
-	private FileWriter fstream;
 	private BufferedWriter out;
 	
 	// mapping between nodes and their string equivalents in the graphml file.
@@ -70,21 +68,18 @@ public class GraphMLWriter
 	/**
 	 * initializes variables 
 	 * 
-	 * @param _filePath
+	 * @param filePath path
 	 */
-	public GraphMLWriter (String _filePath)
+	public GraphMLWriter (String filePath)
 	{
-		this.filePath = _filePath;
-		this.map = new HashMap();
-		
+		map = new HashMap();
 		try
 		{
-			this.fstream = new FileWriter(this.filePath);
-			this.out = new BufferedWriter(fstream);
+			out = new BufferedWriter(new FileWriter(filePath));
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			e.printStackTrace(); //TODO: it's worth failing here instead of just printing error...
 		}
 	}
 
@@ -98,19 +93,19 @@ public class GraphMLWriter
 		try
 		{
 			// write the header
-			out.write(this.FILE_HEADER);
+			out.write(FILE_HEADER);
 			
 			// map the nodes with their string equivalents
-			this.mapNodes(lgm.getRoot(), (short) 0, "");
+			mapNodes(lgm.getRoot(), (short) 0, "");
 			
 			// write the nodes 
-			this.writeNodes(lgm.getRoot(), (short) 0, "");
+			writeNodes(lgm.getRoot(), (short) 0, "");
 			
 			// write the edges
-			this.writeEdges(lgm);
+			writeEdges(lgm);
 			
 			// write the footer and close file
-			out.write(this.FILE_FOOTER);
+			out.write(FILE_FOOTER);
 			out.close();
 		}
 		catch (Exception e)
@@ -144,13 +139,13 @@ public class GraphMLWriter
 				currNodeStr = "n" + i;
 			
 			// add new node to the node-string map
-			this.map.put(node, currNodeStr);
+			map.put(node, currNodeStr);
 			
 			// if current node is a compound one, 
 			// then make a recursive call with current node's child graph 
 			if (node.getChild() != null)
 			{
-				this.mapNodes(node.getChild(), (short)(level+1), currNodeStr);
+				mapNodes(node.getChild(), (short)(level+1), currNodeStr);
 			}
 		}
 	}
@@ -164,7 +159,7 @@ public class GraphMLWriter
 	 */
 	private void writeNodes (LGraph root, short level, String parentStr)
 	{
-		short currIndentation = (short) (this.INITIAL_INDENTATION + (level * 2));
+		short currIndentation = (short) (INITIAL_INDENTATION + (level * 2));
 		
 		LNode node;
 		LNode parent = root.getParent();
@@ -174,7 +169,7 @@ public class GraphMLWriter
 		String currNodeStr;
 		try 
 		{
-			this.writeSpaces((short)(currIndentation - 2));
+			writeSpaces((short)(currIndentation - 2));
 			
 			if (level == 0)
 				out.write("<graph id=\"\" edgedefault=\"undirected\">\n");
@@ -199,50 +194,50 @@ public class GraphMLWriter
 				}
 				
 				// write the node data
-				this.writeSpaces(currIndentation);
+				writeSpaces(currIndentation);
 				out.write("<node id=\"");
-				currNodeStr = (String)this.map.get(node);
+				currNodeStr = (String)map.get(node);
 				out.write(currNodeStr + "\">\n");
 				
-				this.writeSpaces((short)(currIndentation + 2));
+				writeSpaces((short)(currIndentation + 2));
 				out.write("<data key=\"x\">" + x + "</data>\n");
 
-				this.writeSpaces((short)(currIndentation + 2));
+				writeSpaces((short)(currIndentation + 2));
 				out.write("<data key=\"y\">" + y + "</data>\n");
 				
-				this.writeSpaces((short)(currIndentation + 2));
+				writeSpaces((short)(currIndentation + 2));
 				out.write("<data key=\"height\">" + (int) node.getRect().height + "</data>\n");
 				
-				this.writeSpaces((short)(currIndentation + 2));
+				writeSpaces((short)(currIndentation + 2));
 				out.write("<data key=\"width\">" + (int) node.getRect().width + "</data>\n");
 				
-				this.writeToFile(NODE_DATA_1, (short)(currIndentation + 2)); 
+				writeToFile(NODE_DATA_1, (short)(currIndentation + 2));
 				
-				this.writeSpaces((short)(currIndentation + 2));
+				writeSpaces((short)(currIndentation + 2));
 				out.write("<data key=\"text\">" + currNodeStr + "</data>\n");
 				
-				this.writeToFile(NODE_DATA_2, (short)(currIndentation + 2));
+				writeToFile(NODE_DATA_2, (short)(currIndentation + 2));
 				
 				// if current node is a compound, then make a recursive call
 				if (node.getChild() != null)
 				{
-					this.writeNodes(node.getChild(), (short)(level+1), currNodeStr);
+					writeNodes(node.getChild(), (short)(level+1), currNodeStr);
 				}
 				else
 				{
-					this.writeSpaces((short)(currIndentation + 2));
+					writeSpaces((short)(currIndentation + 2));
 					out.write("<data key=\"shape\">Rectangle</data>\n");
 				}
 				
-				this.writeSpaces(currIndentation);
+				writeSpaces(currIndentation);
 				out.write("</node>\n");
 			}
 			
 			if ( level != 0 )
 			{
-				this.writeSpaces(currIndentation);
+				writeSpaces(currIndentation);
 				out.write("<data key=\"margin\">10</data>\n");
-				this.writeSpaces((short)(currIndentation - 2));
+				writeSpaces((short)(currIndentation - 2));
 				out.write("</graph>\n");
 			}
 		}
@@ -270,13 +265,13 @@ public class GraphMLWriter
 				edge = (LEdge) lgm.getAllEdges()[i];
 				
 				// get the string equivalents of the source and target nodes
-				sourceStr = (String)this.map.get(edge.getSource());
-				targetStr = (String)this.map.get(edge.getTarget());
+				sourceStr = (String)map.get(edge.getSource());
+				targetStr = (String)map.get(edge.getTarget());
 				
 				// write the edge data
 				out.write("    <edge id=\"e" + i + "\" source=\"" + sourceStr + 
 					"\" target=\"" + targetStr + "\">\n");
-				this.writeToFile(this.EDGE_DATA, (short)6);
+				writeToFile(EDGE_DATA, (short)6);
 				out.write("    </edge>\n");
 			}
 		}
@@ -311,9 +306,6 @@ public class GraphMLWriter
 	 * to the specified graphml file 
 	 * Each element in the given array is written on a separate line
 	 * with n spaces
-	 * 
-	 * @param inp
-	 * @param n
 	 */
 	private void writeToFile (String[] inp, short n)
 	{
@@ -321,8 +313,8 @@ public class GraphMLWriter
 		{
 			for (int i = 0; i < inp.length; i++)
 			{
-				this.writeSpaces(n);
-				this.out.write(inp[i]);
+				writeSpaces(n);
+				out.write(inp[i]);
 			}
 		}
 		catch (Exception e)

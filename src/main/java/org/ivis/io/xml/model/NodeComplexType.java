@@ -343,7 +343,7 @@ public class NodeComplexType
             if (node == null) {
                 node = new ArrayList<NodeComplexType>();
             }
-            return this.node;
+            return node;
         }
 
     }
@@ -402,7 +402,7 @@ public class NodeComplexType
             if (clusterID == null) {
                 clusterID = new ArrayList<String>();
             }
-            return this.clusterID;
+            return clusterID;
         }
 
     }

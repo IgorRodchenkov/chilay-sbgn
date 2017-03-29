@@ -78,8 +78,7 @@ public class LGraph extends LGraphObject
 	 */
 	protected LGraph(LNode parent, LGraphManager graphMgr, Object vGraph)
 	{
-		super(vGraph);
-		this.initialize();
+		this(vGraph);
 		this.parent = parent;
 		this.graphManager = graphMgr;
 	}
@@ -89,17 +88,17 @@ public class LGraph extends LGraphObject
 	 */
 	protected LGraph(LNode parent, Layout layout, Object vGraph)
 	{
-		super(vGraph);
-		this.initialize();
+		this(vGraph);
 		this.parent = parent;
 		this.graphManager = layout.graphManager;
 	}
 
-	private void initialize()
+	private LGraph(Object vGraph)
 	{
-		this.edges = new ArrayList();
-		this.nodes = new ArrayList();
-		this.isConnected = false;
+		super(vGraph);
+		edges = new ArrayList();
+		nodes = new ArrayList();
+		isConnected = false;
 	}
 
 // -----------------------------------------------------------------------------
@@ -144,7 +143,7 @@ public class LGraph extends LGraphObject
 	 */
 	public int getLeft()
 	{
-		return this.left;
+		return left;
 	}
 
 	/**
@@ -153,7 +152,7 @@ public class LGraph extends LGraphObject
 	 */
 	public int getRight()
 	{
-		return this.right;
+		return right;
 	}
 
 	/**
@@ -162,7 +161,7 @@ public class LGraph extends LGraphObject
 	 */
 	public int getTop()
 	{
-		return this.top;
+		return top;
 	}
 
 	/**
@@ -171,7 +170,7 @@ public class LGraph extends LGraphObject
 	 */
 	public int getBottom()
 	{
-		return this.bottom;
+		return bottom;
 	}
 
 	/**
@@ -179,8 +178,8 @@ public class LGraph extends LGraphObject
 	 */
 	public int getBiggerDimension()
 	{
-		assert (this.right - this.left >= 0) && (this.bottom - this.top >= 0);
-		return Math.max(this.right - this.left, this.bottom - this.top);
+		assert (right - left >= 0) && (bottom - top >= 0);
+		return Math.max(right - left, bottom - top);
 	}
 
 	/**
@@ -188,7 +187,7 @@ public class LGraph extends LGraphObject
 	 */
 	public boolean isConnected()
 	{
-		return this.isConnected;
+		return isConnected;
 	}
 
 	/**
@@ -197,7 +196,7 @@ public class LGraph extends LGraphObject
 	 */
 	public int getMargin()
 	{
-		return this.margin;
+		return margin;
 	}
 
 	/**
@@ -218,10 +217,10 @@ public class LGraph extends LGraphObject
 	 */
 	public LNode add(LNode newNode)
 	{
-		assert (this.graphManager != null) : "Graph has no graph mgr!";
-		assert (!this.getNodes().contains(newNode)) : "Node already in graph!";
+		assert (graphManager != null) : "Graph has no graph mgr!";
+		assert (!getNodes().contains(newNode)) : "Node already in graph!";
 		newNode.setOwner(this);
-		this.getNodes().add(newNode);
+		getNodes().add(newNode);
 
 		return newNode;
 	}
@@ -232,8 +231,8 @@ public class LGraph extends LGraphObject
 	 */
 	public LEdge add(LEdge newEdge, LNode sourceNode, LNode targetNode)
 	{
-		assert (this.getNodes().contains(sourceNode) &&
-			(this.getNodes().contains(targetNode))) :
+		assert (getNodes().contains(sourceNode) &&
+			(getNodes().contains(targetNode))) :
 				"Source or target not in graph!";
 		assert (sourceNode.owner == targetNode.owner &&
 			sourceNode.owner == this) :
@@ -251,7 +250,7 @@ public class LGraph extends LGraphObject
 		newEdge.isInterGraph = false;
 
 		// add to graph edge list
-		this.getEdges().add(newEdge);
+		getEdges().add(newEdge);
 
 		// add to incidency lists
 		sourceNode.edges.add(newEdge);
@@ -274,7 +273,7 @@ public class LGraph extends LGraphObject
 		assert (node != null) : "Node is null!";
 		assert (node.owner != null && node.owner == this) :
 			"Owner graph is invalid!";
-		assert (this.graphManager != null) : "Owner graph manager is invalid!";
+		assert (graphManager != null) : "Owner graph manager is invalid!";
 
 		// remove incident edges first (make a copy to do it safely)
 		List edgesToBeRemoved = new ArrayList();
@@ -288,7 +287,7 @@ public class LGraph extends LGraphObject
 
 			if (edge.isInterGraph)
 			{
-				this.graphManager.remove(edge);
+				graphManager.remove(edge);
 			}
 			else
 			{
@@ -297,8 +296,8 @@ public class LGraph extends LGraphObject
 		}
 
 		// now the node itself
-		assert (this.nodes.contains(node)) : "Node not in owner node list!";
-		this.nodes.remove(node);
+		assert (nodes.contains(node)) : "Node not in owner node list!";
+		nodes.remove(node);
 	}
 
 	/**
@@ -349,7 +348,7 @@ public class LGraph extends LGraphObject
 		int nodeTop;
 		int nodeLeft;
 
-		Iterator itr = this.getNodes().iterator();
+		Iterator itr = getNodes().iterator();
 
 		while (itr.hasNext())
 		{
@@ -374,8 +373,8 @@ public class LGraph extends LGraphObject
 			return null;
 		}
 
-		this.left = left - this.margin;
-		this.top =  top - this.margin;
+		this.left = left - margin;
+		this.top =  top - margin;
 
 		// Apply the margins and return the result
 		return new Point(this.left, this.top);
@@ -385,7 +384,8 @@ public class LGraph extends LGraphObject
 	 * This method calculates and updates the bounds of this graph including
 	 * margins in a recursive manner, so that
 	 * all compound nodes in this and lower levels will have up-to-date boundaries.
-	 * Recursiveness of the function is controlled by the parameter named "recursive".
+	 *
+	 * @param recursive - true/false, whether to recursively update child nodes as well
 	 */
 	public void updateBounds(boolean recursive)
 	{
@@ -399,60 +399,54 @@ public class LGraph extends LGraphObject
 		int nodeTop;
 		int nodeBottom;
 
-		Iterator<LNode> itr = this.nodes.iterator();
+		Iterator<LNode> itr = nodes.iterator();
 		
 		while (itr.hasNext())
 		{
 			LNode lNode = itr.next();
-
+			//TODO: doing the same node twice or getting into an inf. loop is possible?
 			// if it is a recursive call, and current node is compound
-			if (recursive && lNode.child != null)
-			{
+			if (recursive && lNode.child != null) {
 				lNode.updateBounds();
 			}
+
 			nodeLeft = (int)(lNode.getLeft());
 			nodeRight = (int)(lNode.getRight());
 			nodeTop = (int)(lNode.getTop());
 			nodeBottom = (int)(lNode.getBottom());
 
-			if (left > nodeLeft)
-			{
+			if (left > nodeLeft) {
 				left = nodeLeft;
 			}
 
-			if (right < nodeRight)
-			{
+			if (right < nodeRight) {
 				right = nodeRight;
 			}
 
-			if (top > nodeTop)
-			{
+			if (top > nodeTop) {
 				top = nodeTop;
 			}
 
-			if (bottom < nodeBottom)
-			{
+			if (bottom < nodeBottom) {
 				bottom = nodeBottom;
 			}
 		}
 
-		Rectangle boundingRect =
-			new Rectangle(left, top, right - left, bottom - top);
-
-		// Do we have any nodes in this graph?
-		if (left == Integer.MAX_VALUE)
-		{
-			this.left =  (int)(this.parent.getLeft());
-			this.right = (int)(this.parent.getRight());
-			this.top =  (int)(this.parent.getTop());
-			this.bottom = (int)(this.parent.getBottom());
+		// Any nodes in this graph?..
+		//TODO: looks, this was wrong (bogus code), which I fixed (set local left, right, etc., then build new boundingRect)
+		if (left == Integer.MAX_VALUE) { // nope -
+			left =  (int)(parent.getLeft());
+			right = (int)(parent.getRight());
+			top =  (int)(parent.getTop());
+			bottom = (int)(parent.getBottom());
 		}
 
-		this.left = boundingRect.x - this.margin;
-		this.right = boundingRect.x + boundingRect.width + this.margin;
-		this.top =  boundingRect.y - this.margin;
+		Rectangle boundingRect = new Rectangle(left, top, right - left, bottom - top);
+		this.left = boundingRect.x - margin;
+		this.right = boundingRect.x + boundingRect.width + margin;
+		this.top = boundingRect.y - margin;
 		// Label text dimensions are to be added for the bottom of the compound!
-		this.bottom = boundingRect.y + boundingRect.height + this.margin;
+		this.bottom = boundingRect.y + boundingRect.height + margin;
 	}
 
 	/**
@@ -514,13 +508,13 @@ public class LGraph extends LGraphObject
 	 */
 	public int getInclusionTreeDepth()
 	{
-		if (this == this.graphManager.getRoot())
+		if (this == graphManager.getRoot())
 		{
 			return 1;
 		}
 		else
 		{
-			return this.parent.getInclusionTreeDepth();
+			return parent.getInclusionTreeDepth();
 		}
 	}
 
@@ -529,8 +523,8 @@ public class LGraph extends LGraphObject
 	 */
 	public int getEstimatedSize()
 	{
-		assert this.estimatedSize != Integer.MIN_VALUE;
-		return this.estimatedSize;
+		assert estimatedSize != Integer.MIN_VALUE;
+		return estimatedSize;
 	}
 
 	/**
@@ -553,7 +547,7 @@ public class LGraph extends LGraphObject
 	public int calcEstimatedSize()
 	{
 		int size = 0;
-		Iterator itr = this.nodes.iterator();
+		Iterator itr = nodes.iterator();
 
 		while (itr.hasNext())
 		{
@@ -563,14 +557,14 @@ public class LGraph extends LGraphObject
 
 		if (size == 0)
 		{
-			this.estimatedSize = LayoutConstants.EMPTY_COMPOUND_NODE_SIZE;
+			estimatedSize = LayoutConstants.EMPTY_COMPOUND_NODE_SIZE;
 		}
 		else
 		{
-			this.estimatedSize = (int)(size / Math.sqrt(this.nodes.size()));
+			estimatedSize = (int)(size / Math.sqrt(nodes.size()));
 		}
 
-		return this.estimatedSize;
+		return estimatedSize;
 	}
 
 	/**
@@ -580,15 +574,15 @@ public class LGraph extends LGraphObject
 	 */
 	public void updateConnected()
 	{
-		if (this.nodes.size() == 0)
+		if (nodes.size() == 0)
 		{
-			this.isConnected = true;
+			isConnected = true;
 			return;
 		}
 
 		LinkedList<LNode> toBeVisited = new LinkedList<LNode>();
 		Set<LNode> visited = new HashSet<LNode>();
-		LNode currentNode = (LNode)this.nodes.get(0);
+		LNode currentNode = (LNode)nodes.get(0);
 		List<LEdge> neighborEdges;
 		LNode currentNeighbor;
 
@@ -616,9 +610,9 @@ public class LGraph extends LGraphObject
 			}
 		}
 
-		this.isConnected = false;
+		isConnected = false;
 
-		if (visited.size() >= this.nodes.size())
+		if (visited.size() >= nodes.size())
 		{
 			int noOfVisitedInThisGraph = 0;
 
@@ -630,9 +624,9 @@ public class LGraph extends LGraphObject
 				}
 			}
 
-			if (noOfVisitedInThisGraph == this.nodes.size())
+			if (noOfVisitedInThisGraph == nodes.size())
 			{
-				this.isConnected = true;
+				isConnected = true;
 			}
 		}
 	}
@@ -661,11 +655,11 @@ public class LGraph extends LGraphObject
 	 */
 	void printTopology()
 	{
-		System.out.print((this.label == null ? "?" : this.label) + ": ");
+		System.out.print((label == null ? "?" : label) + ": ");
 
 		System.out.print("Nodes: ");
 		LNode node;
-		for (Object obj : this.nodes)
+		for (Object obj : nodes)
 		{
 			node = (LNode) obj;
 			node.printTopology();
@@ -673,7 +667,7 @@ public class LGraph extends LGraphObject
 
 		System.out.print("Edges: ");
 		LEdge edge;
-		for (Object obj : this.edges)
+		for (Object obj : edges)
 		{
 			edge = (LEdge) obj;
 			edge.printTopology();

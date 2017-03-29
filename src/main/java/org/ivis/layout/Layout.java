@@ -135,7 +135,7 @@ public abstract class Layout {
 	 */
 	public Object[] getAllNodes()
 	{
-		return this.graphManager.getAllNodes();
+		return graphManager.getAllNodes();
 	}
 
 	/**
@@ -143,7 +143,7 @@ public abstract class Layout {
 	 */
 	public Object[] getAllEdges()
 	{
-		return this.graphManager.getAllEdges();
+		return graphManager.getAllEdges();
 	}
 
 	/**
@@ -152,7 +152,7 @@ public abstract class Layout {
 	 */
 	public Object[] getAllNodesToApplyGravitation()
 	{
-		return this.graphManager.getAllNodesToApplyGravitation();
+		return graphManager.getAllNodesToApplyGravitation();
 	}
 
 // -----------------------------------------------------------------------------
@@ -164,8 +164,8 @@ public abstract class Layout {
 	protected LGraphManager newGraphManager()
 	{
 		LGraphManager gm = new LGraphManager(this);
-		this.graphManager = gm;
-		return gm;
+		graphManager = gm;
+		return gm; //why to return the gm value when it also sets graphManager?
 	}
 
 	/**
@@ -173,7 +173,7 @@ public abstract class Layout {
 	 */
 	public LGraph newGraph(Object vGraph)
 	{
-		return new LGraph(null, this.graphManager, vGraph);
+		return new LGraph(null, graphManager, vGraph);
 	}
 
 	/**
@@ -181,7 +181,7 @@ public abstract class Layout {
 	 */
 	public LNode newNode(Object vNode)
 	{
-		return new LNode(this.graphManager, vNode);
+		return new LNode(graphManager, vNode);
 	}
 
 	/**
@@ -201,19 +201,19 @@ public abstract class Layout {
 	 */
 	public boolean runLayout()
 	{
-		this.isLayoutFinished = false;
+		isLayoutFinished = false;
 
-		if (!this.isSubLayout)
+		if (!isSubLayout)
 		{
-			this.doPreLayout();
+			doPreLayout();
 		}
 
-		this.initParameters();
+		initParameters();
 		boolean isLayoutSuccessfull;
 		
-		if ((this.graphManager.getRoot() == null) 
-			|| this.graphManager.getRoot().getNodes().size() == 0
-			|| this.graphManager.includesInvalidEdge())
+		if ((graphManager.getRoot() == null)
+			|| graphManager.getRoot().getNodes().size() == 0
+			|| graphManager.includesInvalidEdge())
 		{
 			isLayoutSuccessfull = false;
 		}
@@ -222,14 +222,14 @@ public abstract class Layout {
 			// calculate execution time
 			long startTime = 0;
 			
-			if (!this.isSubLayout)
+			if (!isSubLayout)
 			{
 				startTime = System.currentTimeMillis();
 			}
 			
-			isLayoutSuccessfull = this.layout();
+			isLayoutSuccessfull = layout();
 			
-			if (!this.isSubLayout)
+			if (!isSubLayout)
 			{
 				long endTime = System.currentTimeMillis();
 				long excTime = endTime - startTime;
@@ -239,13 +239,13 @@ public abstract class Layout {
 		
 		if (isLayoutSuccessfull)
 		{
-			if (!this.isSubLayout)
+			if (!isSubLayout)
 			{
-				this.doPostLayout();
+				doPostLayout();
 			}
 		}
 
-		this.isLayoutFinished = true;
+		isLayoutFinished = true;
 
 		return isLayoutSuccessfull;
 	}
@@ -264,8 +264,8 @@ public abstract class Layout {
 	{
 		assert !isSubLayout : "Should not be called on sub-layout!";
 		// Propagate geometric changes to v-level objects
-		this.transform();
-		this.update();
+		transform();
+		update();
 	}
 
 	/**
@@ -281,30 +281,30 @@ public abstract class Layout {
 	 */
 	public void update() {
 		// update bend points
-		if(this.createBendsAsNeeded)
+		if(createBendsAsNeeded)
 		{
-			this.createBendpointsFromDummyNodes();
+			createBendpointsFromDummyNodes();
 
 			// reset all edges, since the topology has changed
-			this.graphManager.resetAllEdges();
+			graphManager.resetAllEdges();
 		}
 
 		// perform edge, node and root updates
 		LEdge edge;
-		for (Object obj : this.graphManager.getAllEdges())
+		for (Object obj : graphManager.getAllEdges())
 		{
 			edge = (LEdge) obj;
-			this.update(edge);
+			update(edge);
 		}
 
 		LNode node;
-		for (Object obj : this.graphManager.getRoot().getNodes())
+		for (Object obj : graphManager.getRoot().getNodes())
 		{
 			node = (LNode) obj;
-			this.update(node);
+			update(node);
 		}
 
-		this.update(this.graphManager.getRoot());
+		update(graphManager.getRoot());
 	}
 	
 	/**
@@ -361,27 +361,27 @@ public abstract class Layout {
 	 */
 	public void initParameters()
 	{
-		if (!this.isSubLayout)
+		if (!isSubLayout)
 		{
 			LayoutOptionsPack.General layoutOptionsPack =
 				LayoutOptionsPack.getInstance().getGeneral();
 
-			this.layoutQuality = layoutOptionsPack.layoutQuality;
+			layoutQuality = layoutOptionsPack.layoutQuality;
 
-			this.animationDuringLayout =
+			animationDuringLayout =
 				layoutOptionsPack.animationDuringLayout;
-			this.animationPeriod =
+			animationPeriod =
 				(int) transform(layoutOptionsPack.animationPeriod,
 					LayoutConstants.DEFAULT_ANIMATION_PERIOD);
-			this.animationOnLayout = layoutOptionsPack.animationOnLayout;
+			animationOnLayout = layoutOptionsPack.animationOnLayout;
 
-			this.incremental = layoutOptionsPack.incremental;
-			this.createBendsAsNeeded = layoutOptionsPack.createBendsAsNeeded;
-			this.uniformLeafNodeSizes =
+			incremental = layoutOptionsPack.incremental;
+			createBendsAsNeeded = layoutOptionsPack.createBendsAsNeeded;
+			uniformLeafNodeSizes =
 				layoutOptionsPack.uniformLeafNodeSizes;
 		}
 
-		if (this.animationDuringLayout)
+		if (animationDuringLayout)
 		{
 			animationOnLayout = false;
 		}
@@ -395,7 +395,7 @@ public abstract class Layout {
 	 */
 	public void transform()
 	{
-		this.transform(new PointD(0, 0));
+		transform(new PointD(0, 0));
 	}
 
 	/**
@@ -410,7 +410,7 @@ public abstract class Layout {
 		// already included in calculation of left-top).
 
 		Transform trans = new Transform();
-		Point leftTop = this.graphManager.getRoot().updateLeftTop();
+		Point leftTop = graphManager.getRoot().updateLeftTop();
 
 		if (leftTop != null)
 		{
@@ -420,7 +420,7 @@ public abstract class Layout {
 			trans.setDeviceOrgX(leftTop.x);
 			trans.setDeviceOrgY(leftTop.y);
 
-			Object[] nodes = this.getAllNodes();
+			Object[] nodes = getAllNodes();
 			LNode node;
 
 			for (int i = 0; i < nodes.length; i++)
@@ -439,9 +439,9 @@ public abstract class Layout {
 	 */
 	public void positionNodesRandomly()
 	{
-		assert !this.incremental;
-		this.positionNodesRandomly(this.getGraphManager().getRoot());
-		this.getGraphManager().getRoot().updateBounds(true);
+		assert !incremental;
+		positionNodesRandomly(getGraphManager().getRoot());
+		getGraphManager().getRoot().updateBounds(true);
 	}
 
 	/**
@@ -467,7 +467,7 @@ public abstract class Layout {
 			}
 			else
 			{
-				this.positionNodesRandomly(childGraph);
+				positionNodesRandomly(childGraph);
 				lNode.updateBounds();
 			}
 		}
@@ -487,7 +487,7 @@ public abstract class Layout {
 
 		// Quick reference for all nodes in the graph manager associated with
 		// this layout. The list should not be changed.
-		final List<LNode> allNodes = this.graphManager.getRoot().getNodes();
+		final List<LNode> allNodes = graphManager.getRoot().getNodes();
 
 		// First be sure that the graph is flat
 		boolean isFlat = true;
@@ -591,34 +591,34 @@ public abstract class Layout {
 		List dummyNodes = new ArrayList();
 		LNode prev = edge.source;
 		
-		LGraph graph = this.graphManager.
+		LGraph graph = graphManager.
 			calcLowestCommonAncestor(edge.source, edge.target);
 
 		for (int i = 0; i < edge.bendpoints.size(); i++)
 		{
 			// create new dummy node
-			LNode dummyNode = this.newNode(null);
+			LNode dummyNode = newNode(null);
 			dummyNode.setRect(new Point(0,0), new Dimension(1,1));
 			
 			graph.add(dummyNode);
 
 			// create new dummy edge between prev and dummy node
-			LEdge dummyEdge = this.newEdge(null);
-			this.graphManager.add(dummyEdge, prev, dummyNode);
+			LEdge dummyEdge = newEdge(null);
+			graphManager.add(dummyEdge, prev, dummyNode);
 
 			dummyNodes.add(dummyNode);
 			prev = dummyNode;
 		}
 
-		LEdge dummyEdge = this.newEdge(null);
-		this.graphManager.add(dummyEdge, prev, edge.target);
+		LEdge dummyEdge = newEdge(null);
+		graphManager.add(dummyEdge, prev, edge.target);
 
-		this.edgeToDummyNodes.put(edge, dummyNodes);
+		edgeToDummyNodes.put(edge, dummyNodes);
 		
 		// remove real edge from graph manager if it is inter-graph
 		if (edge.isInterGraph())
 		{
-			this.graphManager.remove(edge);
+			graphManager.remove(edge);
 		}
 		// else, remove the edge from the current graph
 		else
@@ -636,8 +636,8 @@ public abstract class Layout {
 	public void createBendpointsFromDummyNodes()
 	{
 		List edges = new ArrayList();
-		edges.addAll(Arrays.asList(this.graphManager.getAllEdges()));
-		edges.addAll(0, this.edgeToDummyNodes.keySet());
+		edges.addAll(Arrays.asList(graphManager.getAllEdges()));
+		edges.addAll(0, edgeToDummyNodes.keySet());
 
 		for (int k = 0 ; k < edges.size(); k++)
 		{
@@ -645,7 +645,7 @@ public abstract class Layout {
 
 			if (lEdge.bendpoints.size() > 0)
 			{
-				List path = (List) this.edgeToDummyNodes.get(lEdge);
+				List path = (List) edgeToDummyNodes.get(lEdge);
 
 				for (int i = 0; i < path.size(); i++)
 				{
@@ -665,7 +665,7 @@ public abstract class Layout {
 				}
 				
 				// add the real edge to graph
-				this.graphManager.add(lEdge, lEdge.source, lEdge.target);
+				graphManager.add(lEdge, lEdge.source, lEdge.target);
 			}
 		}
 	}

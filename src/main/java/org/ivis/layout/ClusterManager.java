@@ -51,7 +51,7 @@ public class ClusterManager
 	 */
 	public ArrayList<Cluster> getClusters()
 	{
-		return this.clusters;
+		return clusters;
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class ClusterManager
 	{
 		ArrayList<Integer> result = new ArrayList<Integer>();
 		
-		Iterator iterator = this.clusters.iterator();
+		Iterator iterator = clusters.iterator();
 		
 		while (iterator.hasNext()) 
 		{
@@ -98,7 +98,7 @@ public class ClusterManager
 		Cluster cluster = new Cluster(this, clusterID, clusterName);
 		
 		// add the cluster into cluster list of this cluster manager
-		this.clusters.add(cluster);
+		clusters.add(cluster);
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class ClusterManager
 		Cluster lCluster = new Cluster(this, clusterName);
 		
 		// add the cluster into cluster list of this cluster manager
-		this.clusters.add(lCluster);
+		clusters.add(lCluster);
 	}	
 	
 	/**
@@ -122,7 +122,7 @@ public class ClusterManager
 		cluster.setClusterManager(this);
 		
 		// add the cluster into cluster list of this cluster manager
-		this.clusters.add(cluster);
+		clusters.add(cluster);
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class ClusterManager
 	public boolean isClusterIDUsed(int clusterID)
 	{
 		// get an iterator for cluster list
-		Iterator<Cluster> itr = this.clusters.iterator();
+		Iterator<Cluster> itr = clusters.iterator();
 		
 		// iterate over all clusters and check if clusterID is used before
 		while (itr.hasNext())
@@ -165,7 +165,7 @@ public class ClusterManager
 	public Cluster getClusterByID(int clusterID)
 	{
 		// get an iterator for cluster list
-		Iterator<Cluster> itr = this.clusters.iterator();
+		Iterator<Cluster> itr = clusters.iterator();
 		
 		// iterate over all clusters and check if clusterID is same
 		while (itr.hasNext())
@@ -192,7 +192,7 @@ public class ClusterManager
 		// pointer problems
 		ArrayList<Integer> clusterIDs = new ArrayList<Integer>();
 		
-		Iterator<Cluster> iter = this.clusters.iterator();
+		Iterator<Cluster> iter = clusters.iterator();
 		
 		while ( iter.hasNext() )
 		{

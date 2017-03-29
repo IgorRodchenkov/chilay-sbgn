@@ -32,5 +32,9 @@ public class LGraphObject
 	public LGraphObject(Object vGraphObject)
 	{
 		this.vGraphObject = vGraphObject;
+
+		// for tests -
+		if(vGraphObject instanceof String)
+			this.label = new String((String)vGraphObject);
 	}
 }

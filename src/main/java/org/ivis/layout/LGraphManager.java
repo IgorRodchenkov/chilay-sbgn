@@ -69,33 +69,26 @@ public class LGraphManager
 // -----------------------------------------------------------------------------
 // Section: Constructors and initialization
 // -----------------------------------------------------------------------------
-	/*
-	 * Constructor
-	 */
-	protected LGraphManager()
-	{
-		this.layout = null;
-		this.init();
+
+	protected LGraphManager() {
+		graphs = new ArrayList();
+		edges = new ArrayList();
+		allNodes = null;
+		allEdges = null;
+		allNodesToApplyGravitation = null;
+		rootGraph = null;
+		clusterManager = new ClusterManager();
+		layout = null;
 	}
 
 	/**
-	 * Alternative constructor
+	 * Constructor
+	 * @param layout layout alg.
 	 */
 	public LGraphManager(Layout layout)
 	{
+		this();
 		this.layout = layout;
-		this.init();
-	}
-
-	private void init()
-	{
-		this.graphs = new ArrayList();
-		this.edges = new ArrayList();
-		this.allNodes = null;
-		this.allEdges = null;
-		this.allNodesToApplyGravitation = null;
-		this.rootGraph = null;
-		this.clusterManager = new ClusterManager();
 	}
 
 // -----------------------------------------------------------------------------
@@ -107,10 +100,10 @@ public class LGraphManager
 	 */
 	public LGraph addRoot()
 	{
-		this.setRootGraph(this.add(this.layout.newGraph(null),
-			this.layout.newNode(null)));
+		setRootGraph(add(layout.newGraph(null),
+			layout.newNode(null)));
 		
-		return this.rootGraph;
+		return rootGraph;
 	}
 
 	/**
@@ -122,10 +115,10 @@ public class LGraphManager
 	{
 		assert (newGraph != null) : "Graph is null!";
 		assert (parentNode != null) : "Parent node is null!";
-		assert (!this.graphs.contains(newGraph)) :
+		assert (!graphs.contains(newGraph)) :
 			"Graph already in this graph mgr!";
 
-		this.graphs.add(newGraph);
+		graphs.add(newGraph);
 
 		assert (newGraph.parent == null) : "Already has a parent!";
 		assert (parentNode.child == null) : "Already has a child!";
@@ -164,9 +157,9 @@ public class LGraphManager
 			newEdge.target = targetNode;
 
 			// add edge to inter-graph edge list
-			assert (!this.edges.contains(newEdge)) :
+			assert (!edges.contains(newEdge)) :
 				"Edge already in inter-graph edge list!";
-			this.edges.add(newEdge);
+			edges.add(newEdge);
 
 			// add edge to source and target incidency lists
 			assert (newEdge.source != null && newEdge.target != null) :
@@ -218,13 +211,13 @@ public class LGraphManager
 		}
 
 		// check if graph is the root
-		if (graph == this.rootGraph)
+		if (graph == rootGraph)
 		{
-			this.setRootGraph(null);
+			setRootGraph(null);
 		}
 
 		// now remove the graph itself
-		this.graphs.remove(graph);
+		graphs.remove(graph);
 
 		// also reset the parent of the graph
 		graph.parent = null;
@@ -265,7 +258,7 @@ public class LGraphManager
 	 */
 	public void updateBounds()
 	{
-		this.rootGraph.updateBounds(true);
+		rootGraph.updateBounds(true);
 	}
 // -----------------------------------------------------------------------------
 // Section: Accessors
@@ -276,7 +269,7 @@ public class LGraphManager
 	 */
 	public ClusterManager getClusterManager()
 	{
-		return this.clusterManager;
+		return clusterManager;
 	}
 	
 	/**
@@ -284,7 +277,7 @@ public class LGraphManager
 	 */
 	public List getGraphs()
 	{
-		return this.graphs;
+		return graphs;
 	}
 
 	/**
@@ -293,7 +286,7 @@ public class LGraphManager
 	 */
 	public List getInterGraphEdges()
 	{
-		return this.edges;
+		return edges;
 	}
 
 	/**
@@ -303,20 +296,20 @@ public class LGraphManager
 	 */
 	public Object[] getAllNodes()
 	{
-		if (this.allNodes == null)
+		if (allNodes == null)
 		{
 			LinkedList nodeList = new LinkedList();
 
-			for (Iterator iterator = this.getGraphs().iterator();
+			for (Iterator iterator = getGraphs().iterator();
 				 iterator.hasNext();)
 			{
 				nodeList.addAll(((LGraph) iterator.next()).getNodes());
 			}
 
-			this.allNodes = nodeList.toArray();
+			allNodes = nodeList.toArray();
 		}
 
-		return this.allNodes;
+		return allNodes;
 	}
 
 	/**
@@ -325,7 +318,7 @@ public class LGraphManager
 	 */
 	public void resetAllNodes()
 	{
-		this.allNodes = null;
+		allNodes = null;
 	}
 
 	/**
@@ -334,7 +327,7 @@ public class LGraphManager
 	 */
 	public void resetAllEdges()
 	{
-		this.allEdges = null;
+		allEdges = null;
 	}
 	
 	/**
@@ -344,7 +337,7 @@ public class LGraphManager
 	 */
 	public void resetAllNodesToApplyGravitation()
 	{
-		this.allNodesToApplyGravitation = null;
+		allNodesToApplyGravitation = null;
 	}
 	
 	/**
@@ -355,22 +348,22 @@ public class LGraphManager
 	 */
 	public Object[] getAllEdges()
 	{
-		if (this.allEdges == null)
+		if (allEdges == null)
 		{
 			LinkedList edgeList = new LinkedList();
 
-			for (Iterator iterator = this.getGraphs().iterator();
+			for (Iterator iterator = getGraphs().iterator();
 				 iterator.hasNext();)
 			{
 				edgeList.addAll(((LGraph) iterator.next()).getEdges());
 			}
 
-			edgeList.addAll(this.edges);
+			edgeList.addAll(edges);
 			
-			this.allEdges = edgeList.toArray();
+			allEdges = edgeList.toArray();
 		}
 
-		return this.allEdges;
+		return allEdges;
 	}
 
 	/**
@@ -379,7 +372,7 @@ public class LGraphManager
 	 */
 	public Object[] getAllNodesToApplyGravitation()
 	{
-		return this.allNodesToApplyGravitation;
+		return allNodesToApplyGravitation;
 	}
 
 	/**
@@ -388,9 +381,9 @@ public class LGraphManager
 	 */
 	public void setAllNodesToApplyGravitation(List nodeList)
 	{
-		assert this.allNodesToApplyGravitation == null;
+		assert allNodesToApplyGravitation == null;
 
-		this.allNodesToApplyGravitation = nodeList.toArray();
+		allNodesToApplyGravitation = nodeList.toArray();
 	}
 
 	/**
@@ -399,9 +392,9 @@ public class LGraphManager
 	 */
 	public void setAllNodesToApplyGravitation(Object [] nodes)
 	{
-		assert this.allNodesToApplyGravitation == null;
+		assert allNodesToApplyGravitation == null;
 
-		this.allNodesToApplyGravitation = nodes;
+		allNodesToApplyGravitation = nodes;
 	}
 
 	/**
@@ -410,7 +403,7 @@ public class LGraphManager
 	 */
 	public LGraph getRoot()
 	{
-		return this.rootGraph;
+		return rootGraph;
 	}
 
 	/**
@@ -422,12 +415,12 @@ public class LGraphManager
 	{
 		assert (graph.getGraphManager() == this) : "Root not in this graph mgr!";
 
-		this.rootGraph = graph;
+		rootGraph = graph;
 
 		// root graph must have a root node associated with it for convenience
 		if (graph.parent == null)
 		{
-			graph.parent = this.layout.newNode("Root node");
+			graph.parent = layout.newNode("Root node");
 		}
 	}
 
@@ -437,7 +430,7 @@ public class LGraphManager
 	 */
 	public Layout getLayout()
 	{
-		return this.layout;
+		return layout;
 	}
 
 	/**
@@ -532,7 +525,7 @@ public class LGraphManager
 		LGraph sourceAncestorGraph;
 		LGraph targetAncestorGraph;
 
-		for (Object obj : this.getAllEdges())
+		for (Object obj : getAllEdges())
 		{
 			edge = (LEdge)obj;
 
@@ -562,7 +555,7 @@ public class LGraphManager
 						break;
 					}
 
-					if (targetAncestorGraph == this.rootGraph)
+					if (targetAncestorGraph == rootGraph)
 					{
 						break;
 					}
@@ -572,7 +565,7 @@ public class LGraphManager
 					targetAncestorGraph = edge.targetInLca.getOwner();
 				}
 
-				if (sourceAncestorGraph == this.rootGraph)
+				if (sourceAncestorGraph == rootGraph)
 				{
 					break;
 				}
@@ -640,7 +633,7 @@ public class LGraphManager
 	 */
 	public void calcInclusionTreeDepths()
 	{
-		this.calcInclusionTreeDepths(this.rootGraph, 1);
+		calcInclusionTreeDepths(rootGraph, 1);
 	}
 	
 	/*
@@ -658,7 +651,7 @@ public class LGraphManager
 
 			if (node.child != null)
 			{
-				this.calcInclusionTreeDepths(node.child, depth + 1);
+				calcInclusionTreeDepths(node.child, depth + 1);
 			}
 		}
 	}
@@ -668,7 +661,7 @@ public class LGraphManager
 	{
 		LEdge edge;
 		
-		for (Object obj : this.edges)
+		for (Object obj : edges)
 		{
 			edge = (LEdge) obj;
 			
@@ -688,15 +681,15 @@ public class LGraphManager
 	 */
 	void printTopology()
 	{
-		this.rootGraph.printTopology();
+		rootGraph.printTopology();
 
 		LGraph graph;
 
-		for (Object obj : this.graphs)
+		for (Object obj : graphs)
 		{
 			graph = (LGraph) obj;
 
-			if (graph != this.rootGraph)
+			if (graph != rootGraph)
 			{
 				graph.printTopology();
 			}
@@ -705,7 +698,7 @@ public class LGraphManager
 		System.out.print("Inter-graph edges:");
 		LEdge edge;
 
-		for (Object obj : this.edges)
+		for (Object obj : edges)
 		{
 			edge = (LEdge) obj;
 

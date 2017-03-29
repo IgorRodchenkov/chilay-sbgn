@@ -29,12 +29,10 @@ public class Organization
 	 */
 	public Organization()
 	{
-		this.width = SbgnPDConstants.COMPLEX_MEM_MARGIN * 2;
-		this.height = SbgnPDConstants.COMPLEX_MEM_MARGIN * 2 ;
-
+		width = SbgnPDConstants.COMPLEX_MEM_MARGIN * 2;
+		height = SbgnPDConstants.COMPLEX_MEM_MARGIN * 2 ;
 		rowWidth = new ArrayList<Double>();
 		rowHeight = new ArrayList<Double>();
-
 		rows = new ArrayList<LinkedList<SbgnPDNode>>();
 	}
 

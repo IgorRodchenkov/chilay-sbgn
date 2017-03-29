@@ -79,7 +79,7 @@ public class CustomData {
         if (any == null) {
             any = new ArrayList<Object>();
         }
-        return this.any;
+        return any;
     }
 
     /**
