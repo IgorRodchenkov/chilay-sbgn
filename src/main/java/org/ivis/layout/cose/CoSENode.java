@@ -36,24 +36,7 @@ public class CoSENode extends FDLayoutNode
 	 * so it can already be processed during the coarsening process
 	 */
 	private boolean processed;
-	
-	/**
-	 * added for comparison to sbgn pd layout
-	 * TODO - you may remove this
-	 */
-	public double OKCount = 0;
-	
-	/**
-	 * added for comparison to sbgn pd layout
-	 * TODO - you may remove this
-	 */
-	public Orientation orient;
 
-	/**
-	 * added for comparison to sbgn pd layout
-	 * TODO - you may remove this
-	 */
-	public boolean isOrientationProper;
 // -----------------------------------------------------------------------------
 // Section: Constructors and initialization
 // -----------------------------------------------------------------------------

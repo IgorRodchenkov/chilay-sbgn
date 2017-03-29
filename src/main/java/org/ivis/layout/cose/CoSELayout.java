@@ -622,7 +622,7 @@ public class CoSELayout extends FDLayout
 	 */
 	public void uncoarsen ()
 	{
-		for (Object obj: this.graphManager.getAllNodes())
+		for (Object obj: graphManager.getAllNodes())
 		{
 			CoSENode v = (CoSENode) obj;
 			// set positions of v.pred1 and v.pred2
@@ -630,14 +630,14 @@ public class CoSELayout extends FDLayout
 			
 			if (v.getPred2() != null)
 			{
-				// TODO: check 
+				// TODO: check (what?)
 				/*
 				double w = v.getPred1().getRect().width;
 				double l = this.idealEdgeLength;
 				v.getPred2().setLocation((v.getPred1().getLeft()+w+l), (v.getPred1().getTop()+w+l));
 				*/
-				v.getPred2().setLocation(v.getLeft()+this.idealEdgeLength, 
-					v.getTop()+this.idealEdgeLength);
+				v.getPred2().setLocation(v.getLeft()+idealEdgeLength,
+					v.getTop()+idealEdgeLength);
 			}
 		}
 	}
