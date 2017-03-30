@@ -70,7 +70,7 @@ public class CoSELayout extends FDLayout
 	protected LGraphManager newGraphManager()
 	{
 		LGraphManager gm = new CoSEGraphManager(this);
-		this.graphManager = gm;
+		graphManager = gm;
 		return gm;
 	}
 	
@@ -79,7 +79,7 @@ public class CoSELayout extends FDLayout
 	 */
 	public LGraph newGraph(Object vGraph)
 	{
-		return new CoSEGraph(null, this.graphManager, vGraph);
+		return new CoSEGraph(null, graphManager, vGraph);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class CoSELayout extends FDLayout
 	 */
 	public LNode newNode(Object vNode)
 	{
-		return new CoSENode(this.graphManager, vNode);
+		return new CoSENode(graphManager, vNode);
 	}
 
 	/**
@@ -105,40 +105,40 @@ public class CoSELayout extends FDLayout
 	{
 		super.initParameters();
 
-		if (!this.isSubLayout)
+		if (!isSubLayout)
 		{
 			LayoutOptionsPack.CoSE layoutOptionsPack =
 				LayoutOptionsPack.getInstance().getCoSE();
 
 			if (layoutOptionsPack.idealEdgeLength < 10)
 			{
-				this.idealEdgeLength = 10;
+				idealEdgeLength = 10;
 			}
 			else
 			{
-				this.idealEdgeLength = layoutOptionsPack.idealEdgeLength;
+				idealEdgeLength = layoutOptionsPack.idealEdgeLength;
 			}
 
-			this.useSmartIdealEdgeLengthCalculation =
+			useSmartIdealEdgeLengthCalculation =
 				layoutOptionsPack.smartEdgeLengthCalc;
-			this.useMultiLevelScaling =
+			useMultiLevelScaling =
 				layoutOptionsPack.multiLevelScaling;
-			this.springConstant =
+			springConstant =
 				transform(layoutOptionsPack.springStrength,
 					FDLayoutConstants.DEFAULT_SPRING_STRENGTH, 5.0, 5.0);
-			this.repulsionConstant =
+			repulsionConstant =
 				transform(layoutOptionsPack.repulsionStrength,
 					FDLayoutConstants.DEFAULT_REPULSION_STRENGTH, 5.0, 5.0);
-			this.gravityConstant =
+			gravityConstant =
 				transform(layoutOptionsPack.gravityStrength,
 					FDLayoutConstants.DEFAULT_GRAVITY_STRENGTH);
-			this.compoundGravityConstant =
+			compoundGravityConstant =
 				transform(layoutOptionsPack.compoundGravityStrength,
 					FDLayoutConstants.DEFAULT_COMPOUND_GRAVITY_STRENGTH);
-			this.gravityRangeFactor =
+			gravityRangeFactor =
 				transform(layoutOptionsPack.gravityRange,
 					FDLayoutConstants.DEFAULT_GRAVITY_RANGE_FACTOR);
-			this.compoundGravityRangeFactor =
+			compoundGravityRangeFactor =
 				transform(layoutOptionsPack.compoundGravityRange,
 					FDLayoutConstants.DEFAULT_COMPOUND_GRAVITY_RANGE_FACTOR);
 		}
@@ -147,31 +147,27 @@ public class CoSELayout extends FDLayout
 // -----------------------------------------------------------------------------
 // Section: Layout!
 // -----------------------------------------------------------------------------
+
 	/**
 	 * This method performs layout on constructed l-level graph. It returns true
 	 * on success, false otherwise.
 	 */
 	public boolean layout()
 	{
-		boolean createBendsAsNeeded = LayoutOptionsPack.getInstance().
-		getGeneral().createBendsAsNeeded;
+		boolean createBendsAsNeeded = LayoutOptionsPack.getInstance().getGeneral().createBendsAsNeeded;
 
-		if (createBendsAsNeeded)
-		{
-			this.createBendpoints();
-			
+		if (createBendsAsNeeded) {
+			createBendpoints();
 			// reset edge list, since the topology has changed
-			this.graphManager.resetAllEdges();
+			graphManager.resetAllEdges();
 		}
 		
-		if (this.useMultiLevelScaling && !this.incremental)
-		{
-			return this.multiLevelScalingLayout();
+		if (useMultiLevelScaling && !incremental) {
+			return multiLevelScalingLayout();
 		}
-		else
-		{
-			this.level = 0;
-			return this.classicLayout();
+		else {
+			level = 0;
+			return classicLayout();
 		}
 	}
 
@@ -180,38 +176,38 @@ public class CoSELayout extends FDLayout
 	 */
 	private boolean multiLevelScalingLayout ()
 	{
-		CoSEGraphManager gm = (CoSEGraphManager)this.graphManager;
+		CoSEGraphManager gm = (CoSEGraphManager)graphManager;
 
 		// Start coarsening process
 		
 		// save graph managers M0 to Mk in an array list
-		this.MList = gm.coarsenGraph();
+		MList = gm.coarsenGraph();
 
-		this.noOfLevels = MList.size()-1;
-		this.level = this.noOfLevels;
+		noOfLevels = MList.size()-1;
+		level = noOfLevels;
 		
-		while (this.level >= 0)
+		while (level >= 0)
 		{
-			this.graphManager = gm = this.MList.get(this.level);
+			graphManager = gm = MList.get(level);
 			
-//			System.out.print("@" + this.level + "th level, with " + gm.getRoot().getNodes().size() + " nodes. ");
-			this.classicLayout();
+//			System.out.print("@" + level + "th level, with " + gm.getRoot().getNodes().size() + " nodes. ");
+			classicLayout();
 
 			// after finishing layout of first (coarsest) level,
-			this.incremental = true;
+			incremental = true;
 			
-			if (this.level >= 1) 
+			if (level >= 1)
 			{	
-				this.uncoarsen(); // also makes initial placement for Mi-1
+				uncoarsen(); // also makes initial placement for Mi-1
 			}
 			
 			// reset total iterations
-			this.totalIterations = 0;
+			totalIterations = 0;
 			
-			this.level--;
+			level--;
 		}
 		
-		this.incremental = false;
+		incremental = false;
 		return true;
 	}
 	
@@ -221,35 +217,35 @@ public class CoSELayout extends FDLayout
 	 */
 	protected boolean classicLayout ()
 	{
-		this.calculateNodesToApplyGravitationTo();
+		calculateNodesToApplyGravitationTo();
 	
-		this.graphManager.calcLowestCommonAncestors();
-		this.graphManager.calcInclusionTreeDepths();
+		graphManager.calcLowestCommonAncestors();
+		graphManager.calcInclusionTreeDepths();
 	
-		this.graphManager.getRoot().calcEstimatedSize();
-		this.calcIdealEdgeLengths();
+		graphManager.getRoot().calcEstimatedSize();
+		calcIdealEdgeLengths();
 	
-		if (!this.incremental)
+		if (!incremental)
 		{
-			ArrayList<ArrayList<LNode>> forest = this.getFlatForest();
+			ArrayList<ArrayList<LNode>> forest = getFlatForest();
 	
 			if (forest.size() > 0)
 			// The graph associated with this layout is flat and a forest
 			{
-				this.positionNodesRadially(forest);
+				positionNodesRadially(forest);
 			}
 			else
 			// The graph associated with this layout is not flat or a forest
 			{
-				this.positionNodesRandomly();
+				positionNodesRandomly();
 			}
 		}
 	
-		this.initSpringEmbedder();
-		this.runSpringEmbedder();
+		initSpringEmbedder();
+		runSpringEmbedder();
 	
 //		System.out.println("Classic CoSE layout finished after " +
-//			this.totalIterations + " iterations");
+//			totalIterations + " iterations");
 		
 		return true;
 	}
@@ -260,44 +256,44 @@ public class CoSELayout extends FDLayout
 	 */
 	public void runSpringEmbedder()
 	{
-//		if (!this.incremental)
+//		if (!incremental)
 //		{
 //			CoSELayout.randomizedMovementCount = 0;
 //			CoSELayout.nonRandomizedMovementCount = 0;
 //		}
 
-//		this.updateAnnealingProbability();
+//		updateAnnealingProbability();
 
 		do
 		{
-			this.totalIterations++;
+			totalIterations++;
 
-			if (this.totalIterations % FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0)
+			if (totalIterations % FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0)
 			{
-				if (this.isConverged())
+				if (isConverged())
 				{
 					break;
 				}
 
-				this.coolingFactor = this.initialCoolingFactor *
-					((this.maxIterations - this.totalIterations) / (double)this.maxIterations);
+				coolingFactor = initialCoolingFactor *
+					((maxIterations - totalIterations) / (double)maxIterations);
 				
-//				this.updateAnnealingProbability();
+//				updateAnnealingProbability();
 			}
 
-			this.totalDisplacement = 0;
+			totalDisplacement = 0;
 
-			this.graphManager.updateBounds();
-			this.calcSpringForces();
-			this.calcRepulsionForces();
-			this.calcGravitationalForces();
-			this.moveNodes();
+			graphManager.updateBounds();
+			calcSpringForces();
+			calcRepulsionForces();
+			calcGravitationalForces();
+			moveNodes();
 
-			this.animate();
+			animate();
 		}
-		while (this.totalIterations < this.maxIterations);
+		while (totalIterations < maxIterations);
 		
-		this.graphManager.updateBounds();
+		graphManager.updateBounds();
 	}
 
 	/**
@@ -311,7 +307,7 @@ public class CoSELayout extends FDLayout
 		LinkedList nodeList = new LinkedList();
 		LGraph graph;
 
-		for (Object obj : this.graphManager.getGraphs())
+		for (Object obj : graphManager.getGraphs())
 		{
 			graph = (LGraph) obj;
 
@@ -323,30 +319,30 @@ public class CoSELayout extends FDLayout
 			}
 		}
 
-		this.graphManager.setAllNodesToApplyGravitation(nodeList);
+		graphManager.setAllNodesToApplyGravitation(nodeList);
 
 //		// Use this to apply the idea for flat graphs only
-//		if (this.graphManager.getGraphs().size() == 1)
+//		if (graphManager.getGraphs().size() == 1)
 //		{
-//			LGraph root = this.graphManager.getRoot();
-//			assert this.graphManager.getGraphs().get(0) == root;
+//			LGraph root = graphManager.getRoot();
+//			assert graphManager.getGraphs().get(0) == root;
 //
 //			root.updateConnected();
 //
 //			if (!root.isConnected())
 //			{
-//				this.graphManager.setAllNodesToApplyGravitation(
-//					this.graphManager.getAllNodes());
+//				graphManager.setAllNodesToApplyGravitation(
+//					graphManager.getAllNodes());
 //			}
 //			else
 //			{
-//				this.graphManager.setAllNodesToApplyGravitation(new LinkedList());
+//				graphManager.setAllNodesToApplyGravitation(new LinkedList());
 //			}
 //		}
 //		else
 //		{
-//			this.graphManager.setAllNodesToApplyGravitation(
-//				this.graphManager.getAllNodes());
+//			graphManager.setAllNodesToApplyGravitation(
+//				graphManager.getAllNodes());
 //		}
 	}
 
@@ -358,7 +354,7 @@ public class CoSELayout extends FDLayout
 	private void createBendpoints()
 	{
 		List edges = new ArrayList();
-		edges.addAll(Arrays.asList(this.graphManager.getAllEdges()));
+		edges.addAll(Arrays.asList(graphManager.getAllEdges()));
 		Set visited = new HashSet();
 
 		for (int i = 0; i < edges.size(); i++)
@@ -374,7 +370,7 @@ public class CoSELayout extends FDLayout
 				{
 					edge.getBendpoints().add(new PointD());
 					edge.getBendpoints().add(new PointD());
-					this.createDummyNodesForBendpoints(edge);
+					createDummyNodesForBendpoints(edge);
 					visited.add(edge);
 				}
 				else
@@ -392,7 +388,7 @@ public class CoSELayout extends FDLayout
 							{
 								LEdge multiEdge = (LEdge)edgeList.get(k);
 								multiEdge.getBendpoints().add(new PointD());
-								this.createDummyNodesForBendpoints(multiEdge);
+								createDummyNodesForBendpoints(multiEdge);
 							}
 						}
 
@@ -461,7 +457,7 @@ public class CoSELayout extends FDLayout
 				(point.x + CoSEConstants.DEFAULT_COMPONENT_SEPERATION);
 		}
 
-		this.transform(
+		transform(
 			new PointD(LayoutConstants.WORLD_CENTER_X - point.x / 2,
 				LayoutConstants.WORLD_CENTER_Y - point.y / 2));
 	}
@@ -633,7 +629,7 @@ public class CoSELayout extends FDLayout
 				// TODO: check (what?)
 				/*
 				double w = v.getPred1().getRect().width;
-				double l = this.idealEdgeLength;
+				double l = idealEdgeLength;
 				v.getPred2().setLocation((v.getPred1().getLeft()+w+l), (v.getPred1().getTop()+w+l));
 				*/
 				v.getPred2().setLocation(v.getLeft()+idealEdgeLength,
@@ -654,7 +650,7 @@ public class CoSELayout extends FDLayout
 	protected double calcRepulsionRange()
 	{
 		// formula is 2 x (level + 1) x idealEdgeLength
-		return (2 * ( this.level+1 ) * this.idealEdgeLength);
+		return (2 * ( level+1 ) * idealEdgeLength);
 	}
 	
 // -----------------------------------------------------------------------------
@@ -666,19 +662,19 @@ public class CoSELayout extends FDLayout
 //	 */
 //	private boolean checkVGraphObjects()
 //	{
-//		if (this.graphManager.getAllEdges() == null)
+//		if (graphManager.getAllEdges() == null)
 //		{
 //			System.out.println("Edge list is null!");
 //		}
-//		if (this.graphManager.getAllNodes() == null)
+//		if (graphManager.getAllNodes() == null)
 //		{
 //			System.out.println("Node list is null!");
 //		}
-//		if (this.graphManager.getGraphs() == null)
+//		if (graphManager.getGraphs() == null)
 //		{
 //			System.out.println("Graph list is null!");
 //		}
-//		for (Object obj: this.graphManager.getAllEdges())
+//		for (Object obj: graphManager.getAllEdges())
 //		{
 //			CoSEEdge e = (CoSEEdge) obj;
 //			//NodeModel nm = (NodeModel) v.vGraphObject;
@@ -690,7 +686,7 @@ public class CoSELayout extends FDLayout
 //			}
 //		}
 //
-//		for (Object obj: this.graphManager.getAllNodes())
+//		for (Object obj: graphManager.getAllNodes())
 //		{
 //			CoSENode v = (CoSENode) obj;
 //			//NodeModel nm = (NodeModel) v.vGraphObject;
@@ -702,7 +698,7 @@ public class CoSELayout extends FDLayout
 //			}
 //		}
 //
-//		for (Object obj: this.graphManager.getGraphs())
+//		for (Object obj: graphManager.getGraphs())
 //		{
 //			LGraph l = (LGraph) obj;
 //			if (l.vGraphObject == null)
@@ -716,6 +712,6 @@ public class CoSELayout extends FDLayout
 //	private void updateAnnealingProbability()
 //	{
 //		CoSELayout.annealingProbability = Math.pow(Math.E,
-//			CoSELayout.annealingConstant / this.coolingFactor);
+//			CoSELayout.annealingConstant / coolingFactor);
 //	}
 }

@@ -227,28 +227,28 @@ public abstract class FDLayout extends Layout
 	 */
 	public void initSpringEmbedder()
 	{
-		if (this.incremental)
+		if (incremental)
 		{
-			this.coolingFactor = 0.8;
-			this.initialCoolingFactor = 0.8;
-			this.maxNodeDisplacement = 
+			coolingFactor = 0.8;
+			initialCoolingFactor = 0.8;
+			maxNodeDisplacement =
 				FDLayoutConstants.MAX_NODE_DISPLACEMENT_INCREMENTAL;
 		}
 		else
 		{
-			this.coolingFactor = 1.0;
-			this.initialCoolingFactor = 1.0;
-			this.maxNodeDisplacement =
+			coolingFactor = 1.0;
+			initialCoolingFactor = 1.0;
+			maxNodeDisplacement =
 				FDLayoutConstants.MAX_NODE_DISPLACEMENT;
 		}
 
-		this.maxIterations =
-			Math.max(this.getAllNodes().length * 5, this.maxIterations);
+		maxIterations =
+			Math.max(getAllNodes().length * 5, maxIterations);
 
-		this.totalDisplacementThreshold =
-			this.displacementThresholdPerNode * this.getAllNodes().length;
+		totalDisplacementThreshold =
+			displacementThresholdPerNode * getAllNodes().length;
 		
-		this.repulsionRange = this.calcRepulsionRange();
+		repulsionRange = calcRepulsionRange();
 	}
 
 	/**
@@ -256,14 +256,14 @@ public abstract class FDLayout extends Layout
 	 */
 	public void calcSpringForces()
 	{
-		Object[] lEdges = this.getAllEdges();
+		Object[] lEdges = getAllEdges();
 		FDLayoutEdge edge;
 
 		for (int i = 0; i < lEdges.length; i++)
 		{
 			edge = (FDLayoutEdge) lEdges[i];
 
-			this.calcSpringForce(edge, edge.idealLength);
+			calcSpringForce(edge, edge.idealLength);
 		}
 	}
 
@@ -274,39 +274,36 @@ public abstract class FDLayout extends Layout
 	{
 		int i, j;
 		FDLayoutNode nodeA, nodeB;
-		Object[] lNodes = this.getAllNodes();
+		Object[] lNodes = getAllNodes();
 		HashSet<FDLayoutNode> processedNodeSet;
 		
-		if (this.useFRGridVariant)
+		if (useFRGridVariant)
 		{
 			// grid is a vector matrix that holds CoSENodes.
 			// be sure to convert the Object type to CoSENode.
-			
-			if (this.totalIterations % FDLayoutConstants.GRID_CALCULATION_CHECK_PERIOD == 1)
+			if (totalIterations % FDLayoutConstants.GRID_CALCULATION_CHECK_PERIOD == 1)
 			{
-				this.grid = this.calcGrid(this.graphManager.getRoot());
-				
+				grid = calcGrid(graphManager.getRoot());
+
 				// put all nodes to proper grid cells
 				for (i = 0; i < lNodes.length; i++)
 				{
 					nodeA = (FDLayoutNode) lNodes[i];
-					this.addNodeToGrid(nodeA, this.grid, 
-						this.graphManager.getRoot().getLeft(),
-						this.graphManager.getRoot().getTop());
+					addNodeToGrid(nodeA, grid,
+							graphManager.getRoot().getLeft(),
+							graphManager.getRoot().getTop());
 				}
 			}
 			
 			processedNodeSet = new HashSet<FDLayoutNode>();
-			
 			// calculate repulsion forces between each nodes and its surrounding
 			for (i = 0; i < lNodes.length; i++)
 			{
 				nodeA = (FDLayoutNode) lNodes[i];
-				this.calculateRepulsionForceOfANode(this.grid, nodeA, processedNodeSet);
+				calculateRepulsionForceOfANode(grid, nodeA, processedNodeSet);
 				processedNodeSet.add(nodeA);
 			}			
-		}
-		else
+		} else
 		{
 			for (i = 0; i < lNodes.length; i++)
 			{
@@ -317,12 +314,11 @@ public abstract class FDLayout extends Layout
 					nodeB = (FDLayoutNode) lNodes[j];
 
 					// If both nodes are not members of the same graph, skip.
-					if (nodeA.getOwner() != nodeB.getOwner())
-					{
+					if (nodeA.getOwner() != nodeB.getOwner()) {
 						continue;
 					}
 
-					this.calcRepulsionForce(nodeA, nodeB);
+					calcRepulsionForce(nodeA, nodeB);
 				}
 			}
 		}
@@ -334,13 +330,13 @@ public abstract class FDLayout extends Layout
 	public void calcGravitationalForces()
 	{
 		FDLayoutNode node;
-		Object[] lNodes = this.getAllNodesToApplyGravitation();
+		Object[] lNodes = getAllNodesToApplyGravitation();
 
 		for (int i = 0; i < lNodes.length; i++)
 		{
 			node = (FDLayoutNode) lNodes[i];
 
-			this.calcGravitationalForce(node);
+			calcGravitationalForce(node);
 		}
 	}
 
@@ -349,7 +345,7 @@ public abstract class FDLayout extends Layout
 	 */
 	public void moveNodes()
 	{
-		Object[] lNodes = this.getAllNodes();
+		Object[] lNodes = getAllNodes();
 		FDLayoutNode node;
 
 		for (int i = 0; i < lNodes.length; i++)
@@ -374,7 +370,7 @@ public abstract class FDLayout extends Layout
 
 		// Update edge length
 
-		if (this.uniformLeafNodeSizes &&
+		if (uniformLeafNodeSizes &&
 			sourceNode.getChild() == null && targetNode.getChild() == null)
 		{
 			edge.updateLengthSimple();
@@ -392,13 +388,7 @@ public abstract class FDLayout extends Layout
 		length = edge.getLength();
 
 		// Calculate spring forces
-		springForce = this.springConstant * (length - idealLength);
-
-	//			// does not seem to be needed
-	//			if (Math.abs(springForce) > CoSEConstants.MAX_SPRING_FORCE)
-	//			{
-	//				springForce = IMath.sign(springForce) * CoSEConstants.MAX_SPRING_FORCE;
-	//			}
+		springForce = springConstant * (length - idealLength);
 
 		// Project force onto x and y axes
 		springForceX = springForce * (edge.getLengthX() / length);
@@ -453,8 +443,7 @@ public abstract class FDLayout extends Layout
 		// no overlap
 		{
 			// calculate distance
-
-			if (this.uniformLeafNodeSizes &&
+			if (uniformLeafNodeSizes &&
 				nodeA.getChild() == null && nodeB.getChild() == null)
 			// simply base repulsion on distance of node centers
 			{
@@ -471,7 +460,6 @@ public abstract class FDLayout extends Layout
 			}
 
 			// No repulsion range. FR grid variant should take care of this.
-
 			if (Math.abs(distanceX) < FDLayoutConstants.MIN_REPULSION_DIST)
 			{
 				distanceX = IMath.sign(distanceX) *
@@ -487,13 +475,7 @@ public abstract class FDLayout extends Layout
 			distanceSquared = distanceX * distanceX + distanceY * distanceY;
 			distance = Math.sqrt(distanceSquared);
 
-			repulsionForce = this.repulsionConstant / distanceSquared;
-
-//			// does not seem to be needed
-//			if (Math.abs(repulsionForce) > CoSEConstants.MAX_REPULSION_FORCE)
-//			{
-//				repulsionForce = IMath.sign(repulsionForce) * CoSEConstants.MAX_REPULSION_FORCE;
-//			}
+			repulsionForce = repulsionConstant / distanceSquared;
 
 			// Project force onto x and y axes
 			repulsionForceX = repulsionForce * distanceX / distance;
@@ -536,30 +518,30 @@ public abstract class FDLayout extends Layout
 		// graph. We relax (not as much for the compounds) the estimated
 		// size here since the initial estimates seem to be rather "tight".
 
-		if (node.getOwner() == this.graphManager.getRoot())
+		if (node.getOwner() == graphManager.getRoot())
 		// in the root graph
 		{
 			estimatedSize = (int) (ownerGraph.getEstimatedSize() *
-				this.gravityRangeFactor);
+				gravityRangeFactor);
 
 			if (absDistanceX > estimatedSize || absDistanceY > estimatedSize)
 			{
-				node.gravitationForceX = -this.gravityConstant * distanceX;
-				node.gravitationForceY = -this.gravityConstant * distanceY;
+				node.gravitationForceX = -gravityConstant * distanceX;
+				node.gravitationForceY = -gravityConstant * distanceY;
 			}
 		}
 		else
 		// inside a compound
 		{
 			estimatedSize = (int) (ownerGraph.getEstimatedSize() *
-				this.compoundGravityRangeFactor);
+				compoundGravityRangeFactor);
 
 			if (absDistanceX > estimatedSize || absDistanceY > estimatedSize)
 			{
-				node.gravitationForceX = -this.gravityConstant * distanceX *
-					this.compoundGravityConstant;
-				node.gravitationForceY = -this.gravityConstant * distanceY *
-					this.compoundGravityConstant;
+				node.gravitationForceX = -gravityConstant * distanceX *
+					compoundGravityConstant;
+				node.gravitationForceY = -gravityConstant * distanceY *
+					compoundGravityConstant;
 			}
 		}
 
@@ -576,15 +558,15 @@ public abstract class FDLayout extends Layout
 		boolean converged;
 		boolean oscilating = false;
 
-		if (this.totalIterations > this.maxIterations / 3)
+		if (totalIterations > maxIterations / 3)
 		{
 			oscilating =
-				Math.abs(this.totalDisplacement - this.oldTotalDisplacement) < 2;
+				Math.abs(totalDisplacement - oldTotalDisplacement) < 2;
 		}
 
-		converged = this.totalDisplacement < this.totalDisplacementThreshold;
+		converged = totalDisplacement < totalDisplacementThreshold;
 
-		this.oldTotalDisplacement = this.totalDisplacement;
+		oldTotalDisplacement = totalDisplacement;
 
 		return converged || oscilating;
 	}
@@ -595,17 +577,17 @@ public abstract class FDLayout extends Layout
 	 */
 	protected void animate()
 	{
-		if (this.animationDuringLayout && !this.isSubLayout)
+		if (animationDuringLayout && !isSubLayout)
 		{
-			if (this.notAnimatedIterations == this.animationPeriod)
+			if (notAnimatedIterations == animationPeriod)
 			{
-				this.update();
+				update();
 
-				this.notAnimatedIterations = 0;
+				notAnimatedIterations = 0;
 			}
 			else
 			{
-				this.notAnimatedIterations++;
+				notAnimatedIterations++;
 			}
 		}
 	}
@@ -624,8 +606,8 @@ public abstract class FDLayout extends Layout
 		int sizeX = 0;
 		int sizeY = 0;
 		
-		sizeX = (int) Math.ceil((g.getRight() - g.getLeft()) / this.repulsionRange);
-		sizeY = (int) Math.ceil((g.getBottom() - g.getTop()) / this.repulsionRange);
+		sizeX = (int) Math.ceil((g.getRight() - g.getLeft()) / repulsionRange);
+		sizeY = (int) Math.ceil((g.getBottom() - g.getTop()) / repulsionRange);
 
 		grid = new Vector[sizeX][sizeY];
 		
@@ -653,10 +635,10 @@ public abstract class FDLayout extends Layout
 		int startY = 0;
 		int finishY = 0;
 		
-		startX = (int) Math.floor((v.getRect().x - left) / this.repulsionRange);
-		finishX = (int) Math.floor((v.getRect().width + v.getRect().x - left) / this.repulsionRange);
-		startY = (int) Math.floor((v.getRect().y - top) / this.repulsionRange);
-		finishY = (int) Math.floor((v.getRect().height + v.getRect().y - top) / this.repulsionRange);
+		startX = (int) Math.floor((v.getRect().x - left) / repulsionRange);
+		finishX = (int) Math.floor((v.getRect().width + v.getRect().x - left) / repulsionRange);
+		startY = (int) Math.floor((v.getRect().y - top) / repulsionRange);
+		finishY = (int) Math.floor((v.getRect().height + v.getRect().y - top) / repulsionRange);
 		
 		for (int i = startX; i <= finishX; i++)
 		{
@@ -679,7 +661,7 @@ public abstract class FDLayout extends Layout
 	{
 		int i,j;
 		
-		if (this.totalIterations % FDLayoutConstants.GRID_CALCULATION_CHECK_PERIOD == 1)
+		if (totalIterations % FDLayoutConstants.GRID_CALCULATION_CHECK_PERIOD == 1)
 		{
 			HashSet<Object> surrounding = new HashSet<Object>();
 			FDLayoutNode nodeB;
@@ -713,7 +695,7 @@ public abstract class FDLayout extends Layout
 								
 								// if the distance between nodeA and nodeB 
 								// is less then calculation range
-								if ((distanceX <= this.repulsionRange) && (distanceY <= this.repulsionRange))
+								if ((distanceX <= repulsionRange) && (distanceY <= repulsionRange))
 								{
 									//then add nodeB to surrounding of nodeA
 									surrounding.add(nodeB);
@@ -728,7 +710,7 @@ public abstract class FDLayout extends Layout
 
 		for (i = 0; i < nodeA.surrounding.length; i++)
 		{
-			this.calcRepulsionForce(nodeA, (FDLayoutNode) nodeA.surrounding[i]);
+			calcRepulsionForce(nodeA, (FDLayoutNode) nodeA.surrounding[i]);
 		}		
 		
 	}

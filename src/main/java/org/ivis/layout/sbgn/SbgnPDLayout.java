@@ -102,17 +102,17 @@ public class SbgnPDLayout extends CoSELayout
 
 	public SbgnPDLayout()
 	{
-		this.rotationRandomizationMethod = 1;
-		this.enhancedRatio = 0;
-		this.totalEffCount = 0;
-		this.compactionMethod = DefaultCompactionAlgorithm.TILING;
-		this.childGraphMap = new HashMap<SbgnPDNode, LGraph>();
-		this.complexOrder = new LinkedList<SbgnPDNode>();
-		this.dummyComplexList = new LinkedList<SbgnPDNode>();
-		this.emptiedDummyComplexMap = new HashMap<SbgnPDNode, LGraph>();
-		this.processNodeList = new ArrayList<SbgnProcessNode>();
+		rotationRandomizationMethod = 1;
+		enhancedRatio = 0;
+		totalEffCount = 0;
+		compactionMethod = DefaultCompactionAlgorithm.TILING;
+		childGraphMap = new HashMap<SbgnPDNode, LGraph>();
+		complexOrder = new LinkedList<SbgnPDNode>();
+		dummyComplexList = new LinkedList<SbgnPDNode>();
+		emptiedDummyComplexMap = new HashMap<SbgnPDNode, LGraph>();
+		processNodeList = new ArrayList<SbgnProcessNode>();
 		if (compactionMethod == DefaultCompactionAlgorithm.TILING)
-			this.memberPackMap = new HashMap<SbgnPDNode, MemberPack>();
+			memberPackMap = new HashMap<SbgnPDNode, MemberPack>();
 	}
 
 	/**
@@ -123,21 +123,22 @@ public class SbgnPDLayout extends CoSELayout
 	@Override
 	public void runSpringEmbedder()
 	{
-		log.info("SBGN-PD Layout is running...");
-		this.phaseNumber = 1;
+		log.info("SBGN-PD Layout phase1...");
+		phaseNumber = 1;
 		doPhase1();
 
-		this.phaseNumber = 2;
+		log.info("SBGN-PD Layout phase2...");
+		phaseNumber = 2;
 		doPhase2();
 
 		// used to calculate - to make sure
 		recalcProperlyOrientedEdges(true);
 		
-		log.info("success ratio: " + this.successRatio);
+		log.info("success ratio: " + successRatio);
 
 		finalEnhancement();
 		
-		log.info("enhanced ratio: " + this.enhancedRatio);
+		log.info("enhanced ratio: " + enhancedRatio);
 
 		removeDummyCompounds();
 	}
@@ -147,38 +148,39 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	private void doPhase1()
 	{
-		this.maxIterations = SbgnPDConstants.PHASE1_MAX_ITERATION_COUNT;
-		this.totalIterations = 0;
+		maxIterations = SbgnPDConstants.PHASE1_MAX_ITERATION_COUNT;
+		totalIterations = 0;
 
 		do
 		{
-			this.totalIterations++;
-			if (this.totalIterations
+			totalIterations++;
+			if (totalIterations
 					% FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0)
 			{
-				if (this.isConverged())
+				if (isConverged())
 				{
 					break;
 				}
 
-				this.coolingFactor = this.initialCoolingFactor
-						* ((this.maxIterations - this.totalIterations) / (double) this.maxIterations);
+				coolingFactor = initialCoolingFactor
+						* ((maxIterations - totalIterations) / (double) maxIterations);
 			}
 
-			this.totalDisplacement = 0;
+			totalDisplacement = 0;
 
-			this.graphManager.updateBounds();
-			this.calcSpringForces();
-			this.calcRepulsionForces();
-			this.calcGravitationalForces();
-			this.moveNodes();
+			graphManager.updateBounds();
 
-			this.animate();
+			calcSpringForces();
+			calcRepulsionForces(); //TODO: may stuck for minutes; run in a thread with timeout to fail after...
+			calcGravitationalForces();
+			moveNodes();
+
+			animate();
 		}
-		while (this.totalIterations < this.maxIterations);
+		while (totalIterations < maxIterations);
 
-		this.graphManager.updateBounds();
-		this.phase1IterationCount = this.totalIterations;
+		graphManager.updateBounds();
+		phase1IterationCount = totalIterations;
 	}
 
 	/**
@@ -189,60 +191,61 @@ public class SbgnPDLayout extends CoSELayout
 	private void doPhase2()
 	{
 		// dynamic max iteration
-		this.maxIterations = (int) Math.log(this.getAllEdges().length
-				+ this.getAllNodes().length) * 400;
+		maxIterations = (int) Math.log(getAllEdges().length
+				+ getAllNodes().length) * 400;
 
 		// cooling fac is small
-		this.initialCoolingFactor = SbgnPDConstants.PHASE2_INITIAL_COOLINGFACTOR;
-		this.coolingFactor = this.initialCoolingFactor;
+		initialCoolingFactor = SbgnPDConstants.PHASE2_INITIAL_COOLINGFACTOR;
+		coolingFactor = initialCoolingFactor;
 
-		this.totalIterations = 0;
+		totalIterations = 0;
 
 		do
 		{
-			this.totalIterations++;
+			totalIterations++;
 
-			if (this.totalIterations
+			if (totalIterations
 					% FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0)
 			{
-				successRatio = this.properlyOrientedEdgeCount
+				successRatio = properlyOrientedEdgeCount
 						/ totalEdgeCountToBeOriented;
 
-				if (this.isConverged()
+				if (isConverged()
 						&& successRatio >= SbgnPDConstants.ROTATIONAL_FORCE_CONVERGENCE)
 				{
 					break;
 				}
 
-				this.coolingFactor = this.initialCoolingFactor
-						* ((this.maxIterations - this.totalIterations) / (double) this.maxIterations);
+				coolingFactor = initialCoolingFactor
+						* ((maxIterations - totalIterations) / (double) maxIterations);
 			}
 
-			this.totalDisplacement = 0;
+			totalDisplacement = 0;
 
-			this.graphManager.updateBounds();
+			graphManager.updateBounds();
 
-			this.calcSpringForces();
-			this.calcRepulsionForces();
-			this.calcGravitationalForces();
-			this.moveNodes();
-			this.animate();
+			calcSpringForces();
+			calcRepulsionForces(); //TODO: this may take minutes; run in another thread this timeout, e.g., 1 sec
+			calcGravitationalForces();
+			moveNodes();
+
+			animate();
 		}
-		while (this.totalIterations < this.maxIterations
-				&& this.totalIterations < 10000);
+		while (totalIterations < maxIterations
+				&& totalIterations < 10000);
 
-		this.phase2IterationCount = this.totalIterations;
-		this.graphManager.updateBounds();
+		phase2IterationCount = totalIterations;
+		graphManager.updateBounds();
 	}
 
 	@Override
 	public void moveNodes()
 	{
-		this.properlyOrientedEdgeCount = 0;
-		this.totalEdgeCountToBeOriented = 0;
+		properlyOrientedEdgeCount = 0;
+		totalEdgeCountToBeOriented = 0;
 
 		// only change single node positions on early stages
-		if (hasApproximationPeriodReached() && this.coolingFactor > 0.02)
+		if (hasApproximationPeriodReached() && coolingFactor > 0.02)
 		{
 			for (SbgnProcessNode p : processNodeList)
 				p.applyApproximations();
@@ -251,15 +254,15 @@ public class SbgnPDLayout extends CoSELayout
 		for (SbgnProcessNode p : processNodeList)
 		{
 			// calculate rotational forces for phase 2 only
-			if (this.phaseNumber == 2)
+			if (phaseNumber == 2)
 			{
 				p.calcRotationalForces();
 
-				this.properlyOrientedEdgeCount += p.properEdgeCount;
-				this.totalEdgeCountToBeOriented += (p.consumptionEdges.size()
+				properlyOrientedEdgeCount += p.properEdgeCount;
+				totalEdgeCountToBeOriented += (p.consumptionEdges.size()
 						+ p.productEdges.size() + p.effectorEdges.size());
-				this.successRatio = this.properlyOrientedEdgeCount
-						/ this.totalEdgeCountToBeOriented;
+				successRatio = properlyOrientedEdgeCount
+						/ totalEdgeCountToBeOriented;
 			}
 			p.transferForces();
 
@@ -270,9 +273,9 @@ public class SbgnPDLayout extends CoSELayout
 		}
 
 		// each time, rotate one process that wants to rotate
-		if (this.totalIterations
+		if (totalIterations
 				% SbgnPDConstants.ROTATIONAL_FORCE_ITERATION_COUNT == 0
-				&& this.phaseNumber == 2)
+				&& phaseNumber == 2)
 			rotateAProcess();
 
 		super.moveNodes();
@@ -280,7 +283,7 @@ public class SbgnPDLayout extends CoSELayout
 
 	private boolean hasApproximationPeriodReached()
 	{
-		if(this.totalIterations % 100 == SbgnPDConstants.APPROXIMATION_PERIOD)
+		if(totalIterations % 100 == SbgnPDConstants.APPROXIMATION_PERIOD)
 			return true;
 		else
 			return false;
@@ -290,7 +293,7 @@ public class SbgnPDLayout extends CoSELayout
 	{
 		ArrayList<SbgnProcessNode> processNodesToBeRotated = new ArrayList<SbgnProcessNode>();
 
-		for (SbgnProcessNode p : this.processNodeList)
+		for (SbgnProcessNode p : processNodeList)
 		{
 			if (p.isRotationNecessary())
 				processNodesToBeRotated.add(p);
@@ -322,7 +325,7 @@ public class SbgnPDLayout extends CoSELayout
 		// // reset net rotational forces on all processes for next round
 		// not used because even if the amount is small, summing up the net
 		// force from prev iterations yield better results
-		// for (Object o : this.getAllNodes())
+		// for (Object o : getAllNodes())
 		// {
 		// if (o instanceof SbgnProcessNode)
 		// ((SbgnProcessNode) o).netRotationalForce = 0;
@@ -446,8 +449,8 @@ public class SbgnPDLayout extends CoSELayout
 			}
 		}
 
-		this.properlyOrientedEdgeCount = totalProperEdges;
-		this.enhancedRatio = totalProperEdges / totalEdgeCountToBeOriented;
+		properlyOrientedEdgeCount = totalProperEdges;
+		enhancedRatio = totalProperEdges / totalEdgeCountToBeOriented;
 		
 		for(SbgnProcessNode p : processNodeList)
 		{
@@ -494,10 +497,8 @@ public class SbgnPDLayout extends CoSELayout
 		return -1;
 	}
 
-	private double calcEffectorAngle(Orientation orient, PointD centerPt,
-			CoSENode eff)
+	private double calcEffectorAngle(Orientation orient, PointD centerPt, CoSENode eff)
 	{
-		double idealEdgeLength = this.idealEdgeLength;
 		PointD targetPnt = new PointD();
 		PointD centerPnt = centerPt;
 
@@ -553,17 +554,17 @@ public class SbgnPDLayout extends CoSELayout
 
 	private void recalcProperlyOrientedEdges(boolean isLastIteration)
 	{
-		this.properlyOrientedEdgeCount = 0.0;
-		this.totalEdgeCountToBeOriented = 0;
+		properlyOrientedEdgeCount = 0.0;
+		totalEdgeCountToBeOriented = 0;
 		// get all process nodes
 		for (SbgnProcessNode p : processNodeList)
 		{
 			p.calcProperlyOrientedEdges();
-			this.properlyOrientedEdgeCount += p.properEdgeCount;
-			this.totalEdgeCountToBeOriented += (p.consumptionEdges.size()
+			properlyOrientedEdgeCount += p.properEdgeCount;
+			totalEdgeCountToBeOriented += (p.consumptionEdges.size()
 					+ p.productEdges.size() + p.effectorEdges.size());
-			this.successRatio = this.properlyOrientedEdgeCount
-					/ this.totalEdgeCountToBeOriented;
+			successRatio = properlyOrientedEdgeCount
+					/ totalEdgeCountToBeOriented;
 		}
 	}
 
@@ -576,7 +577,7 @@ public class SbgnPDLayout extends CoSELayout
 	private void groupZeroDegreeMembers()
 	{
 		Map<SbgnPDNode, LGraph> childComplexMap = new HashMap<SbgnPDNode, LGraph>();
-		for (Object graphObj : this.getGraphManager().getGraphs())
+		for (Object graphObj : getGraphManager().getGraphs())
 		{
 			ArrayList<SbgnPDNode> zeroDegreeNodes = new ArrayList<SbgnPDNode>();
 			LGraph ownerGraph = (LGraph) graphObj;
@@ -618,14 +619,14 @@ public class SbgnPDLayout extends CoSELayout
 		}
 
 		for (SbgnPDNode complex : dummyComplexList)
-			this.graphManager.add(childComplexMap.get(complex), complex);
+			graphManager.add(childComplexMap.get(complex), complex);
 
-		this.getGraphManager().updateBounds();
+		getGraphManager().updateBounds();
 
-		this.graphManager.resetAllNodes();
-		this.graphManager.resetAllNodesToApplyGravitation();
-		this.graphManager.resetAllEdges();
-		this.calculateNodesToApplyGravitationTo();
+		graphManager.resetAllNodes();
+		graphManager.resetAllNodesToApplyGravitation();
+		graphManager.resetAllEdges();
+		calculateNodesToApplyGravitationTo();
 	}
 
 	/**
@@ -634,7 +635,7 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	private void createPortNodes()
 	{
-		for (Object o : this.getAllNodes())
+		for (Object o : getAllNodes())
 		{
 			SbgnPDNode originalProcessNode = (SbgnPDNode) o;
 
@@ -666,7 +667,7 @@ public class SbgnPDLayout extends CoSELayout
 
 				// convert the process node to SbgnProcessNode
 				processNode.copyFromSBGNPDNode(originalProcessNode,
-						this.getGraphManager());
+						getGraphManager());
 
 				processNode.connectNodes(compoundNode, inputPort, outputPort);
 
@@ -675,11 +676,11 @@ public class SbgnPDLayout extends CoSELayout
 
 				SbgnPDEdge rigidToProduction = (SbgnPDEdge) newRigidEdge(null);
 				rigidToProduction.label = ""
-						+ (this.graphManager.getAllEdges().length + 1);
+						+ (graphManager.getAllEdges().length + 1);
 
 				SbgnPDEdge rigidToConsumption = (SbgnPDEdge) newRigidEdge(null);
 				rigidToConsumption.label = ""
-						+ (this.graphManager.getAllEdges().length + 2);
+						+ (graphManager.getAllEdges().length + 2);
 
 				ownerGraph.remove(processNode);
 
@@ -695,22 +696,22 @@ public class SbgnPDLayout extends CoSELayout
 				compoundNode.setCenter(processNode.getCenterX(),
 						processNode.getCenterY());
 				ownerGraph.add(compoundNode);
-				this.graphManager.add(childGraph, compoundNode);
+				graphManager.add(childGraph, compoundNode);
 
 				// remove the original process node
 				ownerGraph.remove(originalProcessNode);
 
-				this.processNodeList.add(processNode);
-				this.graphManager.updateBounds();
+				processNodeList.add(processNode);
+				graphManager.updateBounds();
 			}
 		}
 
 		// reset the topology
-		this.graphManager.resetAllNodes();
-		this.graphManager.resetAllNodesToApplyGravitation();
-		this.graphManager.resetAllEdges();
+		graphManager.resetAllNodes();
+		graphManager.resetAllNodesToApplyGravitation();
+		graphManager.resetAllEdges();
 
-		this.calculateNodesToApplyGravitationTo();
+		calculateNodesToApplyGravitationTo();
 	}
 
 	/**
@@ -726,7 +727,7 @@ public class SbgnPDLayout extends CoSELayout
 		boolean flag = false;
 
 		// if there are any process nodes, check for port nodes
-		for (Object o : this.getAllNodes())
+		for (Object o : getAllNodes())
 		{
 			SbgnPDNode s = (SbgnPDNode) o;
 			if (s.type.equals(SbgnPDConstants.PROCESS))
@@ -743,7 +744,7 @@ public class SbgnPDLayout extends CoSELayout
 		else
 		{
 			// check for the port nodes. if any found, return true.
-			for (Object o : this.getAllNodes())
+			for (Object o : getAllNodes())
 			{
 				if (((SbgnPDNode) o).type.equals(SbgnPDConstants.INPUT_PORT)
 						|| ((SbgnPDNode) o).type
@@ -760,7 +761,7 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	private void removeDummyCompounds()
 	{
-		for (SbgnProcessNode processNode : this.processNodeList)
+		for (SbgnProcessNode processNode : processNodeList)
 		{
 			SbgnPDNode dummyNode = processNode.parentCompound;
 			LGraph childGraph = dummyNode.getChild();
@@ -769,6 +770,7 @@ public class SbgnPDLayout extends CoSELayout
 			// add children to original parent
 			for (Object s : childGraph.getNodes())
 				owner.add((SbgnPDNode) s);
+
 			for (Object e : childGraph.getEdges())
 			{
 				SbgnPDEdge edge = (SbgnPDEdge) e;
@@ -791,13 +793,13 @@ public class SbgnPDLayout extends CoSELayout
 			getGraphManager().getGraphs().remove(childGraph);
 			dummyNode.setChild(null);
 			owner.remove(dummyNode);
-
 		}
 
 		getGraphManager().resetAllNodes();
 		getGraphManager().resetAllNodesToApplyGravitation();
 		getGraphManager().resetAllEdges();
-		this.calculateNodesToApplyGravitationTo();
+
+		calculateNodesToApplyGravitationTo();
 	}
 
 	// ********************* SECTION : TILING METHODS *********************
@@ -891,7 +893,7 @@ public class SbgnPDLayout extends CoSELayout
 			clearComplex(o);
 		}
 
-		this.getGraphManager().updateBounds();
+		getGraphManager().updateBounds();
 
 		getGraphManager().resetAllNodes();
 		getGraphManager().resetAllNodesToApplyGravitation();
@@ -975,7 +977,7 @@ public class SbgnPDLayout extends CoSELayout
 		{
 			LGraph chGr = emptiedDummyComplexMap.get(comp);
 			comp.setChild(chGr);
-			this.getGraphManager().getGraphs().add(chGr);
+			getGraphManager().getGraphs().add(chGr);
 		}
 
 		for (int i = complexOrder.size() - 1; i >= 0; i--)
@@ -1017,7 +1019,7 @@ public class SbgnPDLayout extends CoSELayout
 		getGraphManager().resetAllNodes();
 		getGraphManager().resetAllNodesToApplyGravitation();
 		getGraphManager().resetAllEdges();
-		this.calculateNodesToApplyGravitationTo();
+		calculateNodesToApplyGravitationTo();
 
 	}
 
@@ -1070,13 +1072,13 @@ public class SbgnPDLayout extends CoSELayout
 					&& childNode.getEdges().size() == 0)
 				clearDummyComplexGraphs(childNode);
 		}
-		if (this.graphManager.getGraphs().contains(comp.getChild()))
+		if (graphManager.getGraphs().contains(comp.getChild()))
 		{
 			if (calcGraphDegree(comp) == 0)
 			{
 				emptiedDummyComplexMap.put(comp, comp.getChild());
 
-				this.getGraphManager().getGraphs().remove(comp.getChild());
+				getGraphManager().getGraphs().remove(comp.getChild());
 				comp.setChild(null);
 			}
 		}
@@ -1230,7 +1232,7 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	public LNode newNode(Object vNode)
 	{
-		return new SbgnPDNode(this.graphManager, vNode);
+		return new SbgnPDNode(graphManager, vNode);
 	}
 
 	/**
@@ -1251,10 +1253,13 @@ public class SbgnPDLayout extends CoSELayout
 
 		groupZeroDegreeMembers();
 		applyDFSOnComplexes();
+
+		//run CoSE layout
 		b = super.layout();
+
 		repopulateComplexes();
 
-		this.getAllNodes();
+		getAllNodes();
 		return b;
 	}
 
@@ -1265,40 +1270,40 @@ public class SbgnPDLayout extends CoSELayout
 	@Override
 	protected boolean classicLayout()
 	{
-		this.calculateNodesToApplyGravitationTo();
+		calculateNodesToApplyGravitationTo();
 
-		this.graphManager.calcLowestCommonAncestors();
-		this.graphManager.calcInclusionTreeDepths();
+		graphManager.calcLowestCommonAncestors();
+		graphManager.calcInclusionTreeDepths();
 
-		this.graphManager.getRoot().calcEstimatedSize();
-		this.calcIdealEdgeLengths();
+		graphManager.getRoot().calcEstimatedSize();
+		calcIdealEdgeLengths();
 
-		if (!this.incremental)
+		if (!incremental)
 		{
-			ArrayList<ArrayList<LNode>> forest = this.getFlatForest();
+			ArrayList<ArrayList<LNode>> forest = getFlatForest();
 
 			if (forest.size() > 0)
 			// The graph associated with this layout is flat and a forest
 			{
-				this.positionNodesRadially(forest);
+				positionNodesRadially(forest);
 			}
 			else
 			// The graph associated with this layout is not flat or a forest
 			{
-				this.positionNodesRandomly();
+				positionNodesRandomly();
 			}
 		}
 
 		if (!arePortNodesCreated())
 		{
 			createPortNodes();
-			this.graphManager.resetAllNodes();
-			this.graphManager.resetAllNodesToApplyGravitation();
-			this.graphManager.resetAllEdges();
-			this.calculateNodesToApplyGravitationTo();
+			graphManager.resetAllNodes();
+			graphManager.resetAllNodesToApplyGravitation();
+			graphManager.resetAllEdges();
+			calculateNodesToApplyGravitationTo();
 		}
-		this.initSpringEmbedder();
-		this.runSpringEmbedder();
+		initSpringEmbedder();
+		runSpringEmbedder();
 
 		return true;
 	}
@@ -1310,7 +1315,7 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	public void calcSpringForces()
 	{
-		Object[] lEdges = this.getAllEdges();
+		Object[] lEdges = getAllEdges();
 		FDLayoutEdge edge;
 
 		for (int i = 0; i < lEdges.length; i++)
@@ -1318,7 +1323,7 @@ public class SbgnPDLayout extends CoSELayout
 			edge = (FDLayoutEdge) lEdges[i];
 
 			if (!edge.type.equals(SbgnPDConstants.RIGID_EDGE))
-				this.calcSpringForce(edge, edge.idealLength);
+				calcSpringForce(edge, edge.idealLength);
 		}
 	}
 
@@ -1331,25 +1336,25 @@ public class SbgnPDLayout extends CoSELayout
 	{
 		int i, j;
 		FDLayoutNode nodeA, nodeB;
-		Object[] lNodes = this.getAllNodes();
+		Object[] lNodes = getAllNodes();
 		HashSet<FDLayoutNode> processedNodeSet;
 
-		if (this.useFRGridVariant)
+		if (useFRGridVariant)
 		{
 			// grid is a vector matrix that holds CoSENodes.
 			// be sure to convert the Object type to CoSENode.
 
-			if (this.totalIterations
+			if (totalIterations
 					% FDLayoutConstants.GRID_CALCULATION_CHECK_PERIOD == 1)
 			{
-				this.grid = this.calcGrid(this.graphManager.getRoot());
+				grid = calcGrid(graphManager.getRoot());
 
 				// put all nodes to proper grid cells
 				for (i = 0; i < lNodes.length; i++)
 				{
 					nodeA = (FDLayoutNode) lNodes[i];
-					this.addNodeToGrid(nodeA, this.grid, this.graphManager
-							.getRoot().getLeft(), this.graphManager.getRoot()
+					addNodeToGrid(nodeA, grid, graphManager
+							.getRoot().getLeft(), graphManager.getRoot()
 							.getTop());
 				}
 			}
@@ -1360,7 +1365,7 @@ public class SbgnPDLayout extends CoSELayout
 			for (i = 0; i < lNodes.length; i++)
 			{
 				nodeA = (FDLayoutNode) lNodes[i];
-				this.calculateRepulsionForceOfANode(this.grid, nodeA,
+				calculateRepulsionForceOfANode(grid, nodeA,
 						processedNodeSet);
 				processedNodeSet.add(nodeA);
 			}
@@ -1394,7 +1399,7 @@ public class SbgnPDLayout extends CoSELayout
 						continue;
 					}
 
-					this.calcRepulsionForce(nodeA, nodeB);
+					calcRepulsionForce(nodeA, nodeB);
 				}
 			}
 		}
@@ -1412,8 +1417,7 @@ public class SbgnPDLayout extends CoSELayout
 	{
 		int i, j;
 
-		if (this.totalIterations
-				% FDLayoutConstants.GRID_CALCULATION_CHECK_PERIOD == 1)
+		if (totalIterations % FDLayoutConstants.GRID_CALCULATION_CHECK_PERIOD == 1)
 		{
 			HashSet<Object> surrounding = new HashSet<Object>();
 			FDLayoutNode nodeB;
@@ -1458,17 +1462,15 @@ public class SbgnPDLayout extends CoSELayout
 							{
 								double distanceX = Math.abs(nodeA.getCenterX()
 										- nodeB.getCenterX())
-										- ((nodeA.getWidth() / 2) + (nodeB
-												.getWidth() / 2));
+										- ((nodeA.getWidth() / 2) + (nodeB.getWidth() / 2));
 								double distanceY = Math.abs(nodeA.getCenterY()
 										- nodeB.getCenterY())
-										- ((nodeA.getHeight() / 2) + (nodeB
-												.getHeight() / 2));
+										- ((nodeA.getHeight() / 2) + (nodeB.getHeight() / 2));
 
 								// if the distance between nodeA and nodeB
 								// is less then calculation range
-								if ((distanceX <= this.repulsionRange)
-										&& (distanceY <= this.repulsionRange))
+								if ((distanceX <= repulsionRange)
+										&& (distanceY <= repulsionRange))
 								{
 									// then add nodeB to surrounding of nodeA
 									surrounding.add(nodeB);
@@ -1482,9 +1484,8 @@ public class SbgnPDLayout extends CoSELayout
 			nodeA.surrounding = surrounding.toArray();
 		}
 
-		for (i = 0; i < nodeA.surrounding.length; i++)
-		{
-			this.calcRepulsionForce(nodeA, (FDLayoutNode) nodeA.surrounding[i]);
+		for (i = 0; i < nodeA.surrounding.length; i++) {
+			calcRepulsionForce(nodeA, (FDLayoutNode) nodeA.surrounding[i]);
 		}
 	}
 
@@ -1494,7 +1495,7 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	public LNode newPortNode(Object vNode, String type)
 	{
-		SbgnPDNode n = new SbgnPDNode(this.graphManager, vNode);
+		SbgnPDNode n = new SbgnPDNode(graphManager, vNode);
 		n.type = type;
 		n.setWidth(SbgnPDConstants.PORT_NODE_DEFAULT_WIDTH);
 		n.setHeight(SbgnPDConstants.PORT_NODE_DEFAULT_HEIGHT);
@@ -1507,7 +1508,7 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	public LNode newProcessNode(Object vNode)
 	{
-		return new SbgnProcessNode(this.graphManager, vNode);
+		return new SbgnProcessNode(graphManager, vNode);
 	}
 
 	/**
