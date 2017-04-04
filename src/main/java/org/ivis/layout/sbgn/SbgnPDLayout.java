@@ -171,7 +171,7 @@ public class SbgnPDLayout extends CoSELayout
 			graphManager.updateBounds();
 
 			calcSpringForces();
-			calcRepulsionForces(); //TODO: may stuck for minutes; run in a thread with timeout to fail after...
+			calcRepulsionForces();
 			calcGravitationalForces();
 			moveNodes();
 
@@ -225,14 +225,13 @@ public class SbgnPDLayout extends CoSELayout
 			graphManager.updateBounds();
 
 			calcSpringForces();
-			calcRepulsionForces(); //TODO: this may take minutes; run in another thread this timeout, e.g., 1 sec
+			calcRepulsionForces(); //TODO: this may take many minutes...
 			calcGravitationalForces();
 			moveNodes();
 
 			animate();
-		}
-		while (totalIterations < maxIterations
-				&& totalIterations < 10000);
+
+		} while (totalIterations < maxIterations && totalIterations < 2500); //10000 was too much (~1e+25 nodes+edges :))
 
 		phase2IterationCount = totalIterations;
 		graphManager.updateBounds();

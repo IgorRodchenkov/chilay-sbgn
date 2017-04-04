@@ -18,7 +18,6 @@ public class LayoutOptionsPack implements Serializable
 
 	private General general;
 	private CoSE coSE;
-	private Cluster cluster;
 
 	public class General
 	{
@@ -64,23 +63,10 @@ public class LayoutOptionsPack implements Serializable
 		public boolean defaultMultiLevelScaling = CoSEConstants.DEFAULT_USE_MULTI_LEVEL_SCALING;
 	}
 
-	public class Cluster
-	{
-		public int idealEdgeLength; // any positive int
-		public int clusterSeperation; // 0-100
-		public int clusterGravityStrength; // 0-100
-
-		public int defaultIdealEdgeLength = CoSEConstants.DEFAULT_EDGE_LENGTH;
-		public int defaultClusterSeperation = 50;
-		public int defaultClusterGravityStrength = 50;
-	}
-
-
 	private LayoutOptionsPack()
 	{
 		general = new General();
 		coSE = new CoSE();
-		cluster = new Cluster();
 		setDefaultLayoutProperties();
 	}
 
@@ -104,10 +90,6 @@ public class LayoutOptionsPack implements Serializable
 		coSE.compoundGravityRange = coSE.defaultCompoundGravityRange ;
 		coSE.smartEdgeLengthCalc = coSE.defaultSmartEdgeLengthCalc ;
 		coSE.multiLevelScaling = coSE.defaultMultiLevelScaling ;
-
-		cluster.idealEdgeLength = cluster.defaultIdealEdgeLength;
-		cluster.clusterSeperation = cluster.defaultClusterSeperation;
-		cluster.clusterGravityStrength = cluster.defaultClusterGravityStrength;
 	}
 
 	public static LayoutOptionsPack getInstance()
@@ -122,12 +104,6 @@ public class LayoutOptionsPack implements Serializable
 	public CoSE getCoSE()
 	{
 		return coSE;
-	}
-
-
-	public Cluster getCluster()
-	{
-		return cluster;
 	}
 
 
