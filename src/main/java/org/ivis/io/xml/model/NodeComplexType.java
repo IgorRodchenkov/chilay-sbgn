@@ -17,62 +17,62 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for nodeComplexType complex type.
+ * Java class for nodeComplexType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="nodeComplexType">
- *   &lt;complexContent>
- *     &lt;extension base="{}graphObjectComplexType">
- *       &lt;sequence>
- *         &lt;element name="bounds" minOccurs="0">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="x" use="required" type="{http://www.w3.org/2001/XMLSchema}double" />
- *                 &lt;attribute name="y" use="required" type="{http://www.w3.org/2001/XMLSchema}double" />
- *                 &lt;attribute name="width" use="required" type="{http://www.w3.org/2001/XMLSchema}double" />
- *                 &lt;attribute name="height" use="required" type="{http://www.w3.org/2001/XMLSchema}double" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="type" minOccurs="0">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}string" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="children" minOccurs="0">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element ref="{}node" maxOccurs="unbounded" minOccurs="0"/>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="clusterIDs" minOccurs="0">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="clusterID" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="nodeComplexType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base="{}graphObjectComplexType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="bounds" minOccurs="0"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="x" use="required" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+ *                 &lt;attribute name="y" use="required" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+ *                 &lt;attribute name="width" use="required" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+ *                 &lt;attribute name="height" use="required" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="type" minOccurs="0"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="children" minOccurs="0"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element ref="{}node" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="clusterIDs" minOccurs="0"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="clusterID" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -191,21 +191,21 @@ public class NodeComplexType
 
 
     /**
-     * <p>Java class for anonymous complex type.
+     * Java class for anonymous complex type.
      * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
+     * The following schema fragment specifies the expected content contained within this class.
      * 
      * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;attribute name="x" use="required" type="{http://www.w3.org/2001/XMLSchema}double" />
-     *       &lt;attribute name="y" use="required" type="{http://www.w3.org/2001/XMLSchema}double" />
-     *       &lt;attribute name="width" use="required" type="{http://www.w3.org/2001/XMLSchema}double" />
-     *       &lt;attribute name="height" use="required" type="{http://www.w3.org/2001/XMLSchema}double" />
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
+     * &lt;complexType&gt;
+     *   &lt;complexContent&gt;
+     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+     *       &lt;attribute name="x" use="required" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+     *       &lt;attribute name="y" use="required" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+     *       &lt;attribute name="width" use="required" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+     *       &lt;attribute name="height" use="required" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+     *     &lt;/restriction&gt;
+     *   &lt;/complexContent&gt;
+     * &lt;/complexType&gt;
      * </pre>
      * 
      * 
@@ -225,7 +225,7 @@ public class NodeComplexType
 
         /**
          * Gets the value of the x property.
-         * 
+         * @return x
          */
         public double getX() {
             return x;
@@ -233,7 +233,7 @@ public class NodeComplexType
 
         /**
          * Sets the value of the x property.
-         * 
+         * @param value x
          */
         public void setX(double value) {
             this.x = value;
@@ -241,7 +241,7 @@ public class NodeComplexType
 
         /**
          * Gets the value of the y property.
-         * 
+         * @return y
          */
         public double getY() {
             return y;
@@ -249,7 +249,7 @@ public class NodeComplexType
 
         /**
          * Sets the value of the y property.
-         * 
+         * @param value y
          */
         public void setY(double value) {
             this.y = value;
@@ -257,7 +257,7 @@ public class NodeComplexType
 
         /**
          * Gets the value of the width property.
-         * 
+         * @return width
          */
         public double getWidth() {
             return width;
@@ -265,7 +265,7 @@ public class NodeComplexType
 
         /**
          * Sets the value of the width property.
-         * 
+         * @param value width
          */
         public void setWidth(double value) {
             this.width = value;
@@ -273,7 +273,7 @@ public class NodeComplexType
 
         /**
          * Gets the value of the height property.
-         * 
+         * @return height
          */
         public double getHeight() {
             return height;
@@ -281,7 +281,7 @@ public class NodeComplexType
 
         /**
          * Sets the value of the height property.
-         * 
+         * @param value height
          */
         public void setHeight(double value) {
             this.height = value;
@@ -291,20 +291,20 @@ public class NodeComplexType
 
 
     /**
-     * <p>Java class for anonymous complex type.
+     * Java class for anonymous complex type.
      * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
+     * The following schema fragment specifies the expected content contained within this class.
      * 
      * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence>
-     *         &lt;element ref="{}node" maxOccurs="unbounded" minOccurs="0"/>
-     *       &lt;/sequence>
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
+     * &lt;complexType&gt;
+     *   &lt;complexContent&gt;
+     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+     *       &lt;sequence&gt;
+     *         &lt;element ref="{}node" maxOccurs="unbounded" minOccurs="0"/&gt;
+     *       &lt;/sequence&gt;
+     *     &lt;/restriction&gt;
+     *   &lt;/complexContent&gt;
+     * &lt;/complexType&gt;
      * </pre>
      * 
      * 
@@ -320,24 +320,24 @@ public class NodeComplexType
         /**
          * Gets the value of the node property.
          * 
-         * <p>
+         *
          * This accessor method returns a reference to the live list,
          * not a snapshot. Therefore any modification you make to the
          * returned list will be present inside the JAXB object.
          * This is why there is not a <CODE>set</CODE> method for the node property.
          * 
-         * <p>
+         *
          * For example, to add a new item, do as follows:
          * <pre>
          *    getNode().add(newItem);
          * </pre>
          * 
          * 
-         * <p>
+         *
          * Objects of the following type(s) are allowed in the list
          * {@link NodeComplexType }
          * 
-         * 
+         * @return nodes
          */
         public List<NodeComplexType> getNode() {
             if (node == null) {
@@ -350,20 +350,20 @@ public class NodeComplexType
 
 
     /**
-     * <p>Java class for anonymous complex type.
+     * Java class for anonymous complex type.
      * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
+     * The following schema fragment specifies the expected content contained within this class.
      * 
      * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence>
-     *         &lt;element name="clusterID" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-     *       &lt;/sequence>
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
+     * &lt;complexType&gt;
+     *   &lt;complexContent&gt;
+     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+     *       &lt;sequence&gt;
+     *         &lt;element name="clusterID" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+     *       &lt;/sequence&gt;
+     *     &lt;/restriction&gt;
+     *   &lt;/complexContent&gt;
+     * &lt;/complexType&gt;
      * </pre>
      * 
      * 
@@ -379,24 +379,24 @@ public class NodeComplexType
         /**
          * Gets the value of the clusterID property.
          * 
-         * <p>
+         *
          * This accessor method returns a reference to the live list,
          * not a snapshot. Therefore any modification you make to the
          * returned list will be present inside the JAXB object.
          * This is why there is not a <CODE>set</CODE> method for the clusterID property.
          * 
-         * <p>
+         *
          * For example, to add a new item, do as follows:
          * <pre>
          *    getClusterID().add(newItem);
          * </pre>
          * 
          * 
-         * <p>
+         *
          * Objects of the following type(s) are allowed in the list
          * {@link String }
          * 
-         * 
+         * @return ids
          */
         public List<String> getClusterID() {
             if (clusterID == null) {
@@ -409,18 +409,18 @@ public class NodeComplexType
 
 
     /**
-     * <p>Java class for anonymous complex type.
+     * Java class for anonymous complex type.
      * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
+     * The following schema fragment specifies the expected content contained within this class.
      * 
      * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}string" />
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
+     * &lt;complexType&gt;
+     *   &lt;complexContent&gt;
+     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+     *       &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+     *     &lt;/restriction&gt;
+     *   &lt;/complexContent&gt;
+     * &lt;/complexType&gt;
      * </pre>
      * 
      * 

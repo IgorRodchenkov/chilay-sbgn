@@ -22,24 +22,23 @@ import javax.xml.namespace.QName;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ *Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ *The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence maxOccurs="unbounded">
- *         &lt;any/>
- *       &lt;/sequence>
- *       &lt;anyAttribute/>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence maxOccurs="unbounded"&gt;
+ *         &lt;any/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;anyAttribute/&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -55,25 +54,21 @@ public class CustomData {
 
     /**
      * Gets the value of the any property.
-     * 
-     * <p>
+     *
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the any property.
-     * 
-     * <p>
+     * This is why there is not a <code>set</code> method for the any property.
+     *
      * For example, to add a new item, do as follows:
      * <pre>
      *    getAny().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     *
      * Objects of the following type(s) are allowed in the list
      * {@link Object }
      * 
-     * 
+     * @return objects
      */
     public List<Object> getAny() {
         if (any == null) {
@@ -84,8 +79,7 @@ public class CustomData {
 
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
-     * 
-     * <p>
+     *
      * the map is keyed by the name of the attribute and 
      * the value is the string value of the attribute.
      * 
@@ -93,7 +87,7 @@ public class CustomData {
      * by updating the map directly. Because of this design, there's no setter.
      * 
      * 
-     * @return
+     * @return other attributes
      *     always non-null
      */
     public Map<QName, String> getOtherAttributes() {

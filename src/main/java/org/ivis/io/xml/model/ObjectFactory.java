@@ -18,7 +18,8 @@ import javax.xml.namespace.QName;
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
  * generated in the org.ivis.io.xml.model package. 
- * <p>An ObjectFactory allows you to programatically 
+ *
+ * An ObjectFactory allows you to programatically
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
  * content can consist of schema derived interfaces 
@@ -42,7 +43,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link EdgeComplexType }
-     * 
+     * @return edge
      */
     public EdgeComplexType createEdgeComplexType() {
         return new EdgeComplexType();
@@ -50,7 +51,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link EdgeComplexType.BendPointList }
-     * 
+     * @return edge bend points list
      */
     public EdgeComplexType.BendPointList createEdgeComplexTypeBendPointList() {
         return new EdgeComplexType.BendPointList();
@@ -58,7 +59,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link NodeComplexType }
-     * 
+     * @return node
      */
     public NodeComplexType createNodeComplexType() {
         return new NodeComplexType();
@@ -66,7 +67,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CustomData }
-     * 
+     * @return custom data
      */
     public CustomData createCustomData() {
         return new CustomData();
@@ -74,7 +75,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link View }
-     * 
+     * @return view
      */
     public View createView() {
         return new View();
@@ -82,7 +83,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link GraphObjectComplexType }
-     * 
+     * @return graph object
      */
     public GraphObjectComplexType createGraphObjectComplexType() {
         return new GraphObjectComplexType();
@@ -90,7 +91,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link EdgeComplexType.SourceNode }
-     * 
+     * @return edge's source node
      */
     public EdgeComplexType.SourceNode createEdgeComplexTypeSourceNode() {
         return new EdgeComplexType.SourceNode();
@@ -98,7 +99,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link EdgeComplexType.TargetNode }
-     * 
+     * @return edge's target node
      */
     public EdgeComplexType.TargetNode createEdgeComplexTypeTargetNode() {
         return new EdgeComplexType.TargetNode();
@@ -106,7 +107,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link EdgeComplexType.Type }
-     * 
+     * @return edge's type
      */
     public EdgeComplexType.Type createEdgeComplexTypeType() {
         return new EdgeComplexType.Type();
@@ -114,7 +115,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link EdgeComplexType.BendPointList.BendPoint }
-     * 
+     * @return edge's bend point
      */
     public EdgeComplexType.BendPointList.BendPoint createEdgeComplexTypeBendPointListBendPoint() {
         return new EdgeComplexType.BendPointList.BendPoint();
@@ -122,7 +123,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link NodeComplexType.Bounds }
-     * 
+     * @return node's bounds
      */
     public NodeComplexType.Bounds createNodeComplexTypeBounds() {
         return new NodeComplexType.Bounds();
@@ -130,7 +131,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link NodeComplexType.Type }
-     * 
+     * @return node type
      */
     public NodeComplexType.Type createNodeComplexTypeType() {
         return new NodeComplexType.Type();
@@ -138,7 +139,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link NodeComplexType.Children }
-     * 
+     * @return node's children
      */
     public NodeComplexType.Children createNodeComplexTypeChildren() {
         return new NodeComplexType.Children();
@@ -146,7 +147,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link NodeComplexType.ClusterIDs }
-     * 
+     * @return node's cluster ids
      */
     public NodeComplexType.ClusterIDs createNodeComplexTypeClusterIDs() {
         return new NodeComplexType.ClusterIDs();
@@ -154,7 +155,8 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link NodeComplexType }{@code >}}
-     * 
+     * @param value node
+     * @return node type jaxb element
      */
     @XmlElementDecl(namespace = "", name = "node")
     public JAXBElement<NodeComplexType> createNode(NodeComplexType value) {
