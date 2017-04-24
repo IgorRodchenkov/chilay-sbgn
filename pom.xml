@@ -6,7 +6,7 @@
 
     <groupId>pathwaycommons</groupId>
     <artifactId>chilay-sbgn</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1-SNAPSHOT</version>
 
     <name>chilay-sbgn</name>
     <description>SBGN-PD layout (COSE) library fork (originally developed at Bikent University)</description>
