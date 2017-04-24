@@ -115,7 +115,7 @@ public abstract class FDLayout extends Layout
 	public double maxNodeDisplacement;
 	
 	/**
-	 * Repulsion range & edge size of a grid
+	 * Repulsion range &amp; edge size of a grid
 	 */
 	protected double repulsionRange;
 	

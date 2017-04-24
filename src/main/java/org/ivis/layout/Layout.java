@@ -43,8 +43,7 @@ public abstract class Layout {
 	/**
 	 * Whether layout should create bendpoints as needed or not
 	 */
-	public boolean createBendsAsNeeded =
-		LayoutConstants.DEFAULT_CREATE_BENDS_AS_NEEDED;
+	public boolean createBendsAsNeeded = LayoutConstants.DEFAULT_CREATE_BENDS_AS_NEEDED;
 
 	/**
 	 * Whether layout should be incremental or not
@@ -54,8 +53,7 @@ public abstract class Layout {
 	/**
 	 * Whether we animate from before to after layout node positions
 	 */
-	public boolean animationOnLayout =
-		LayoutConstants.DEFAULT_ANIMATION_ON_LAYOUT;
+	public boolean animationOnLayout = LayoutConstants.DEFAULT_ANIMATION_ON_LAYOUT;
 
 	/**
 	 * Whether we animate the layout process or not
@@ -73,8 +71,7 @@ public abstract class Layout {
 	 * calculated without the expensive clipping point calculations, resulting
 	 * in major speed-up.
 	 */
-	public boolean uniformLeafNodeSizes =
-		LayoutConstants.DEFAULT_UNIFORM_LEAF_NODE_SIZES;
+	public boolean uniformLeafNodeSizes = LayoutConstants.DEFAULT_UNIFORM_LEAF_NODE_SIZES;
 
 	/*
 	 * Geometric abstraction of the compound graph
@@ -124,6 +121,7 @@ public abstract class Layout {
 // -----------------------------------------------------------------------------
 	/**
 	 * This method returns the associated graph manager.
+	 * @return graph manager
 	 */
 	public LGraphManager getGraphManager()
 	{
@@ -132,6 +130,7 @@ public abstract class Layout {
 
 	/**
 	 * This method returns the array of all nodes in associated graph manager.
+	 * @return array of all nodes
 	 */
 	public Object[] getAllNodes()
 	{
@@ -140,6 +139,7 @@ public abstract class Layout {
 
 	/**
 	 * This method returns the array of all edges in associated graph manager.
+	 * @return array of all edges
 	 */
 	public Object[] getAllEdges()
 	{
@@ -149,6 +149,8 @@ public abstract class Layout {
 	/**
 	 * This method returns the array of all nodes to which gravitation should be
 	 * applied.
+	 *
+	 * @return array of nodes to apply gravitation
 	 */
 	public Object[] getAllNodesToApplyGravitation()
 	{
@@ -160,6 +162,8 @@ public abstract class Layout {
 // -----------------------------------------------------------------------------
 	/*
 	 * This method creates a new graph manager associated with this layout.
+	 *
+	 * @return new graph manager instance (is set for the private field)
 	 */
 	protected LGraphManager newGraphManager()
 	{
@@ -170,6 +174,9 @@ public abstract class Layout {
 
 	/**
 	 * This method creates a new graph associated with the input view graph.
+	 *
+	 * @param vGraph view graph
+	 * @return new graph
 	 */
 	public LGraph newGraph(Object vGraph)
 	{
@@ -178,6 +185,9 @@ public abstract class Layout {
 
 	/**
 	 * This method creates a new node associated with the input view node.
+	 *
+	 * @param vNode a view node
+	 * @return new node
 	 */
 	public LNode newNode(Object vNode)
 	{
@@ -186,6 +196,9 @@ public abstract class Layout {
 
 	/**
 	 * This method creates a new edge associated with the input view edge.
+	 *
+	 * @param vEdge a view edge
+	 * @return new edge
 	 */
 	public LEdge newEdge(Object vEdge)
 	{
@@ -198,6 +211,7 @@ public abstract class Layout {
 	/**
 	 * This method coordinates the layout operation. It returns true upon
 	 * success, false otherwise.
+	 * @return true if the operation succeeded; otherwise - false
 	 */
 	public boolean runLayout()
 	{
@@ -254,7 +268,7 @@ public abstract class Layout {
 	 * This method performs the operations required before layout.
 	 */
 	public void doPreLayout()
-	{
+	{ //TODO: Who did forget to implement; why it's empty?
 	}
 
 	/**
@@ -310,6 +324,7 @@ public abstract class Layout {
 	/**
 	 * This method is called for updating the geometry of the view node
 	 * associated with the input node when layout finishes.
+	 * @param node node to update view of
 	 */
 	public void update(LNode node)
 	{
@@ -332,6 +347,7 @@ public abstract class Layout {
 	/**
 	 * This method is called for updating the geometry of the view edge
 	 * associated with the input edge when layout finishes.
+	 * @param edge edge to update view of
 	 */
 	public void update(LEdge edge)
 	{
@@ -345,6 +361,7 @@ public abstract class Layout {
 	/**
 	 * This method is called for updating the geometry of the view graph
 	 * associated with the input graph when layout finishes.
+	 * @param graph graph to update view of
 	 */
 	public void update(LGraph graph)
 	{
@@ -401,6 +418,8 @@ public abstract class Layout {
 	/**
 	 * This method transforms the LNodes in the associated LGraphManager so that
 	 * upper-left corner of the drawing starts at the input coordinate.
+	 *
+	 * @param newLeftTop new left-top coordinate point
 	 */
 	public void transform(PointD newLeftTop)
 	{
@@ -476,13 +495,14 @@ public abstract class Layout {
 	/**
 	 * This method returns a list of trees where each tree is represented as a
 	 * list of l-nodes. The method returns a list of size 0 when:
-	 * - The graph is not flat or
-	 * - One of the component(s) of the graph is not a tree.
+	 * - the graph is not flat or
+	 * - one of the component(s) of the graph is not a tree.
+	 *
+	 * @return list of trees (forest)
 	 */
-	public ArrayList<ArrayList<LNode>> getFlatForest()
+	public List<List<LNode>> getFlatForest()
 	{
-		ArrayList<ArrayList<LNode>> flatForest =
-			new ArrayList<ArrayList<LNode>>();
+		List<List<LNode>> flatForest = new ArrayList<List<LNode>>();
 		boolean isForest = true;
 
 		// Quick reference for all nodes in the graph manager associated with
@@ -585,6 +605,10 @@ public abstract class Layout {
 	 * This method creates dummy nodes (an l-level node with minimal dimensions)
 	 * for the given edge (one per bendpoint). The existing l-level structure
 	 * is updated accordingly.
+	 *
+	 * @param edge given edge
+	 *
+	 * @return list of dummy nodes for bendpoints
 	 */
 	public List createDummyNodesForBendpoints(LEdge edge)
 	{
@@ -674,11 +698,16 @@ public abstract class Layout {
 // Section: Class methods
 // -----------------------------------------------------------------------------
 	/**
-	 * This method transforms the input slider value into an actual parameter
+	 * This method transforms the input slider value into actual parameter
 	 * value using two separate linear functions (one from 0 to 50, other from
 	 * 50 to 100), where default slider value (50) maps to the default value of
 	 * the associated actual parameter. Minimum and maximum slider values map to
 	 * 1/10 and 10 fold of this default value, respectively.
+	 *
+	 * @param sliderValue slider current value
+	 * @param defaultValue slider default actual parameter value
+	 *
+	 * @return actual parameter value
 	 */
 	public static double transform(int sliderValue, double defaultValue)
 	{
@@ -722,6 +751,10 @@ public abstract class Layout {
 	/**
 	 * This method takes a list of lists, where each list contains l-nodes of a
 	 * tree. Center of each tree is return as a list of.
+	 *
+	 * @param listofLists list of lists of l-nodes of a tree
+	 *
+	 * @return list of centre nodes
 	 */
 	public static List<LNode> findCenterOfEachTree(List<List> listofLists)
 	{
@@ -740,6 +773,10 @@ public abstract class Layout {
 	/**
 	 * This method finds and returns the center of the given nodes, assuming
 	 * that the given nodes form a tree in themselves.
+	 *
+	 * @param nodes list of nodes
+	 *
+	 * @return the centre node of the tree
 	 */
 	public static LNode findCenterOfTree(List<LNode> nodes)
 	{
@@ -832,7 +869,9 @@ public abstract class Layout {
 // -----------------------------------------------------------------------------
 	/**
 	 * During the coarsening process, this layout may be referenced by two graph managers
-	 * this setter function grants access to change the currently being used graph manager
+	 * this setter function grants access to change the currently being used graph manager.
+	 *
+	 * @param gm graph manager
 	 */
 	public void setGraphManager (LGraphManager gm)
 	{

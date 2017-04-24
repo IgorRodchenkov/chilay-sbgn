@@ -9,7 +9,7 @@ import java.util.*;
  * following article for technical details:
  * 		U. Dogrusoz and B. Genc, "A Multi-Graph Approach to Complexity
  * 		Management in Interactive Graph Visualization",
- * 		Computers & Graphics, vol. 30/1, pp. 86-97, 2006.
+ * 		Computers &amp; Graphics, vol. 30/1, pp. 86-97, 2006.
  *
  * @author Erhan Giral
  * @author Ugur Dogrusoz

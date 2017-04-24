@@ -227,7 +227,7 @@ public class CoSELayout extends FDLayout
 	
 		if (!incremental)
 		{
-			ArrayList<ArrayList<LNode>> forest = getFlatForest();
+			List<List<LNode>> forest = getFlatForest();
 	
 			if (forest.size() > 0)
 			// The graph associated with this layout is flat and a forest
@@ -408,7 +408,7 @@ public class CoSELayout extends FDLayout
 	 * This method performs initial positioning of given forest radially. The
 	 * final drawing should be centered at the gravitational center.
 	 */
-	protected void positionNodesRadially(ArrayList<ArrayList<LNode>> forest)
+	protected void positionNodesRadially(List<List<LNode>> forest)
 	{
 		// We tile the trees to a grid row by row; first tree starts at (0,0)
 		Point currentStartingPoint = new Point(0, 0);
@@ -435,7 +435,7 @@ public class CoSELayout extends FDLayout
 				height = 0;
 			}
 
-			ArrayList<LNode> tree = forest.get(i);
+			List<LNode> tree = forest.get(i);
 
 			// Find the center of the tree
 			LNode centerNode = Layout.findCenterOfTree(tree);
@@ -468,7 +468,7 @@ public class CoSELayout extends FDLayout
 	 * at given location. It returns the bottom-right of the bounding rectangle
 	 * of the resulting tree drawing.
 	 */
-	private static PointD radialLayout(ArrayList<LNode> tree,
+	private static PointD radialLayout(List<LNode> tree,
 		LNode centerNode,
 		Point startingPoint)
 	{
@@ -591,7 +591,7 @@ public class CoSELayout extends FDLayout
 	/**
 	 * This method finds the maximum diagonal length of the nodes in given tree.
 	 */
-	private static double maxDiagonalInTree(ArrayList<LNode> tree)
+	private static double maxDiagonalInTree(List<LNode> tree)
 	{
 		double maxDiagonal = Double.MIN_VALUE;
 

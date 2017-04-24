@@ -52,8 +52,6 @@ public class RectProc
 
 	/**
 	 * This method packs rectangles using polyomino packing algorithm.
-	 * 
-	 * @return
 	 */
 	public static void packRectanglesMino(double buffer, int rN,
 			SbgnPDNode[] rectangles)

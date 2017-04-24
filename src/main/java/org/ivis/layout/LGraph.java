@@ -73,9 +73,7 @@ public class LGraph extends LGraphObject
 // -----------------------------------------------------------------------------
 // Section: Constructors and initialization
 // -----------------------------------------------------------------------------
-	/*
-	 * Constructor
-	 */
+
 	protected LGraph(LNode parent, LGraphManager graphMgr, Object vGraph)
 	{
 		this(vGraph);
@@ -83,9 +81,6 @@ public class LGraph extends LGraphObject
 		this.graphManager = graphMgr;
 	}
 
-	/*
-	 * Alternative constructor
-	 */
 	protected LGraph(LNode parent, Layout layout, Object vGraph)
 	{
 		this(vGraph);
@@ -104,25 +99,17 @@ public class LGraph extends LGraphObject
 // -----------------------------------------------------------------------------
 // Section: Accessors
 // -----------------------------------------------------------------------------
-	/**
-	 * This method returns the list of nodes in this graph.
-	 */
+
 	public List getNodes()
 	{
 		return nodes;
 	}
 
-	/**
-	 * This method returns the list of edges in this graph.
-	 */
 	public List getEdges()
 	{
 		return edges;
 	}
 
-	/**
-	 * This method returns the graph manager of this graph.
-	 */
 	public LGraphManager getGraphManager()
 	{
 		return graphManager;
@@ -131,6 +118,7 @@ public class LGraph extends LGraphObject
 	/**
 	 * This method returns the parent node of this graph. If this graph is the
 	 * root of the nesting hierarchy, then null is returned.
+	 * @return parent node
 	 */
 	public LNode getParent()
 	{
@@ -140,6 +128,7 @@ public class LGraph extends LGraphObject
 	/**
 	 * This method returns the left of the bounds of this graph. Notice that
 	 * bounds are not always up-to-date.
+	 * @return left (x)
 	 */
 	public int getLeft()
 	{
@@ -149,6 +138,7 @@ public class LGraph extends LGraphObject
 	/**
 	 * This method returns the right of the bounds of this graph. Notice that
 	 * bounds are not always up-to-date.
+	 * @return right (x)
 	 */
 	public int getRight()
 	{
@@ -158,6 +148,7 @@ public class LGraph extends LGraphObject
 	/**
 	 * This method returns the top of the bounds of this graph. Notice that
 	 * bounds are not always up-to-date.
+	 * @return top (y)
 	 */
 	public int getTop()
 	{
@@ -167,6 +158,7 @@ public class LGraph extends LGraphObject
 	/**
 	 * This method returns the bottom of the bounds of this graph. Notice that
 	 * bounds are not always up-to-date.
+	 * @return bottom (y)
 	 */
 	public int getBottom()
 	{
@@ -175,6 +167,7 @@ public class LGraph extends LGraphObject
 
 	/**
 	 * This method returns the bigger of the two dimensions of this graph.
+	 * @return the max of height or width
 	 */
 	public int getBiggerDimension()
 	{
@@ -184,6 +177,7 @@ public class LGraph extends LGraphObject
 
 	/**
 	 * This method returns whether this graph is connected or not.
+	 * @return true or false
 	 */
 	public boolean isConnected()
 	{
@@ -193,6 +187,7 @@ public class LGraph extends LGraphObject
 	/**
 	 * This method returns the margins of this graph to be applied on the
 	 * bounding rectangle of its contents.
+	 * @return margin
 	 */
 	public int getMargin()
 	{
@@ -202,6 +197,7 @@ public class LGraph extends LGraphObject
 	/**
 	 * This method sets the margins of this graphs to be applied on the
 	 * bounding rectangle of its contents.
+	 * @param margin value
 	 */
 	public void setMargin(int margin)
 	{
@@ -214,20 +210,27 @@ public class LGraph extends LGraphObject
 	/**
 	 * This methods adds the given node to this graph. We assume this graph has
 	 * a proper graph manager.
+	 * @param newNode new node to add
+	 * @return node added or existing
 	 */
 	public LNode add(LNode newNode)
 	{
 		assert (graphManager != null) : "Graph has no graph mgr!";
 		assert (!getNodes().contains(newNode)) : "Node already in graph!";
+		//TODO: 'assert' does not help in production mode; should it be an exception or warning?
 		newNode.setOwner(this);
 		getNodes().add(newNode);
-
 		return newNode;
 	}
 
 	/**
 	 * This methods adds the given edge to this graph with specified nodes as
 	 * source and target.
+	 *
+	 * @param newEdge new edge
+	 * @param sourceNode source node
+	 * @param targetNode target node
+	 * @return the edge
 	 */
 	public LEdge add(LEdge newEdge, LNode sourceNode, LNode targetNode)
 	{
@@ -267,6 +270,7 @@ public class LGraph extends LGraphObject
 	 * This method removes the input node from this graph. If the node has any
 	 * incident edges, they are removed from the graph (the graph manager for
 	 * inter-graph edges) as well.
+	 * @param node node to remove
 	 */
 	public void remove(LNode node)
 	{
@@ -303,6 +307,7 @@ public class LGraph extends LGraphObject
 	/**
 	 * This method removes the input edge from this graph. Should not be used
 	 * for inter-graph edges.
+	 * @param edge edge to remove
 	 */
 	public void remove(LEdge edge)
 	{
@@ -340,6 +345,7 @@ public class LGraph extends LGraphObject
 	/**
 	 * This method calculates, updates and returns the left-top point of this
 	 * graph including margins.
+	 * @return updated left-top point
 	 */
 	public Point updateLeftTop()
 	{
@@ -433,7 +439,7 @@ public class LGraph extends LGraphObject
 		}
 
 		// Any nodes in this graph?..
-		//TODO: looks, this was wrong (bogus code), which I fixed (set local left, right, etc., then build new boundingRect)
+		//TODO: review; I bet it was bogus code here, which I fixed: set local left,right,etc. before boundingRect...
 		if (left == Integer.MAX_VALUE) { // nope -
 			left =  (int)(parent.getLeft());
 			right = (int)(parent.getRight());
@@ -453,6 +459,8 @@ public class LGraph extends LGraphObject
 	 * This method returns the bounding rectangle of the given list of nodes. No
 	 * margins are accounted for, and it returns a rectangle with top-left set
 	 * to Integer.MAX_VALUE if the list is empty.
+	 * @param nodes list of nodes
+	 * @return bounding rectangle
 	 */
 	public static Rectangle calculateBounds(List<LNode> nodes)
 	{
@@ -505,6 +513,7 @@ public class LGraph extends LGraphObject
 	/**
 	 * This method returns the depth of the parent node of this graph, if any,
 	 * in the inclusion tree (nesting hierarchy).
+	 * @return depth
 	 */
 	public int getInclusionTreeDepth()
 	{
@@ -520,6 +529,7 @@ public class LGraph extends LGraphObject
 
 	/**
 	 * This method returns estimated size of this graph.
+	 * @return size estimate
 	 */
 	public int getEstimatedSize()
 	{
@@ -531,18 +541,20 @@ public class LGraph extends LGraphObject
 	 * This method sets the estimated size of this graph. We use this method to
 	 * directly set this size in certain exceptional cases rather than
 	 * calculating it from scratch (see calcEstimatedSize method).
+	 * @param size estimate
 	 */
 	public void setEstimatedSize(int size)
 	{
 		this.estimatedSize = size;
 	}
 
-	/*
+	/**
 	 * This method calculates and returns the estimated size of this graph as
 	 * well as the estimated sizes of the nodes in this graph recursively. The
 	 * estimated size of a graph is based on the estimated sizes of its nLGraphObjectodes.
 	 * In fact, this value is the exact average dimension for non-compound nodes
 	 * and it is a rather rough estimation on the dimension for compound nodes.
+	 * @return size estimate
 	 */
 	public int calcEstimatedSize()
 	{

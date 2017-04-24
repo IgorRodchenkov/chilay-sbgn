@@ -57,15 +57,17 @@ public class LEdge extends LGraphObject
 // -----------------------------------------------------------------------------
 // Section: Constructors and initializations
 // -----------------------------------------------------------------------------
-	/*
-	 * Constructor
+	/**
+	 * Non-public Constructor.
+	 *
+	 * @param source source node
+	 * @param target target node
+	 * @param vEdge edge
 	 */
 	protected LEdge(LNode source, LNode target, Object vEdge)
 	{
 		super(vEdge);
-
 		this.bendpoints = new ArrayList();
-
 		this.source = source;
 		this.target = target;
 	}
@@ -75,6 +77,7 @@ public class LEdge extends LGraphObject
 // -----------------------------------------------------------------------------
 	/**
 	 * This method returns the source node of this edge.
+	 * @return source node
 	 */
 	public LNode getSource()
 	{
@@ -83,6 +86,7 @@ public class LEdge extends LGraphObject
 
 	/**
 	 * This method sets the source node of this edge.
+	 * @param source source node
 	 */
 	public void setSource(LNode source)
 	{
@@ -91,6 +95,7 @@ public class LEdge extends LGraphObject
 
 	/**
 	 * This method returns the target node of this edge.
+	 * @return target node
 	 */
 	public LNode getTarget()
 	{
@@ -99,6 +104,7 @@ public class LEdge extends LGraphObject
 
 	/**
 	 * This method sets the target node of this edge.
+	 * @param target target node
 	 */
 	public void setTarget(LNode target)
 	{
@@ -107,6 +113,7 @@ public class LEdge extends LGraphObject
 
 	/**
 	 * This method returns whether or not this edge is an inter-graph edge.
+	 * @return true/false - whether this is an inter-graph edge or not
 	 */
 	public boolean isInterGraph()
 	{
@@ -116,6 +123,7 @@ public class LEdge extends LGraphObject
 	/**
 	 * This method returns the length of this edge. Note that this value might
 	 * be out-dated at times during a layout operation.
+	 * @return edge's length
 	 */
 	public double getLength()
 	{
@@ -125,6 +133,7 @@ public class LEdge extends LGraphObject
 	/**
 	 * This method returns the x component of the length of this edge. Note that
 	 * this value might be out-dated at times during a layout operation.
+	 * @return length along x axis
 	 */
 	public double getLengthX()
 	{
@@ -134,6 +143,7 @@ public class LEdge extends LGraphObject
 	/**
 	 * This method returns the y component of the length of this edge. Note that
 	 * this value might be out-dated at times during a layout operation.
+	 * @return length along y axis
 	 */
 	public double getLengthY()
 	{
@@ -143,6 +153,8 @@ public class LEdge extends LGraphObject
 	/**
 	 * This method returns whether or not this edge has overlapping source and
 	 * target.
+	 *
+	 * @return true when this edge has overlapping source and target; false otherwise
 	 */
 	public boolean isOverlapingSourceAndTarget()
 	{
@@ -159,6 +171,7 @@ public class LEdge extends LGraphObject
 
 	/**
 	 * This method returns the list of bend points of this edge.
+	 * @return list of points
 	 */
 	public List<PointD> getBendpoints()
 	{
@@ -168,6 +181,7 @@ public class LEdge extends LGraphObject
 	/**
 	 * This method clears all existing bendpoints and sets given bendpoints as 
 	 * the new ones.
+	 * @param bendPoints list of bend points
 	 */
 	public void reRoute(List<PointD> bendPoints)
 	{
@@ -196,6 +210,8 @@ public class LEdge extends LGraphObject
 // -----------------------------------------------------------------------------
 	/**
 	 * This method returns the end of this edge different from the input one.
+	 * @param node node
+	 * @return end node
 	 */
 	public LNode getOtherEnd(LNode node)
 	{
@@ -215,9 +231,14 @@ public class LEdge extends LGraphObject
 	}
 
 	/**
-	 * This method finds the other end of this edge, and returns its ancestor
+	 * This method finds the other end for this node, and returns its ancestor
 	 * node, possibly the other end node itself, that is in the input graph. It
 	 * returns null if none of its ancestors is in the input graph.
+	 *
+	 * @param node node
+	 * @param graph graph
+	 *
+	 * @return the other end node
 	 */
 	public LNode getOtherEndInGraph(LNode node, LGraph graph)
 	{

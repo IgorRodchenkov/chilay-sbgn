@@ -71,7 +71,7 @@ public class LNode extends LGraphObject implements Clustered
 // Section: Constructors and initialization
 // -----------------------------------------------------------------------------
 	/*
-	 * Constructor
+	 * Non-public Constructor.
 	 */
 	protected LNode(LGraphManager gm, Object vNode)
 	{
@@ -114,6 +114,7 @@ public class LNode extends LGraphObject implements Clustered
 // -----------------------------------------------------------------------------
 	/**
 	 * This method returns the list of incident edges of this node.
+	 * @return list of incident edges
 	 */
 	public List getEdges()
 	{
@@ -123,6 +124,7 @@ public class LNode extends LGraphObject implements Clustered
 	/**
 	 * This method returns the child graph of this node, if any. Only compound
 	 * nodes will have child graphs.
+	 * @return child graph
 	 */
 	public LGraph getChild()
 	{
@@ -132,6 +134,7 @@ public class LNode extends LGraphObject implements Clustered
 	/**
 	 * This method sets the child graph of this node. Only compound nodes will
 	 * have child graphs.
+	 * @param child child graph
 	 */
 	public void setChild(LGraph child)
 	{
@@ -143,6 +146,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the owner graph of this node.
+	 * @return owner graph
 	 */
 	public LGraph getOwner()
 	{
@@ -153,6 +157,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method sets the owner of this node as input graph.
+	 * @param owner graph
 	 */
 	public void setOwner(LGraph owner)
 	{
@@ -161,6 +166,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the width of this node.
+	 * @return node width
 	 */
 	public double getWidth()
 	{
@@ -169,6 +175,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method sets the width of this node.
+	 * @param width node width
 	 */
 	public void setWidth(double width)
 	{
@@ -177,6 +184,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the height of this node.
+	 * @return node height
 	 */
 	public double getHeight()
 	{
@@ -185,6 +193,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method sets the height of this node.
+	 * @param height node height
 	 */
 	public void setHeight(double height)
 	{
@@ -193,6 +202,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the left of this node.
+	 * @return left x
 	 */
 	public double getLeft()
 	{
@@ -201,6 +211,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the right of this node.
+	 * @return right x
 	 */
 	public double getRight()
 	{
@@ -209,6 +220,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the top of this node.
+	 * @return top y
 	 */
 	public double getTop()
 	{
@@ -217,6 +229,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the bottom of this node.
+	 * @return bottom y
 	 */
 	public double getBottom()
 	{
@@ -225,6 +238,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the x coordinate of the center of this node.
+	 * @return centre x
 	 */
 	public double getCenterX()
 	{
@@ -233,6 +247,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the y coordinate of the center of this node.
+	 * @return centre y
 	 */
 	public double getCenterY()
 	{
@@ -241,6 +256,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the center of this node.
+	 * @return centre point
 	 */
 	public PointD getCenter()
 	{
@@ -250,6 +266,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the location (upper-left corner) of this node.
+	 * @return upper-left point
 	 */
 	public PointD getLocation()
 	{
@@ -258,6 +275,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the geometry of this node.
+	 * @return node's geometry object (rectangle)
 	 */
 	public RectangleD getRect()
 	{
@@ -266,6 +284,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns the diagonal length of this node.
+	 * @return node's diagonal length
 	 */
 	public double getDiagonal()
 	{
@@ -275,15 +294,17 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns half the diagonal length of this node.
+	 * @return half of the node's (rectangle) diagonal length
 	 */
 	public double getHalfTheDiagonal()
 	{
-		return Math.sqrt(this.rect.height * this.rect.height +
-			this.rect.width * this.rect.width) / 2;
+		return getDiagonal() / 2;
 	}
 
 	/**
 	 * This method sets the geometry of this node.
+	 * @param upperLeft upper-left point
+	 * @param dimension dimension
 	 */
 	public void setRect(Point upperLeft, Dimension dimension)
 	{
@@ -295,6 +316,8 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method sets the center of this node.
+	 * @param cx centre x
+	 * @param cy centre y
 	 */
 	public void setCenter(double cx, double cy)
 	{
@@ -304,6 +327,8 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method sets the location of this node.
+	 * @param x location x
+	 * @param y location y
 	 */
 	public void setLocation(double x, double y)
 	{
@@ -313,6 +338,8 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method moves the geometry of this node by specified amounts.
+	 * @param dx shift x
+	 * @param dy shift y
 	 */
 	public void moveBy(double dx, double dy)
 	{
@@ -325,6 +352,7 @@ public class LNode extends LGraphObject implements Clustered
 	 * Use with caution, because it returns the cluster id of the first cluster.
 	 * If a node has multiple clusters, remaining cluster information
 	 * may be accessed by getClusters() method.
+	 * @return node's cluster ID
 	 */
 	public String getClusterID()
 	{
@@ -338,6 +366,7 @@ public class LNode extends LGraphObject implements Clustered
 	
 	/**
 	 * This method returns the list of clusters this node belongs to.
+	 * @return list of clusters
 	 */
 	public List getClusters()
 	{
@@ -349,6 +378,8 @@ public class LNode extends LGraphObject implements Clustered
 // -----------------------------------------------------------------------------
 	/**
 	 * This method returns all nodes emanating from this node.
+	 * @param to node
+	 * @return list of nodes
 	 */
 	public List getEdgeListToNode(LNode to)
 	{
@@ -371,9 +402,11 @@ public class LNode extends LGraphObject implements Clustered
 	}
 
 	/**
-	 *	This method returns all edges between this node and the given node.
+	 * This method returns all edges between this node and the given node.
+	 * @param other node
+	 * @return list of edges
 	 */
-	public List getEdgesBetween(LNode other)
+	public List<LEdge> getEdgesBetween(LNode other)
 	{
 		List<LEdge> edgeList = new ArrayList();
 		LEdge edge;
@@ -396,6 +429,7 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns whether or not input node is a neighbor of this node.
+	 * @return true when the node is neighbor of this node; otherwise - false
 	 */
 	public boolean isNeighbor(LNode node)
 	{
@@ -416,8 +450,9 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns a set of neighbors of this node.
+	 * @return set of neighbor nodes
 	 */
-	public Set getNeighborsList()
+	public Set<LNode> getNeighborsList()
 	{
 		Set<LNode> neighbors = new HashSet();
 		LEdge edge;
@@ -442,8 +477,9 @@ public class LNode extends LGraphObject implements Clustered
 
 	/**
 	 * This method returns a set of successors (outgoing nodes) of this node.
+	 * @return set of successors of this one
 	 */
-	public Set getSuccessors()
+	public Set<LNode> getSuccessors()
 	{
 		Set<LNode> neighbors = new HashSet();
 		LEdge edge;
@@ -467,8 +503,9 @@ public class LNode extends LGraphObject implements Clustered
 	/**
 	 * This method forms a list of nodes, composed of this node and its children
 	 * (direct and indirect).
+	 * @return list of nodes
 	 */
-	public List withChildren()
+	public List<LNode> withChildren()
 	{
 		LinkedList<LNode> withNeighborsList = new LinkedList<LNode>();
 		LNode childNode;
@@ -491,6 +528,7 @@ public class LNode extends LGraphObject implements Clustered
 	/**
 	 * This method returns the estimated size of this node, taking into account
 	 * node margins and whether this node is a compound one containing others.
+	 * @return estimated size
 	 */
 	public int getEstimatedSize()
 	{
@@ -498,10 +536,12 @@ public class LNode extends LGraphObject implements Clustered
 		return this.estimatedSize;
 	}
 
-	/*
+	/**
 	 * This method calculates the estimated size of this node. If the node is
 	 * a compound node, the operation is performed recursively. It also sets the
 	 * initial sizes of compound nodes based on this estimate.
+	 *
+	 * @return size estimate
 	 */
 	public int calcEstimatedSize()
 	{
@@ -570,6 +610,7 @@ public class LNode extends LGraphObject implements Clustered
 	/**
 	 * This method returns the depth of this node in the inclusion tree (nesting
 	 * hierarchy).
+	 * @return depth
 	 */
 	public int getInclusionTreeDepth()
 	{
@@ -580,10 +621,11 @@ public class LNode extends LGraphObject implements Clustered
 	/**
 	 * This method returns all parents (direct or indirect) of this node in the
 	 * nesting hierarchy.
+	 * @return vector of parent nodes
 	 */
-	public Vector getAllParents()
+	public Vector<LNode> getAllParents()
 	{
-		Vector parents = new Vector();
+		Vector<LNode> parents = new Vector();
 		LNode rootNode = this.owner.getGraphManager().getRoot().getParent();
 		LNode parent = this.owner.getParent();
 
@@ -609,6 +651,7 @@ public class LNode extends LGraphObject implements Clustered
 	/**
 	 * This method transforms the layout coordinates of this node using input
 	 * transform.
+	 * @param trans transformation to apply
 	 */
 	public void transform(Transform trans)
 	{
@@ -644,8 +687,9 @@ public class LNode extends LGraphObject implements Clustered
 // Section: Implementation of Clustered Interface
 // -----------------------------------------------------------------------------
 	/**
-	 * This method add this node  into a cluster with given cluster ID. If
+	 * This method add this node to the cluster with given cluster ID. If
 	 * such cluster doesn't exist in ClusterManager, it creates a new cluster.
+	 * @param clusterID cluster ID (existing or new)
 	 */
 	public void addCluster(int clusterID)
 	{
@@ -666,6 +710,7 @@ public class LNode extends LGraphObject implements Clustered
 	 * This method adds the given cluster into cluster list of this node, 
 	 * and moreover it adds this node into set of nodes of the given cluster.
 	 * If this node is a compound node, then this operation is done recursively.
+	 * @param cluster cluster
 	 */
 	public void addCluster(Cluster cluster)
 	{
@@ -708,6 +753,7 @@ public class LNode extends LGraphObject implements Clustered
 	 * This method removes the given cluster from cluster list of this node, 
 	 * and moreover it removes this node from the set of nodes of the given cluster.
 	 * If this node is a compound node, then this operation is done recursively.
+	 * @param cluster cluster
 	 */
 	public void removeCluster(Cluster cluster)
 	{
@@ -758,7 +804,11 @@ public class LNode extends LGraphObject implements Clustered
 		}
 		this.clusters.clear();
 	}
-	
+
+	/**
+	 * Gets the parent node.
+	 * @return parent node
+	 */
 	public Clustered getParent()
 	{
 		if(this.owner == null)
@@ -773,6 +823,8 @@ public class LNode extends LGraphObject implements Clustered
 	 * This method checks if this node belongs to the given cluster
 	 * Returns boolean true if this node belongs to the given cluster,
 	 * and boolean false otherwise
+	 * @param cluster a cluster
+	 * @return true when this node belongs to the cluster; otherwise - false
 	 */
 	public boolean belongsToCluster(Cluster cluster)
 	{

@@ -1,12 +1,6 @@
 package org.ivis.layout.sbgn;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 import org.ivis.layout.*;
 import org.ivis.layout.cose.CoSELayout;
@@ -1279,7 +1273,7 @@ public class SbgnPDLayout extends CoSELayout
 
 		if (!incremental)
 		{
-			ArrayList<ArrayList<LNode>> forest = getFlatForest();
+			List<List<LNode>> forest = getFlatForest();
 
 			if (forest.size() > 0)
 			// The graph associated with this layout is flat and a forest
