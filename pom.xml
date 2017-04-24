@@ -8,6 +8,31 @@
     <artifactId>chilay-sbgn</artifactId>
     <version>3.0.0</version>
 
+    <name>chilay-sbgn</name>
+    <description>SBGN-PD layout (COSE) library fork (originally developed at Bikent University)</description>
+    <url>https://github.com/Pathwaycommons/chilay-sbgn</url>
+
+    <developers>
+        <developer>
+            <id>rodche</id>
+            <name>Igor Rodchenkov</name>
+            <organization>University of Toronto</organization>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>ugurdogrusoz</id>
+            <name>Ugur Dogrusoz</name>
+            <organization>Bikent University</organization>
+        </developer>
+        <developer>
+            <id>begumgenc</id>
+            <name>begumgenc</name>
+            <organization>Bikent University</organization>
+        </developer>
+    </developers>
+
     <scm>
         <connection>scm:git:git://github.com/PathwayCommons/chilay-sbgn.git</connection>
         <developerConnection>scm:git:git@github.com:PathwayCommons/chilay-sbgn.git</developerConnection>
