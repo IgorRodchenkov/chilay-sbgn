@@ -14,6 +14,9 @@ public class IMath
 // -----------------------------------------------------------------------------
 	/**
 	 * This method returns the sign of the input value.
+	 * @param value a real number
+	 *
+	 * @return sign as either 1, 0, or -1
 	 */
 	static public int sign(double value)
 	{

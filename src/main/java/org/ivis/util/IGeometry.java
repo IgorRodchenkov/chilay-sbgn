@@ -27,11 +27,13 @@ abstract public class IGeometry
 	 * positioning, and returns the result in the input array. An input
 	 * separation buffer added to the amount in both directions. We assume that
 	 * the two rectangles do intersect.
+	 * @param rectA rectangle A
+	 * @param rectB rectangle B
+	 * @param overlapAmount overlap
+	 * @param separationBuffer separation buffer
 	 */
-	public static void calcSeparationAmount(RectangleD rectA,
-		RectangleD rectB,
-		double[] overlapAmount,
-		double separationBuffer)
+	public static void calcSeparationAmount(RectangleD rectA, RectangleD rectB,
+		double[] overlapAmount, double separationBuffer)
 	{
 		assert rectA.intersects(rectB);
 
@@ -192,6 +194,11 @@ abstract public class IGeometry
 	 * input rectangles with line segment defined by the centers of these two
 	 * rectangles. The clipping points are saved in the input double array and
 	 * whether or not the two rectangles overlap is returned.
+	 * @param rectA rectangle A
+	 * @param rectB rectangle B
+	 * @param result intersection points array
+	 *
+	 * @return true when A and B overlap; false otherwise
 	 */
 	public static boolean getIntersection(RectangleD rectA,
 		RectangleD rectB,
@@ -490,6 +497,13 @@ abstract public class IGeometry
 	/**
 	 * This method calculates the intersection of the two lines defined by
 	 * point pairs (s1,s2) and (f1,f2).
+	 *
+	 * @param s1 the first line point 1
+	 * @param s2 the first line point 2
+	 * @param f1 the second line point 1
+	 * @param f2 the second line point 2
+	 *
+	 * @return the intersection point
 	 */
 	public static Point getIntersection(Point s1, Point s2, Point f1, Point f2)
 	{
@@ -532,6 +546,13 @@ abstract public class IGeometry
 	/**
 	 * This method finds and returns the angle of the vector from the + x-axis
 	 * in clockwise direction (compatible w/ Java coordinate system!).
+	 *
+	 * @param Cx vector first point's x coordinate
+	 * @param Cy vector first point's y
+	 * @param Nx vector second point's x
+	 * @param Ny vector second point's y
+	 *
+	 * @return the angle
 	 */
 	public static double angleOfVector(double Cx, double Cy,
 		double Nx, double Ny)
@@ -567,6 +588,9 @@ abstract public class IGeometry
 
 	/**
 	 * This method converts the given angle in radians to degrees.
+	 *
+	 * @param rad angle value in Radian
+	 * @return angle in degree
 	 */
 	public static double radian2degree(double rad)
 	{
@@ -577,6 +601,13 @@ abstract public class IGeometry
 	 * This method checks whether the given two line segments (one with point
 	 * p1 and p2, the other with point p3 and p4) intersect at a point other
 	 * than these points.
+	 *
+	 * @param p1 segment 1 point 1
+	 * @param p2 segment 1 point 2
+	 * @param p3 segment 2 point 1
+	 * @param p4 segment 2 point 2
+	 *
+	 * @return true when the two segments intersect at a different point
 	 */
 	public static boolean doIntersect(PointD p1, PointD p2,
 		PointD p3, PointD p4)
@@ -590,9 +621,16 @@ abstract public class IGeometry
 
 
 	// ****** Following method is used in SBGN-PD Layout *******
+
 	/**
 	 * Calculates the angle between 3 points in given order. Returns its
 	 * absolute value.
+	 *
+	 * @param targetPnt the first point
+	 * @param centerPnt the centre point
+	 * @param node the third point
+	 *
+	 * @return angle defined by the three points, in that order
 	 */
 	public static double calculateAngle(PointD targetPnt, PointD centerPnt,
 			PointD node)

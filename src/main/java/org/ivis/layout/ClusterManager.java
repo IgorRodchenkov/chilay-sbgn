@@ -21,7 +21,7 @@ public class ClusterManager
 	/*
 	 * Clusters maintained by this cluster manager.
 	 */
-	protected ArrayList clusters;
+	protected List clusters;
 	
 	/*
 	 * Boolean variable used for storing whether polygons are used during layout
@@ -48,14 +48,16 @@ public class ClusterManager
 	/**
 	 * This method returns the list of clusters maintained by this 
 	 * cluster manager.
+	 * @return the list of clusters
 	 */
-	public ArrayList<Cluster> getClusters()
+	public List<Cluster> getClusters()
 	{
 		return clusters;
 	}
 	
 	/**
 	 * This method sets the polygonUsed variable
+	 * @param polygonUsed true/false
 	 */
 	public void setPolygonUsed(boolean polygonUsed)
 	{
@@ -64,10 +66,11 @@ public class ClusterManager
 	
 	/**
 	 * This method returns clusterIDs of all existing clusters as sorted array.
+	 * @return list of IDs
 	 */
-	public ArrayList<Integer> getClusterIDs()
+	public List<Integer> getClusterIDs()
 	{
-		ArrayList<Integer> result = new ArrayList<Integer>();
+		List<Integer> result = new ArrayList<Integer>();
 		
 		Iterator iterator = clusters.iterator();
 		
@@ -91,6 +94,8 @@ public class ClusterManager
 	/**
 	 * This method creates a new cluster from given clusterID and clusterName.
 	 * New cluster is maintained by this cluster manager.
+	 * @param clusterID id
+	 * @param clusterName name
 	 */
 	public void createCluster(int clusterID, String clusterName)
 	{
@@ -104,6 +109,7 @@ public class ClusterManager
 	/**
 	 * This method creates a new cluster from given clusterName.
 	 * New cluster is maintained by this cluster manager.
+	 * @param clusterName name
 	 */
 	public void createCluster(String clusterName)
 	{
@@ -116,6 +122,7 @@ public class ClusterManager
 	
 	/**
 	 * This method adds the given cluster into cluster manager of the graph.
+	 * @param cluster new cluster
 	 */
 	public void addCluster(Cluster cluster)
 	{
@@ -127,16 +134,17 @@ public class ClusterManager
 	
 	/**
 	 * Removes the given cluster from the graph.
+	 * @param cluster cluster to be removed
 	 */
 	public void removeCluster(Cluster cluster)
-	{	
-		// deletes the cluster information from graph
+	{
 		cluster.delete();
 	}
 	
 	/**
 	 * This method checks if the given cluster ID is used before.
-	 * If same ID is used before, it returns true, otherwise it returns false.
+	 * @param clusterID id
+	 * @return if same ID was used before, it returns true; otherwise - false
 	 */
 	public boolean isClusterIDUsed(int clusterID)
 	{
@@ -161,6 +169,8 @@ public class ClusterManager
 	/**
 	 * This method returns the cluster with given cluster ID, if no such cluster
 	 * it returns null;
+	 * @param clusterID id
+	 * @return cluster or null
 	 */
 	public Cluster getClusterByID(int clusterID)
 	{
@@ -194,7 +204,7 @@ public class ClusterManager
 		
 		Iterator<Cluster> iter = clusters.iterator();
 		
-		while ( iter.hasNext() )
+		while( iter.hasNext() )
 		{
 			clusterIDs.add(iter.next().getClusterID());
 		}

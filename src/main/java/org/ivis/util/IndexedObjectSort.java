@@ -22,7 +22,10 @@ public class IndexedObjectSort extends QuickSort
 	private Map<Object, Double> indexMapping;
 	
 	/**
-	 * Constructor 
+	 * Constructor.
+	 *
+	 * @param objectList list of objects
+	 * @param indexMapping object-to-value index map
 	 */
 	public IndexedObjectSort(List<Object> objectList,
 		Map<Object, Double> indexMapping)
@@ -33,10 +36,12 @@ public class IndexedObjectSort extends QuickSort
 	}
 	
 	/**
-	 * Constructor 
+	 * Constructor.
+	 *
+	 * @param objectArray array of objects
+	 * @param indexMapping object-to-value index map
 	 */
-	public IndexedObjectSort(Object[] objectArray,
-		Map<Object, Double> indexMapping)
+	public IndexedObjectSort(Object[] objectArray, Map<Object, Double> indexMapping)
 	{
 		super(objectArray);
 		
@@ -46,6 +51,11 @@ public class IndexedObjectSort extends QuickSort
 	/**
 	 * This method is required by QuickSort. In this case, comparison is based
 	 * on indexes given by the mapping above.
+	 *
+	 * @param a one indexed object
+	 * @param b another indexed object
+	 *
+	 * @return true when index of b &gt; index of a; otherwise - false
 	 */
 	public boolean compare(Object a, Object b)
 	{

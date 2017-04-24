@@ -32,6 +32,8 @@ public class DimensionD
 
 	/**
 	 * Constructor
+	 * @param width width
+	 * @param height height
 	 */
 	public DimensionD(double width, double height)
 	{

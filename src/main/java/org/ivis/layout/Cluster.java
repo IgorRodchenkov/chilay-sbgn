@@ -1,12 +1,6 @@
 package org.ivis.layout;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 import org.ivis.util.PointD;
 
@@ -47,14 +41,17 @@ public class Cluster implements Comparable
 	/*
 	 * Polygon that covers all nodes of the cluster
 	 */
-	protected ArrayList<PointD> polygon;
+	protected List<PointD> polygon;
 
 // -----------------------------------------------------------------------------
 // Section: Constructors
 // -----------------------------------------------------------------------------
 	/**
 	 * Constructor for creating a Cluster from cluster name for a given 
-	 * ClusterManager. Cluster ID is generated from idCounter.
+	 * ClusterManager. Cluster ID is generated from ClusterManager.idCounter.
+	 *
+	 * @param clusterManager cluster manager
+	 * @param clusterName name
 	 */
 	public Cluster(ClusterManager clusterManager, String clusterName)
 	{
@@ -81,6 +78,10 @@ public class Cluster implements Comparable
 	
 	/**
 	 * Constructor for creating a Cluster when clusterID is specified by user.
+	 *
+	 * @param clusterManager cluster manager
+	 * @param clusterID id
+	 * @param clusterName name
 	 */
 	public Cluster(ClusterManager clusterManager, int clusterID, String clusterName)
 	{
@@ -123,7 +124,8 @@ public class Cluster implements Comparable
 // Section: Accessors
 // -----------------------------------------------------------------------------
 	/**
-	 * This method returns a set of nodes that belong to this cluster. 
+	 * This method returns a set of nodes that belong to this cluster.
+	 * @return nodes
 	 */
 	public Set<Clustered> getNodes()
 	{
@@ -132,6 +134,7 @@ public class Cluster implements Comparable
 
 	/**
 	 * This method returns the ID of this cluster.
+	 * @return id
 	 */
 	public int getClusterID()
 	{
@@ -140,6 +143,7 @@ public class Cluster implements Comparable
 
 	/**
 	 * This method sets the cluster manager of this cluster
+	 * @param clusterManager cluster manager
 	 */
 	public void setClusterManager(ClusterManager clusterManager)
 	{
@@ -148,6 +152,7 @@ public class Cluster implements Comparable
 	
 	/**
 	 * This method returns the name of this cluster.
+	 * @return name
 	 */
 	public String getClusterName()
 	{
@@ -156,6 +161,7 @@ public class Cluster implements Comparable
 
 	/**
 	 * This method sets the name of this cluster.
+	 * @param clusterName name
 	 */
 	public void setClusterName(String clusterName)
 	{
@@ -164,16 +170,18 @@ public class Cluster implements Comparable
 	
 	/**
 	 * This method returns the polygon
+	 * @return polygon (the list of points)
 	 */
-	public ArrayList<PointD> getPolygon()
+	public List<PointD> getPolygon()
 	{
 		return polygon;
 	}
 	
 	/**
 	 * This method sets the polygon
+	 * @param points polygon - defined as the list of points
 	 */
-	public void setPolygon(ArrayList<PointD> points)
+	public void setPolygon(List<PointD> points)
 	{
 		this.polygon = points;
 	}
@@ -183,6 +191,7 @@ public class Cluster implements Comparable
 // -----------------------------------------------------------------------------
 	/**
 	 * This method adds the given clustered node into this cluster.
+	 * @param node node to add
 	*/	
 	public void addNode(Clustered node)
 	{		
@@ -191,6 +200,7 @@ public class Cluster implements Comparable
 	
 	/**
 	 * This method removes the given clustered node from this cluster.
+	 * @param node node to remove
 	 */
 	public void removeNode(Clustered node)
 	{
@@ -399,29 +409,26 @@ public class Cluster implements Comparable
 	}
 	
 	/**
-	 * Method to make 2 clusters comparable
+	 * Method to make 2 clusters comparable by ID.
+	 * @param obj object to compare to
+	 * @return see {@link String#compareTo(Object)}
 	 */
 	public int compareTo(Object obj)
 	{
 		if (obj instanceof Cluster)
 		{
 			Cluster cluster = (Cluster) obj;
-			
 			// compare ID's of two clusters
 			return ((Integer)clusterID).compareTo(cluster.getClusterID());
 		}
-		return 0;
+		return 0; //TODO: this means any non-Cluster object equals this (Cluster) one...
 	}
 	
 	/**
 	 * This is a helper class for sorting PointD objects
-	 *
 	 */
 	private class PointComparator implements Comparator<PointD>
 	{
-		/**
-		 * Override
-		 */
 		public int compare(PointD o1, PointD o2) {
 			PointD pt1 = (PointD) o1;
 			PointD pt2 = (PointD) o2;
@@ -433,6 +440,5 @@ public class Cluster implements Comparable
 			
 			return 0;
 		}
-		
 	}
 }

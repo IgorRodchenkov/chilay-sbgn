@@ -32,7 +32,10 @@ public class PointD
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param x x
+	 * @param y y
 	 */	
 	public PointD(double x, double y)
 	{

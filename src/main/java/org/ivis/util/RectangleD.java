@@ -36,7 +36,12 @@ public class RectangleD
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param x x
+	 * @param y y
+	 * @param width w
+	 * @param height h
 	 */	
 	public RectangleD(double x, double y, double width, double height)
 	{

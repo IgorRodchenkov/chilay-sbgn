@@ -169,6 +169,10 @@ public class Transform
 	/**
 	 * This method transforms an x position in world coordinates to an x
 	 * position in device coordinates.
+	 *
+	 * @param x x in world coordinate
+	 *
+	 * @return x in device coordinates
 	 */
 	public double transformX(double x)
 	{
@@ -191,6 +195,10 @@ public class Transform
 	/**
 	 * This method transforms a y position in world coordinates to a y
 	 * position in device coordinates.
+	 *
+	 * @param y y in world coordinate
+	 *
+	 * @return y in device coordinate
 	 */
 	public double transformY(double y)
 	{
@@ -213,6 +221,10 @@ public class Transform
 	/**
 	 * This method transforms an x position in device coordinates to an x
 	 * position in world coordinates.
+	 *
+	 * @param x x in device coordinates
+	 *
+	 * @return x in world coordinate
 	 */
 	public double inverseTransformX(double x)
 	{
@@ -235,6 +247,10 @@ public class Transform
 	/**
 	 * This method transforms a y position in device coordinates to a y
 	 * position in world coordinates.
+	 *
+	 * @param y y in device coordinate
+	 *
+	 * @return y in world coordinate
 	 */
 	public double inverseTransformY(double y)
 	{
@@ -261,6 +277,10 @@ public class Transform
 	/**
 	 * This method transforms the input point from the world coordinate system
 	 * to the device coordinate system.
+	 *
+	 * @param inPoint point in world coordinates
+	 *
+	 * @return point in device coordinates
 	 */
 	public PointD transformPoint(PointD inPoint)
 	{
@@ -274,6 +294,10 @@ public class Transform
 	/**
 	 * This method transforms the input dimension from the world coordinate 
 	 * system to the device coordinate system.
+	 *
+	 * @param inDimension dimension in world coordinates
+	 *
+	 * @return dimension in device coordinate system
 	 */
 	public DimensionD transformDimension(DimensionD inDimension)
 	{
@@ -290,6 +314,9 @@ public class Transform
 	/**
 	 * This method transforms the input rectangle from the world coordinate
 	 * system to the device coordinate system.
+	 *
+	 * @param inRect rectangle in world coordinate system
+	 * @return rectangle in device coordinates
 	 */
 	public RectangleD transformRect(RectangleD inRect)
 	{
@@ -310,6 +337,9 @@ public class Transform
 	/**
 	 * This method transforms the input point from the device coordinate system
 	 * to the world coordinate system.
+	 *
+	 * @param inPoint point in device coordinates
+	 * @return point in world coordinates
 	 */
 	public PointD inverseTransformPoint(PointD inPoint)
 	{
@@ -323,6 +353,9 @@ public class Transform
 	/** 
 	 * This method transforms the input dimension from the device coordinate 
 	 * system to the world coordinate system.
+	 *
+	 * @param inDimension dimension in device coordinates
+	 * @return dimension in world coordinates
 	 */
 	public DimensionD inverseTransformDimension(DimensionD inDimension)
 	{ 
@@ -340,6 +373,9 @@ public class Transform
 	 * This method transforms the input rectangle from the device coordinate
 	 * system to the world coordinate system. The result is in the passed 
 	 * output rectangle object.
+	 *
+	 * @param inRect rectangle in device coordinates
+	 * @return rectangle in world coordinates
 	 */
 	public RectangleD inverseTransformRect(RectangleD inRect)
 	{
@@ -393,7 +429,7 @@ public class Transform
 		}
 	}
 
-	/**
+	/*
 	 * This method is for testing purposes only!
 	 */
 	public static void main(String[] args)

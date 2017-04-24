@@ -14,47 +14,56 @@ public interface Clustered {
 	/**
 	 * This method add this node model into a cluster with given cluster ID. If
 	 * such cluster doesn't exist in ClusterManager, it creates a new cluster.
+	 * @param clusterID id
 	 */
-	public abstract void addCluster(int clusterID);
+	void addCluster(int clusterID);
 	
 	/**
 	 * This method adds a new cluster into clustered object's clusters
+	 * @param cluster cluster
 	 */
-	public abstract void addCluster(Cluster cluster);
+	void addCluster(Cluster cluster);
 	
 	/**
 	 * This method removes the cluster from clustered object's clusters
+	 * @param cluster cluster
 	 */
-	public abstract void removeCluster(Cluster cluster);
+	void removeCluster(Cluster cluster);
 	
 	/**
 	 * This method resets all clusters of the clustered object
 	 */
-	public abstract void resetClusters();
+	void resetClusters();
 
 	/**
 	 * This method returns the left of this node.
+	 * @return left
 	 */
-	public abstract double getLeft();
+	double getLeft();
 	
 	/**
 	 * This method returns the right of this node.
+	 * @return right
 	 */
-	public abstract double getRight();
+	double getRight();
 	
 	/**
 	 * This method returns the top of this node.
+	 * @return top
 	 */
-	public abstract double getTop();
+	double getTop();
 
 	/**
 	 * This method returns the bottom of this node.
+	 * @return bottom
 	 */
-	public abstract double getBottom();
+	double getBottom();
 	
 	/**
 	 * This method returns the parent of clustered object.
 	 * If it is a root object, then null should be returned.
+	 *
+	 * @return parent
 	 */
-	public abstract Clustered getParent();
+	Clustered getParent();
 }
