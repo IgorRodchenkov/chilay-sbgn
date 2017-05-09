@@ -320,30 +320,6 @@ public class CoSELayout extends FDLayout
 		}
 
 		graphManager.setAllNodesToApplyGravitation(nodeList);
-
-//		// Use this to apply the idea for flat graphs only
-//		if (graphManager.getGraphs().size() == 1)
-//		{
-//			LGraph root = graphManager.getRoot();
-//			assert graphManager.getGraphs().get(0) == root;
-//
-//			root.updateConnected();
-//
-//			if (!root.isConnected())
-//			{
-//				graphManager.setAllNodesToApplyGravitation(
-//					graphManager.getAllNodes());
-//			}
-//			else
-//			{
-//				graphManager.setAllNodesToApplyGravitation(new LinkedList());
-//			}
-//		}
-//		else
-//		{
-//			graphManager.setAllNodesToApplyGravitation(
-//				graphManager.getAllNodes());
-//		}
 	}
 
 	/**

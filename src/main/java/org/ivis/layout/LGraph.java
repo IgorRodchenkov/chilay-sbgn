@@ -584,7 +584,7 @@ public class LGraph extends LGraphObject
 	 * indirect edges (e.g. an edge connecting a child node of a node of this
 	 * graph to another node of this graph) into account.
 	 */
-	public void updateConnected()
+	public void updateConnected() //TODO: bug: this gets into endless loop, by chance...
 	{
 		if (nodes.size() == 0)
 		{
