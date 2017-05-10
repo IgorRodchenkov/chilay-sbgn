@@ -242,14 +242,15 @@ public class PolyominoPacking
 
 		for (i = 0; i < p.l; i++)
 		{
-			if (p.coord[i].getX() < minX)
-				minX = (int) p.coord[i].getX();
-			if (p.coord[i].getY() < minY)
-				minY = (int) p.coord[i].getY();
-			if (p.coord[i].getX() > maxX)
-				maxX = (int) p.coord[i].getX();
-			if (p.coord[i].getY() > maxY)
-				maxY = (int) p.coord[i].getY();
+			Point t = p.coord[i];
+			if (t.getX() < minX)
+				minX = (int) t.getX();
+			if (t.getY() < minY)
+				minY = (int) t.getY();
+			if (t.getX() > maxX)
+				maxX = (int) t.getX();
+			if (t.getY() > maxY)
+				maxY = (int) t.getY();
 		}
 
 		rect[pi].x = minX;

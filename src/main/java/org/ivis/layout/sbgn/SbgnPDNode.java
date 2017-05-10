@@ -72,17 +72,17 @@ public class SbgnPDNode extends CoSENode
 
 	public boolean isComplex()
 	{
-		return type.equalsIgnoreCase(SbgnPDConstants.COMPLEX);
+		return SbgnPDConstants.COMPLEX.equalsIgnoreCase(type);
 	}
 	
 	public boolean isInputPort()
 	{
-		return type.equalsIgnoreCase(SbgnPDConstants.INPUT_PORT);
+		return SbgnPDConstants.INPUT_PORT.equalsIgnoreCase(type);
 	}
 	
 	public boolean isOutputPort()
 	{
-		return type.equalsIgnoreCase(SbgnPDConstants.OUTPUT_PORT);
+		return SbgnPDConstants.OUTPUT_PORT.equalsIgnoreCase(type);
 	}
 	
 		
@@ -154,16 +154,6 @@ public class SbgnPDNode extends CoSENode
 		averagePnt.y /= (this.getEdges().size() - 1);
 
 		return averagePnt;
-	}
-
-	void printForces()
-	{
-		System.out.println("springForceX: " + this.springForceX
-				+ " springForceY: " + this.springForceY + "\nrepulsionForceX: "
-				+ this.repulsionForceX + " repulsionForceY: "
-				+ this.repulsionForceY + "\ngravitationForceX: "
-				+ this.gravitationForceX + " gravitationForceY: "
-				+ this.gravitationForceY);
 	}
 
 	/**

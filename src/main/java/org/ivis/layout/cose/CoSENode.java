@@ -67,21 +67,21 @@ public class CoSENode extends FDLayoutNode
 	public void move()
 	{
 		CoSELayout layout = (CoSELayout) this.graphManager.getLayout();
+		double maxNodeDisplacement = layout.coolingFactor * layout.maxNodeDisplacement;
+
 		this.displacementX = layout.coolingFactor *
 			(this.springForceX + this.repulsionForceX + this.gravitationForceX);
 		this.displacementY = layout.coolingFactor *
 			(this.springForceY + this.repulsionForceY + this.gravitationForceY);
 
-		if (Math.abs(this.displacementX) > layout.maxNodeDisplacement)
+		if (Math.abs(this.displacementX) > maxNodeDisplacement)
 		{
-			this.displacementX = layout.maxNodeDisplacement *
-				IMath.sign(this.displacementX);
+			this.displacementX = maxNodeDisplacement * IMath.sign(this.displacementX);
 		}
 
-		if (Math.abs(this.displacementY) > layout.maxNodeDisplacement)
+		if (Math.abs(this.displacementY) > maxNodeDisplacement)
 		{
-			this.displacementY = layout.maxNodeDisplacement *
-				IMath.sign(this.displacementY);
+			this.displacementY = maxNodeDisplacement * IMath.sign(this.displacementY);
 		}
 
 		// Apply simulated annealing here
@@ -110,19 +110,10 @@ public class CoSENode extends FDLayoutNode
 		// non-empty compound node, propogate movement to children as well
 		else
 		{
-			this.propogateDisplacementToChildren(this.displacementX,
-				this.displacementY);
+			this.propogateDisplacementToChildren(this.displacementX, this.displacementY);
 		}
 
-//		System.out.printf("\t%s@[%5.1f,%5.1f] s=(%5.1f,%5.1f) r=(%5.1f,%5.1f) g=(%5.1f,%5.1f)\n",
-//			new Object [] {this.label,
-//			this.getLeft(), this.getTop(),
-//			this.springForceX, this.springForceY,
-//			this.repulsionForceX, this.repulsionForceY,
-//			this.gravitationForceX, this.gravitationForceY});
-
-		layout.totalDisplacement +=
-			Math.abs(this.displacementX) + Math.abs(this.displacementY);
+		layout.totalDisplacement += Math.abs(this.displacementX) + Math.abs(this.displacementY);
 
 		this.springForceX = 0;
 		this.springForceY = 0;

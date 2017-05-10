@@ -210,15 +210,6 @@ public abstract class FDLayout extends Layout
 						(source.getInclusionTreeDepth() +
 							target.getInclusionTreeDepth() - 2 * lcaDepth);
 			}
-
-	//		NodeModel vSourceNode = (NodeModel)(edge.getSource().vGraphObject);
-	//		NodeModel vTargetNode = (NodeModel)(edge.getTarget().vGraphObject);
-	//
-	//		if (vSourceNode != null && vTargetNode != null)
-	//		{
-	//			System.out.printf("\t%s-%s: %5.1f\n",
-	//				new Object [] {vSourceNode.getText(), vTargetNode.getText(), edge.idealLength});
-	//		}
 		}
 	}
 
@@ -544,9 +535,6 @@ public abstract class FDLayout extends Layout
 					compoundGravityConstant;
 			}
 		}
-
-//			System.out.printf("\tgravitation=(%5.1f,%5.1f)\n",
-//				new Object [] {node.gravitationForceX, node.gravitationForceY});
 	}
 
 	/**

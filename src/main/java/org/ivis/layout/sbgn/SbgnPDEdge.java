@@ -1,6 +1,5 @@
 package org.ivis.layout.sbgn;
 
-import org.ivis.layout.LGraphObject;
 import org.ivis.layout.cose.CoSEEdge;
 
 /**
@@ -36,40 +35,32 @@ public class SbgnPDEdge extends CoSEEdge
 
 	public void copy(SbgnPDEdge edge)
 	{
-		this.setSource(edge.getSource());
-		this.setTarget(edge.getTarget());
-		this.label = edge.label;
-		this.type = edge.type;
-		this.correspondingAngle = edge.correspondingAngle;
-		this.isProperlyOriented = edge.isProperlyOriented;
-		this.idealLength = edge.idealLength;
-		this.isInterGraph = edge.isInterGraph;
-		this.bendpoints = edge.bendpoints;
-		this.isOverlapingSourceAndTarget = edge.isOverlapingSourceAndTarget;
-		this.lca = edge.lca;
-		this.length = edge.length;
-		this.lengthX = edge.lengthX;
-		this.lengthY = edge.lengthY;
-		this.sourceInLca = edge.sourceInLca;
+		setSource(edge.getSource());
+		setTarget(edge.getTarget());
+		label = edge.label;
+		type = edge.type;
+		correspondingAngle = edge.correspondingAngle;
+		isProperlyOriented = edge.isProperlyOriented;
+		idealLength = edge.idealLength;
+		isInterGraph = edge.isInterGraph;
+		bendpoints = edge.bendpoints;
+		isOverlapingSourceAndTarget = edge.isOverlapingSourceAndTarget;
+		lca = edge.lca;
+		length = edge.length;
+		lengthX = edge.lengthX;
+		lengthY = edge.lengthY;
+		sourceInLca = edge.sourceInLca;
 	}
 	
-	public boolean isEffector()
-	{
-		if(this.type.equals(SbgnPDConstants.MODULATION) || 
-				this.type.equals(SbgnPDConstants.STIMULATION) || 
-				this.type.equals(SbgnPDConstants.CATALYSIS) || 
-				this.type.equals(SbgnPDConstants.INHIBITION) || 
-				this.type.equals(SbgnPDConstants.NECESSARY_STIMULATION))
-			return true;
-		
-		return false;
+	public boolean isEffector() {
+		return SbgnPDConstants.MODULATION.equalsIgnoreCase(type) ||
+				SbgnPDConstants.STIMULATION.equalsIgnoreCase(type) ||
+				SbgnPDConstants.CATALYSIS.equalsIgnoreCase(type) ||
+				SbgnPDConstants.INHIBITION.equalsIgnoreCase(type) ||
+				SbgnPDConstants.NECESSARY_STIMULATION.equalsIgnoreCase(type);
 	}
 	
-	public boolean isRigidEdge()
-	{
-		if(this.type.equals(SbgnPDConstants.RIGID_EDGE))
-			return true;
-		else
-			return false;
+	public boolean isRigidEdge() {
+		return SbgnPDConstants.RIGID_EDGE.equalsIgnoreCase(type);
 	}
 }

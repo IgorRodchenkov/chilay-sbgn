@@ -300,10 +300,8 @@ public class SbgnPDLayout extends CoSELayout
 			if (rotationRandomizationMethod == 0)
 			{
 				randomIndex = rouletteWheelSelection(processNodesToBeRotated);
-
 				if (randomIndex == -1)
-					System.out
-							.println("ERROR: no nodes have been selected for rotation");
+					log.error("ERROR: no nodes have been selected for rotation");
 			}
 			else
 			{
@@ -314,15 +312,6 @@ public class SbgnPDLayout extends CoSELayout
 			SbgnProcessNode p = processNodesToBeRotated.get(randomIndex);
 			p.applyRotation();
 		}
-
-		// // reset net rotational forces on all processes for next round
-		// not used because even if the amount is small, summing up the net
-		// force from prev iterations yield better results
-		// for (Object o : getAllNodes())
-		// {
-		// if (o instanceof SbgnProcessNode)
-		// ((SbgnProcessNode) o).netRotationalForce = 0;
-		// }
 	}
 
 	/**
@@ -723,7 +712,7 @@ public class SbgnPDLayout extends CoSELayout
 		for (Object o : getAllNodes())
 		{
 			SbgnPDNode s = (SbgnPDNode) o;
-			if (s.type.equals(SbgnPDConstants.PROCESS))
+			if (SbgnPDConstants.PROCESS.equals(s.type))
 			{
 				flag = true;
 				break;
@@ -1315,7 +1304,7 @@ public class SbgnPDLayout extends CoSELayout
 		{
 			edge = (FDLayoutEdge) lEdges[i];
 
-			if (!edge.type.equals(SbgnPDConstants.RIGID_EDGE))
+			if (!SbgnPDConstants.RIGID_EDGE.equals(edge.type))
 				calcSpringForce(edge, edge.idealLength);
 		}
 	}

@@ -11,6 +11,8 @@ import java.awt.*;
 import org.ivis.layout.*;
 import org.ivis.layout.fd.*;
 import org.ivis.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class implements the overall layout process for the CoSE algorithm.
@@ -28,14 +30,12 @@ import org.ivis.util.*;
  */
 public class CoSELayout extends FDLayout
 {
-// -----------------------------------------------------------------------------
-// Section: Instance variables
-// -----------------------------------------------------------------------------
+	private final static Logger log = LoggerFactory.getLogger(CoSELayout.class);
+
 	/**
 	 * Whether or not multi-level scaling should be used to speed up layout
 	 */
-	public boolean useMultiLevelScaling =
-		CoSEConstants.DEFAULT_USE_MULTI_LEVEL_SCALING;
+	public boolean useMultiLevelScaling = CoSEConstants.DEFAULT_USE_MULTI_LEVEL_SCALING;
 	
 	/**
 	 * Level of the current graph manager in the coarsening process
@@ -244,8 +244,7 @@ public class CoSELayout extends FDLayout
 		initSpringEmbedder();
 		runSpringEmbedder();
 	
-//		System.out.println("Classic CoSE layout finished after " +
-//			totalIterations + " iterations");
+		log.info("Classic CoSE layout finished after " + totalIterations + " iterations");
 		
 		return true;
 	}
@@ -256,14 +255,6 @@ public class CoSELayout extends FDLayout
 	 */
 	public void runSpringEmbedder()
 	{
-//		if (!incremental)
-//		{
-//			CoSELayout.randomizedMovementCount = 0;
-//			CoSELayout.nonRandomizedMovementCount = 0;
-//		}
-
-//		updateAnnealingProbability();
-
 		do
 		{
 			totalIterations++;
@@ -277,19 +268,18 @@ public class CoSELayout extends FDLayout
 
 				coolingFactor = initialCoolingFactor *
 					((maxIterations - totalIterations) / (double)maxIterations);
-				
-//				updateAnnealingProbability();
 			}
 
 			totalDisplacement = 0;
 
-			graphManager.updateBounds();
 			calcSpringForces();
 			calcRepulsionForces();
 			calcGravitationalForces();
 			moveNodes();
+			graphManager.updateBounds();
 
 			animate();
+
 		}
 		while (totalIterations < maxIterations);
 		
@@ -628,66 +618,5 @@ public class CoSELayout extends FDLayout
 		// formula is 2 x (level + 1) x idealEdgeLength
 		return (2 * ( level+1 ) * idealEdgeLength);
 	}
-	
-// -----------------------------------------------------------------------------
-// Section: Temporary methods (especially for testing)
-// -----------------------------------------------------------------------------
 
-//	/**
-//	 * This method checks if there is a node with null vGraphObject
-//	 */
-//	private boolean checkVGraphObjects()
-//	{
-//		if (graphManager.getAllEdges() == null)
-//		{
-//			System.out.println("Edge list is null!");
-//		}
-//		if (graphManager.getAllNodes() == null)
-//		{
-//			System.out.println("Node list is null!");
-//		}
-//		if (graphManager.getGraphs() == null)
-//		{
-//			System.out.println("Graph list is null!");
-//		}
-//		for (Object obj: graphManager.getAllEdges())
-//		{
-//			CoSEEdge e = (CoSEEdge) obj;
-//			//NodeModel nm = (NodeModel) v.vGraphObject;
-//
-//			if (e.vGraphObject == null)
-//			{
-//				System.out.println("Edge(Source): " + e.getSource().getRect() + " has null vGraphObject!");
-//				return false;
-//			}
-//		}
-//
-//		for (Object obj: graphManager.getAllNodes())
-//		{
-//			CoSENode v = (CoSENode) obj;
-//			//NodeModel nm = (NodeModel) v.vGraphObject;
-//
-//			if (v.vGraphObject == null)
-//			{
-//				System.out.println("Node: " + v.getRect() + " has null vGraphObject!");
-//				return false;
-//			}
-//		}
-//
-//		for (Object obj: graphManager.getGraphs())
-//		{
-//			LGraph l = (LGraph) obj;
-//			if (l.vGraphObject == null)
-//			{
-//				System.out.println("Graph with " + l.getNodes().size() + " nodes has null vGraphObject!");
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
-//	private void updateAnnealingProbability()
-//	{
-//		CoSELayout.annealingProbability = Math.pow(Math.E,
-//			CoSELayout.annealingConstant / coolingFactor);
-//	}
 }

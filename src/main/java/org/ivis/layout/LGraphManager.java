@@ -100,9 +100,7 @@ public class LGraphManager
 	 */
 	public LGraph addRoot()
 	{
-		setRootGraph(add(layout.newGraph(null),
-			layout.newNode(null)));
-		
+		setRootGraph(add(layout.newGraph(null), layout.newNode(null)));
 		return rootGraph;
 	}
 
@@ -115,8 +113,7 @@ public class LGraphManager
 	{
 		assert (newGraph != null) : "Graph is null!";
 		assert (parentNode != null) : "Parent node is null!";
-		assert (!graphs.contains(newGraph)) :
-			"Graph already in this graph mgr!";
+		assert (!graphs.contains(newGraph)) : "Graph already in this graph mgr!";
 
 		graphs.add(newGraph);
 

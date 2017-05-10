@@ -221,36 +221,6 @@ public class Compaction
 		}
 	}
 
-	/**
-	 * This method prints the edges of the visibility graph.
-	 */
-	void printEdges()
-	{
-		System.out.println("# of edges: " + visGraph.getEdges().size());
-
-		for (int i = 0; i < visGraph.getEdges().size(); i++)
-		{
-			VisibilityEdge e = (VisibilityEdge) visGraph.getEdges().get(i);
-			System.out.println("between: " + e.getSource().label + "  "
-					+ e.getTarget().label);
-		}
-	}
-
-	/**
-	 * This method prints the nodes of the visibility graph.
-	 */
-	void printGraphVertices()
-	{
-		for (int i = 0; i < visGraph.getNodes().size(); i++)
-		{
-			SbgnPDNode s = (SbgnPDNode) visGraph.getNodes().get(i);
-			System.out.println(s.label + " (" + s.getLeft() + ", " + s.getTop()
-					+ ")" + " || " + "(" + (s.getLeft() + s.getWidth()) + ", "
-					+ (s.getTop() + s.getHeight()) + ")");
-		}
-		System.out.println();
-	}
-
 	public enum CompactionDirection
 	{
 		VERTICAL, HORIZONTAL

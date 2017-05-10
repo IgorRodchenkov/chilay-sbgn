@@ -17,9 +17,6 @@
             <id>rodche</id>
             <name>Igor Rodchenkov</name>
             <organization>University of Toronto</organization>
-            <roles>
-                <role>developer</role>
-            </roles>
         </developer>
         <developer>
             <id>ugurdogrusoz</id>
@@ -100,6 +97,14 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <argLine>-Dfile.encoding=UTF-8 -ea</argLine>
                 </configuration>
             </plugin>
         </plugins>

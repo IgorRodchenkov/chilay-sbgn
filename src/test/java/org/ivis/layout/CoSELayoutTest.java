@@ -1,10 +1,9 @@
 package org.ivis.layout;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import junit.framework.TestCase;
+import org.ivis.layout.cose.CoSEEdge;
 import org.ivis.layout.cose.CoSELayout;
-import org.junit.Ignore;
+import org.ivis.layout.cose.CoSENode;
+import org.junit.Test;
 
 /**
  * CoSELayout tester
@@ -12,18 +11,10 @@ import org.junit.Ignore;
  * @author Ugur Dogrusoz
  */
 //@Ignore
-public class CoSELayoutTest extends TestCase
+public class CoSELayoutTest
 {
-	public void setUp() throws Exception
-	{
-		super.setUp();
-	}
 
-	public void tearDown() throws Exception
-	{
-		super.tearDown();
-	}
-
+	@Test
 	public void testLayout() throws Exception
 	{
 		Layout layout = new CoSELayout();
@@ -44,10 +35,5 @@ public class CoSELayoutTest extends TestCase
 		LEdge e4 = gm.add(layout.newEdge("e4-6"), n4, n6);
 
 		layout.runLayout();
-	}
-
-	public static Test suite()
-	{
-		return new TestSuite(CoSELayoutTest.class);
 	}
 }

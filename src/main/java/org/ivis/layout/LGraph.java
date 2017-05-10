@@ -397,9 +397,9 @@ public class LGraph extends LGraphObject
 	{
 		// calculate bounds
 		int left = Integer.MAX_VALUE;
-		int right = -Integer.MAX_VALUE;
+		int right = Integer.MIN_VALUE;
 		int top = Integer.MAX_VALUE;
-		int bottom = -Integer.MAX_VALUE;
+		int bottom = Integer.MIN_VALUE;
 		int nodeLeft;
 		int nodeRight;
 		int nodeTop;
@@ -465,9 +465,9 @@ public class LGraph extends LGraphObject
 	public static Rectangle calculateBounds(List<LNode> nodes)
 	{
 		int left = Integer.MAX_VALUE;
-		int right = -Integer.MAX_VALUE;
+		int right = Integer.MIN_VALUE;
 		int top = Integer.MAX_VALUE;
-		int bottom = -Integer.MAX_VALUE;
+		int bottom = Integer.MIN_VALUE;
 		int nodeLeft;
 		int nodeRight;
 		int nodeTop;
