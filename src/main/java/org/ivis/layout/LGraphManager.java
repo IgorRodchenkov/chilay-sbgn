@@ -376,11 +376,8 @@ public class LGraphManager
 	 * This method sets the array of all nodes to which gravitation should be
 	 * applied from the input list.
 	 */
-	public void setAllNodesToApplyGravitation(List nodeList)
-	{
-		assert allNodesToApplyGravitation == null;
-
-		allNodesToApplyGravitation = nodeList.toArray();
+	public void setAllNodesToApplyGravitation(List nodeList) {
+		setAllNodesToApplyGravitation(nodeList.toArray());
 	}
 
 	/**
@@ -389,8 +386,6 @@ public class LGraphManager
 	 */
 	public void setAllNodesToApplyGravitation(Object [] nodes)
 	{
-		assert allNodesToApplyGravitation == null;
-
 		allNodesToApplyGravitation = nodes;
 	}
 

@@ -168,7 +168,6 @@ public class SbgnPDLayout extends CoSELayout
 			calcRepulsionForces();
 			calcGravitationalForces();
 			moveNodes();
-
 			animate();
 		}
 		while (totalIterations < maxIterations);
@@ -198,20 +197,17 @@ public class SbgnPDLayout extends CoSELayout
 		{
 			totalIterations++;
 
-			if (totalIterations
-					% FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0)
+			if (totalIterations % FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0)
 			{
 				successRatio = properlyOrientedEdgeCount
 						/ totalEdgeCountToBeOriented;
 
-				if (isConverged()
-						&& successRatio >= SbgnPDConstants.ROTATIONAL_FORCE_CONVERGENCE)
+				if (isConverged() && successRatio >= SbgnPDConstants.ROTATIONAL_FORCE_CONVERGENCE)
 				{
 					break;
 				}
 
-				coolingFactor = initialCoolingFactor
-						* ((maxIterations - totalIterations) / (double) maxIterations);
+				coolingFactor = initialCoolingFactor * ((maxIterations - totalIterations) / (double) maxIterations);
 			}
 
 			totalDisplacement = 0;
@@ -314,14 +310,14 @@ public class SbgnPDLayout extends CoSELayout
 		}
 	}
 
-	/**
+	/*
 	 * This method iterates over the process nodes and checks if there exists
-	 * another orientation which maximizes the total number of properly edges.
+	 * another orientation which maximizes the total number of proper edges.
 	 * If there is, the orientation is changed.
 	 */
 	private void finalEnhancement()
 	{
-		ArrayList<Orientation> orientationList;
+		List<Orientation> orientationList;
 		double bestStepResult;
 		Orientation bestOrientation = null;
 		double stepAppropriateEdgeCnt = 0;
@@ -338,8 +334,8 @@ public class SbgnPDLayout extends CoSELayout
 		{
 			bestStepResult = p.properEdgeCount;
 			bestOrientation = null;
-			ArrayList<Boolean> rememberPropList = new ArrayList<Boolean>();
-			ArrayList<Boolean> bestPropList = new ArrayList<Boolean>();
+			List<Boolean> rememberPropList;
+			List<Boolean> bestPropList = new ArrayList<Boolean>();
 
 			for (Orientation orient : orientationList)
 			{
@@ -604,11 +600,6 @@ public class SbgnPDLayout extends CoSELayout
 			graphManager.add(childComplexMap.get(complex), complex);
 
 		getGraphManager().updateBounds();
-
-		graphManager.resetAllNodes();
-		graphManager.resetAllNodesToApplyGravitation();
-		graphManager.resetAllEdges();
-		calculateNodesToApplyGravitationTo();
 	}
 
 	/**
@@ -688,21 +679,17 @@ public class SbgnPDLayout extends CoSELayout
 			}
 		}
 
-		// reset the topology
+		// important to reset -
 		graphManager.resetAllNodes();
-		graphManager.resetAllNodesToApplyGravitation();
 		graphManager.resetAllEdges();
-
-		calculateNodesToApplyGravitationTo();
+		graphManager.resetAllNodesToApplyGravitation();
 	}
 
-	/**
-	 * This method checks whether there exists any process nodes in the graph.
-	 * If there exist any process nodes it is assumed that the given graph
-	 * respects our structure.
-	 * 
-	 * Most likely: this method does not work properly. Never had any input to
-	 * test. Not complete.
+	/*
+	 * Checks whether there exist process nodes in the graph.
+	 * If there are, it is assumed that the given graph respects our structure.
+	 *
+	 * TODO: likely, this method does not work properly. Never tested...
 	 */
 	private boolean arePortNodesCreated()
 	{
@@ -720,20 +707,20 @@ public class SbgnPDLayout extends CoSELayout
 		}
 
 		// if there are no process nodes, no need to check for port nodes
-		if (!flag)
+		if (!flag) {
 			return true;
-
+		}
 		else
 		{
 			// check for the port nodes. if any found, return true.
 			for (Object o : getAllNodes())
 			{
 				if (((SbgnPDNode) o).type.equals(SbgnPDConstants.INPUT_PORT)
-						|| ((SbgnPDNode) o).type
-								.equals(SbgnPDConstants.OUTPUT_PORT))
+						|| ((SbgnPDNode) o).type.equals(SbgnPDConstants.OUTPUT_PORT))
 					return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -756,7 +743,7 @@ public class SbgnPDLayout extends CoSELayout
 			for (Object e : childGraph.getEdges())
 			{
 				SbgnPDEdge edge = (SbgnPDEdge) e;
-//				childGraph.remove(edge);
+//				childGraph.remove(edge); //commented out because assertions fail there...
 				owner.add(edge, edge.getSource(), edge.getTarget());
 			}
 
@@ -776,12 +763,6 @@ public class SbgnPDLayout extends CoSELayout
 			dummyNode.setChild(null);
 			owner.remove(dummyNode);
 		}
-
-		getGraphManager().resetAllNodes();
-		getGraphManager().resetAllNodesToApplyGravitation();
-		getGraphManager().resetAllEdges();
-
-		calculateNodesToApplyGravitationTo();
 	}
 
 	// ********************* SECTION : TILING METHODS *********************
@@ -876,10 +857,6 @@ public class SbgnPDLayout extends CoSELayout
 		}
 
 		getGraphManager().updateBounds();
-
-		getGraphManager().resetAllNodes();
-		getGraphManager().resetAllNodesToApplyGravitation();
-		getGraphManager().resetAllEdges();
 	}
 
 	/**
@@ -996,13 +973,6 @@ public class SbgnPDLayout extends CoSELayout
 		}
 
 		removeDummyComplexes();
-
-		// reset
-		getGraphManager().resetAllNodes();
-		getGraphManager().resetAllNodesToApplyGravitation();
-		getGraphManager().resetAllEdges();
-		calculateNodesToApplyGravitationTo();
-
 	}
 
 	/**
@@ -1226,37 +1196,32 @@ public class SbgnPDLayout extends CoSELayout
 	}
 
 	/**
-	 * This method performs layout on constructed l-level graph. It returns true
-	 * on success, false otherwise.
+	 * This method performs layout on constructed l-level graph.
+	 * It returns true on success, false otherwise.
 	 */
 	public boolean layout()
 	{
-		boolean b = false;
-
 		groupZeroDegreeMembers();
 		applyDFSOnComplexes();
 
 		//run CoSE layout
-		b = super.layout();
+		boolean b = super.layout();
 
 		repopulateComplexes();
 
 		getAllNodes();
+
 		return b;
 	}
 
 	/**
 	 * This method uses classic layout method (without multi-scaling)
-	 * Modification: create port nodes after random positioning
+	 * @return
 	 */
-	@Override
 	protected boolean classicLayout()
 	{
-		calculateNodesToApplyGravitationTo();
-
 		graphManager.calcLowestCommonAncestors();
 		graphManager.calcInclusionTreeDepths();
-
 		graphManager.getRoot().calcEstimatedSize();
 		calcIdealEdgeLengths();
 
@@ -1276,16 +1241,21 @@ public class SbgnPDLayout extends CoSELayout
 			}
 		}
 
-		if (!arePortNodesCreated())
-		{
+		if (!arePortNodesCreated()) {
 			createPortNodes();
-			graphManager.resetAllNodes();
-			graphManager.resetAllNodesToApplyGravitation();
-			graphManager.resetAllEdges();
-			calculateNodesToApplyGravitationTo();
 		}
+
+		calculateNodesToApplyGravitationTo();
+
 		initSpringEmbedder();
 		runSpringEmbedder();
+
+		//reset or it looks no good
+		getGraphManager().resetAllNodes();
+		getGraphManager().resetAllNodesToApplyGravitation();
+		getGraphManager().resetAllEdges();
+
+		log.info("Classic CoSE layout finished after " + totalIterations + " iterations");
 
 		return true;
 	}

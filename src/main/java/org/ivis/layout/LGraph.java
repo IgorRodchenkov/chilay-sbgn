@@ -319,7 +319,6 @@ public class LGraph extends LGraphObject
 				"Source and/or target owner is invalid!";
 
 		// remove edge from source and target nodes' incidency lists
-
 		assert (edge.source.edges.contains(edge) &&
 			edge.target.edges.contains(edge)) :
 				"Source and/or target doesn't know this edge!";
@@ -410,7 +409,6 @@ public class LGraph extends LGraphObject
 		while (itr.hasNext())
 		{
 			LNode lNode = itr.next();
-			//TODO: doing the same node twice or getting into an inf. loop is possible?
 			// if it is a recursive call, and current node is compound
 			if (recursive && lNode.child != null) {
 				lNode.updateBounds();
@@ -584,7 +582,7 @@ public class LGraph extends LGraphObject
 	 * indirect edges (e.g. an edge connecting a child node of a node of this
 	 * graph to another node of this graph) into account.
 	 */
-	public void updateConnected() //TODO: bug: this gets into endless loop, by chance...
+	public void updateConnected() //TODO: issue #2
 	{
 		if (nodes.size() == 0)
 		{
@@ -599,23 +597,21 @@ public class LGraph extends LGraphObject
 		LNode currentNeighbor;
 
 		toBeVisited.addAll(currentNode.withChildren());
-
 		while (!toBeVisited.isEmpty())
 		{
 			currentNode = toBeVisited.removeFirst();
-			visited.add(currentNode);
+
+			if(!visited.add(currentNode))
+				continue; //skip already visited shortly; refs issue #2
 
 			// Traverse all neighbors of this node
 			neighborEdges = currentNode.getEdges();
 
 			for (LEdge neighborEdge : neighborEdges)
 			{
-				currentNeighbor =
-					neighborEdge.getOtherEndInGraph(currentNode, this);
-
+				currentNeighbor = neighborEdge.getOtherEndInGraph(currentNode, this);
 				// Add unvisited neighbors to the list to visit
-				if (currentNeighbor != null &&
-					!visited.contains(currentNeighbor))
+				if (currentNeighbor != null && !visited.contains(currentNeighbor))
 				{
 					toBeVisited.addAll(currentNeighbor.withChildren());
 				}

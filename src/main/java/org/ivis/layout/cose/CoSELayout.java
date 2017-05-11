@@ -189,8 +189,7 @@ public class CoSELayout extends FDLayout
 		while (level >= 0)
 		{
 			graphManager = gm = MList.get(level);
-			
-//			System.out.print("@" + level + "th level, with " + gm.getRoot().getNodes().size() + " nodes. ");
+
 			classicLayout();
 
 			// after finishing layout of first (coarsest) level,
@@ -215,13 +214,12 @@ public class CoSELayout extends FDLayout
 	 * This method uses classic layout method (without multi-scaling)
 	 * @return
 	 */
-	protected boolean classicLayout ()
+	protected boolean classicLayout()
 	{
 		calculateNodesToApplyGravitationTo();
 	
 		graphManager.calcLowestCommonAncestors();
 		graphManager.calcInclusionTreeDepths();
-	
 		graphManager.getRoot().calcEstimatedSize();
 		calcIdealEdgeLengths();
 	
@@ -243,11 +241,12 @@ public class CoSELayout extends FDLayout
 	
 		initSpringEmbedder();
 		runSpringEmbedder();
-	
+
 		log.info("Classic CoSE layout finished after " + totalIterations + " iterations");
 		
 		return true;
 	}
+
 	/**
 	 * This method performs the actual layout on the l-level compound graph. An
 	 * update() needs to be called for changes to be propogated to the v-level
@@ -294,7 +293,7 @@ public class CoSELayout extends FDLayout
 	 */
 	public void calculateNodesToApplyGravitationTo()
 	{
-		LinkedList nodeList = new LinkedList();
+		List nodeList = new LinkedList();
 		LGraph graph;
 
 		for (Object obj : graphManager.getGraphs())
