@@ -5,6 +5,8 @@ import java.util.Vector;
 
 import org.ivis.util.*;
 import org.ivis.layout.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class implements common data and functionality for all layout styles
@@ -16,9 +18,8 @@ import org.ivis.layout.*;
  */
 public abstract class FDLayout extends Layout
 {
-// -----------------------------------------------------------------------------
-// Section: Instance variables
-// -----------------------------------------------------------------------------
+	private final static Logger log = LoggerFactory.getLogger(FDLayout.class);
+
 	/**
 	 * Whether or not smart calculation of ideal edge lengths should be
 	 * performed. When true, ideal edge length values take sizes of end nodes
@@ -613,10 +614,7 @@ public abstract class FDLayout extends Layout
 	 * This method adds input node v to the proper grid squares, 
 	 * and also sets the grid start and finish points of v 
 	 */
-	protected void addNodeToGrid(FDLayoutNode v, 
-		Vector[][] grid, 
-		double left, 
-		double top)
+	protected void addNodeToGrid(FDLayoutNode v, Vector[][] grid, double left, double top)
 	{
 		int startX = 0;
 		int finishX = 0;
@@ -627,13 +625,17 @@ public abstract class FDLayout extends Layout
 		finishX = (int) Math.floor((v.getRect().width + v.getRect().x - left) / repulsionRange);
 		startY = (int) Math.floor((v.getRect().y - top) / repulsionRange);
 		finishY = (int) Math.floor((v.getRect().height + v.getRect().y - top) / repulsionRange);
-		
+		v.setGridCoordinates(startX, finishX, startY, finishY);
 		for (int i = startX; i <= finishX; i++)
 		{
 			for (int j = startY; j <= finishY; j++)
 			{
-				grid[i][j].add(v);
-				v.setGridCoordinates(startX, finishX, startY, finishY); 
+				try {
+					grid[i][j].add(v);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					log.error(String.format("Ignored grid[%d][%d].add(v); exception: %s",
+							i, j, v.getClusterID(), e));
+				}
 			}
 		}
 	}

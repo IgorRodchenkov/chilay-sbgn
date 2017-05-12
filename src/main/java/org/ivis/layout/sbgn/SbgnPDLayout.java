@@ -215,7 +215,7 @@ public class SbgnPDLayout extends CoSELayout
 			graphManager.updateBounds();
 
 			calcSpringForces();
-			calcRepulsionForces(); //TODO: this may take many minutes...
+			calcRepulsionForces(); //TODO: for large graphs, this may take many minutes...
 			calcGravitationalForces();
 			moveNodes();
 
@@ -1295,9 +1295,7 @@ public class SbgnPDLayout extends CoSELayout
 		{
 			// grid is a vector matrix that holds CoSENodes.
 			// be sure to convert the Object type to CoSENode.
-
-			if (totalIterations
-					% FDLayoutConstants.GRID_CALCULATION_CHECK_PERIOD == 1)
+			if (totalIterations % FDLayoutConstants.GRID_CALCULATION_CHECK_PERIOD == 1)
 			{
 				grid = calcGrid(graphManager.getRoot());
 
@@ -1305,9 +1303,7 @@ public class SbgnPDLayout extends CoSELayout
 				for (i = 0; i < lNodes.length; i++)
 				{
 					nodeA = (FDLayoutNode) lNodes[i];
-					addNodeToGrid(nodeA, grid, graphManager
-							.getRoot().getLeft(), graphManager.getRoot()
-							.getTop());
+					addNodeToGrid(nodeA, grid, graphManager.getRoot().getLeft(), graphManager.getRoot().getTop());
 				}
 			}
 
