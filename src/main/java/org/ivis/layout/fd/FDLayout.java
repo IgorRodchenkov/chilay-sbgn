@@ -634,7 +634,7 @@ public abstract class FDLayout extends Layout
 					grid[i][j].add(v);
 				} catch (ArrayIndexOutOfBoundsException e) {
 					log.error(String.format("Ignored grid[%d][%d].add(v); exception: %s",
-							i, j, v.getClusterID(), e));
+							i, j, e.toString()));
 				}
 			}
 		}
