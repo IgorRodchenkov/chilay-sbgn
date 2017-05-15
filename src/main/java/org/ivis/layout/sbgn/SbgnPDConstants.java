@@ -11,7 +11,8 @@ import org.ivis.layout.cose.CoSEConstants;
  */
 public class SbgnPDConstants extends CoSEConstants
 {
-	// Below are the SBGN glyph specific types.
+	// Below are the SBGN glyph specific types
+	// (must match SBGN specs - also defined in sbgn 0.2 lib. GlyphClazz, ArcClazz).
 	public static final String MACROMOLECULE = "macromolecule";
 	public static final String UNIT_OF_INFORMATION = "unit of information";
 	public static final String STATE_VARIABLE = "state variable";

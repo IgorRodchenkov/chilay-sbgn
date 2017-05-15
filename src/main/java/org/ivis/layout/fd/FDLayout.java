@@ -616,26 +616,26 @@ public abstract class FDLayout extends Layout
 	 */
 	protected void addNodeToGrid(FDLayoutNode v, Vector[][] grid, double left, double top)
 	{
-		int startX = 0;
-		int finishX = 0;
-		int startY = 0;
-		int finishY = 0;
-		
-		startX = (int) Math.floor((v.getRect().x - left) / repulsionRange);
-		finishX = (int) Math.floor((v.getRect().width + v.getRect().x - left) / repulsionRange);
-		startY = (int) Math.floor((v.getRect().y - top) / repulsionRange);
-		finishY = (int) Math.floor((v.getRect().height + v.getRect().y - top) / repulsionRange);
+		int startX = (int) Math.floor((v.getRect().x - left) / repulsionRange);
+		int finishX = (int) Math.floor((v.getRect().width + v.getRect().x - left) / repulsionRange);
+		int startY = (int) Math.floor((v.getRect().y - top) / repulsionRange);
+		int finishY = (int) Math.floor((v.getRect().height + v.getRect().y - top) / repulsionRange);
+
 		v.setGridCoordinates(startX, finishX, startY, finishY);
+
+		if(startX<0 || finishX<0 || startY<0 || finishY<0) {
+			log.error(String.format("addNodeToGrid: returned unexpectedly due to " +
+				"negative coord.; startX:%d, finishX:%d, startY:%d, finishY:%d",
+					startX,finishX,startY,finishY));
+			grid[startX>=0?startX:0][startY>=0?startY:0].add(v);
+			return;
+		}
+
 		for (int i = startX; i <= finishX; i++)
 		{
 			for (int j = startY; j <= finishY; j++)
 			{
-				try {
-					grid[i][j].add(v);
-				} catch (ArrayIndexOutOfBoundsException e) {
-					log.error(String.format("Ignored grid[%d][%d].add(v); exception: %s",
-							i, j, e.toString()));
-				}
+				grid[i][j].add(v);
 			}
 		}
 	}
