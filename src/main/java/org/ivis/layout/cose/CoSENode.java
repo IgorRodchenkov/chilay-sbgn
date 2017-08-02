@@ -70,9 +70,9 @@ public class CoSENode extends FDLayoutNode
 		double maxNodeDisplacement = layout.coolingFactor * layout.maxNodeDisplacement;
 
 		this.displacementX = layout.coolingFactor *
-			(this.springForceX + this.repulsionForceX + this.gravitationForceX) / this.noOfChildren;
+			(this.springForceX + this.repulsionForceX + this.gravitationForceX);
 		this.displacementY = layout.coolingFactor *
-			(this.springForceY + this.repulsionForceY + this.gravitationForceY) / this.noOfChildren;
+			(this.springForceY + this.repulsionForceY + this.gravitationForceY);
 
 		if (Math.abs(this.displacementX) > maxNodeDisplacement)
 		{
