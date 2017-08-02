@@ -217,6 +217,7 @@ public class CoSELayout extends FDLayout
 	protected boolean classicLayout()
 	{
 		calculateNodesToApplyGravitationTo();
+		calcNoOfChildrenForAllNodes();
 	
 		graphManager.calcLowestCommonAncestors();
 		graphManager.calcInclusionTreeDepths();
@@ -309,6 +310,20 @@ public class CoSELayout extends FDLayout
 		}
 
 		graphManager.setAllNodesToApplyGravitation(nodeList);
+	}
+	
+	/**
+	 * This method calculates the number of children (weight) for all nodes
+	 */
+	public void calcNoOfChildrenForAllNodes()
+	{
+	  LNode node;
+	  
+	  for (Object obj: this.graphManager.getAllNodes())
+	  {
+		  node = (LNode) obj;
+	      node.noOfChildren = node.getNoOfChildren();
+	  }
 	}
 
 	/**
