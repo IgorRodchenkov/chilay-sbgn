@@ -419,25 +419,17 @@ public abstract class FDLayout extends Layout
 				overlapAmount,
 				FDLayoutConstants.DEFAULT_EDGE_LENGTH / 2.0);
 
-			repulsionForceX = 2 * overlapAmount[0];
-			repulsionForceY = 2 * overlapAmount[1];
+			repulsionForceX = overlapAmount[0];
+			repulsionForceY = overlapAmount[1];
 			
-//			assert ! (new RectangleD((rectA.x - repulsionForceX),
-//				(rectA.y - repulsionForceY),
-//				rectA.width,
-//				rectA.height)).intersects(
-//					new RectangleD((rectB.x + repulsionForceX),
-//						(rectB.y + repulsionForceY),
-//						rectB.width,
-//						rectB.height));
-			
-			double childrenConstant = nodeA.noOfChildren * nodeB.noOfChildren / (double)(nodeA.noOfChildren + nodeB.noOfChildren);
-			
-			// Apply forces on the two nodes
-			nodeA.repulsionForceX -= childrenConstant * repulsionForceX;
-			nodeA.repulsionForceY -= childrenConstant * repulsionForceY;
-			nodeB.repulsionForceX += childrenConstant * repulsionForceX;
-			nodeB.repulsionForceY += childrenConstant * repulsionForceY;
+			assert ! (new RectangleD((rectA.x - repulsionForceX),
+				(rectA.y - repulsionForceY),
+				rectA.width,
+				rectA.height)).intersects(
+					new RectangleD((rectB.x + repulsionForceX),
+						(rectB.y + repulsionForceY),
+						rectB.width,
+						rectB.height));
 		}
 		else
 		// no overlap
@@ -475,18 +467,18 @@ public abstract class FDLayout extends Layout
 			distanceSquared = distanceX * distanceX + distanceY * distanceY;
 			distance = Math.sqrt(distanceSquared);
 
-			repulsionForce = this.repulsionConstant * nodeA.noOfChildren * nodeB.noOfChildren / distanceSquared;
+			repulsionForce = repulsionConstant / distanceSquared;
 
 			// Project force onto x and y axes
 			repulsionForceX = repulsionForce * distanceX / distance;
 			repulsionForceY = repulsionForce * distanceY / distance;
-			
-			// Apply forces on the two nodes
-			nodeA.repulsionForceX -= repulsionForceX;
-			nodeA.repulsionForceY -= repulsionForceY;
-			nodeB.repulsionForceX += repulsionForceX;
-			nodeB.repulsionForceY += repulsionForceY;
 		}
+
+		// Apply forces on the two nodes
+		nodeA.repulsionForceX -= repulsionForceX;
+		nodeA.repulsionForceY -= repulsionForceY;
+		nodeB.repulsionForceX += repulsionForceX;
+		nodeB.repulsionForceY += repulsionForceY;
 	}
 
 	/**
@@ -510,8 +502,8 @@ public abstract class FDLayout extends Layout
 		ownerCenterY = ((double) ownerGraph.getTop() + ownerGraph.getBottom()) / 2;
 		distanceX = node.getCenterX() - ownerCenterX;
 		distanceY = node.getCenterY() - ownerCenterY;
-		absDistanceX = Math.abs(distanceX) + node.getWidth() / 2;
-		absDistanceY = Math.abs(distanceY) + node.getHeight() / 2;
+		absDistanceX = Math.abs(distanceX);
+		absDistanceY = Math.abs(distanceY);
 
 		// Apply gravitation only if the node is "roughly" outside the
 		// bounds of the initial estimate for the bounding rect of the owner
