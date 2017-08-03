@@ -1246,6 +1246,7 @@ public class SbgnPDLayout extends CoSELayout
 		}
 
 		calculateNodesToApplyGravitationTo();
+		calcNoOfChildrenForAllNodes();
 
 		initSpringEmbedder();
 		runSpringEmbedder();
