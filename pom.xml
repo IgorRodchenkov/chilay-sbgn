@@ -50,14 +50,6 @@
         <url>https://github.com/PathwayCommons/chilay-sbgn/issues</url>
     </issueManagement>
 
-    <repositories>
-        <repository>
-            <id>ossrh</id>
-            <name>OSSRH Repository</name>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
-        </repository>
-    </repositories>
-
     <properties>
         <github.global.server>github</github.global.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
